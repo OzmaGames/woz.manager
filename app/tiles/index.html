@@ -1,0 +1,18 @@
+<div>
+    <h3 style="margin-left: 50px;">Tile Gallery</h3>
+    
+    <div style="margin-left: 50px;">
+    <label>Set</label>
+    <select data-bind="options: setList , optionsText:'name', value: selectedSet "></select>
+    </div>
+    
+    <div class="row-fluid">
+        <ul class="thumbnails" data-bind="foreach: images">
+            <li>
+                <a href="#" class="thumbnail" data-bind="click: expand">
+                    <img style="width: 260px; height: 180px;" data-bind="attr: { src: src}, click:"/>
+                </a>
+            </li>
+        </ul>
+    </div>
+<div>
