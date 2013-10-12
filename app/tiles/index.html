@@ -2,17 +2,28 @@
     <h3 style="margin-left: 50px;">Tile Gallery</h3>
     
     <div style="margin-left: 50px;">
-    <label>Set</label>
-    <select data-bind="options: setList , optionsText:'name', value: selectedSet "></select>
+        <label>Set</label>
+        <select data-bind="options: setList , optionsText:'name', value: selectedSet "></select>
     </div>
     
-    <div class="row-fluid">
-        <ul class="thumbnails" data-bind="foreach: images">
-            <li>
-                <a href="#" class="thumbnail" data-bind="click: expand">
-                    <img style="width: 260px; height: 180px;" data-bind="attr: { src: src}, click:"/>
-                </a>
-            </li>
-        </ul>
+    <div class="accordion" id="accordion2" data-bind="foreach:{data: images, as: 'img'} ">
+        <div class="accordion-group">
+            <div class="accordion-heading">
+                <a class="accordion-toggle" data-toggle="collapse"
+                data-parent="#accordion2" data-bind="attr: {href:'#'+ img.id} ">
+                <img style="width: 260px; height: 180px;" data-bind="attr: { src: img.src}"/></a>
+            </div>
+            <div class="accordion-body collapse in" data-bind="attr: { id: img.id}">
+                <div class="accordion-inner">
+                  <ul data-bind="foreach: img.words">
+                    <li>
+                      <span data-bind="text: $data"></span>
+                    </li>
+                  </ul>
+                </div>
+            </div>
+        </div>
     </div>
-<div>
+</div>
+
+    
