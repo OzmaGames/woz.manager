@@ -1,0 +1,22 @@
+<div class="messageBox" style="width:500px; overflow:auto;">
+    <div class="modal-body">
+        <form data-bind="submit: save">
+             <fieldset>
+                <legend>Add New Tiles</legend>
+                <label>Set</label>
+                <select data-bind="options:setList , optionsText:'name'  , value:selectedClass"></select>
+                
+                <label>Tile Name:</label>
+                <input type='text' data-binde="value: input, valueUpdate: 'afterkeydown'"/>
+                
+                <div class="form-group">
+                  <label for="exampleInputFile">Image</label>
+                  <input type="file" id="exampleInputFile">
+                </div>
+              </fieldset> 
+        </form>
+    </div>
+    <div class="modal-footer">
+        <button class="btn btn-primary" data-bind="click: save">Save</button>
+    </div>
+</div>
