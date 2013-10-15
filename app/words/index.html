@@ -1,45 +1,33 @@
-<div class="pull-right">
-<button type="button" class="btn btn-info" data-bind="click:addWord">Add New Word</button>
-</div>
-<div>
-    <table style="margin:auto;">
-        <thead>
-            <tr>
-                <th>Word Class</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr>
-                <td><select data-bind="options:classList, optionsText:'name', value:selectedClass"></select></td>
-                
-            </tr>
-        </tbody>
-    </table>
-</div>
-
 <div class="table-responsive">
-    <table class="table table-striped" style="width:800px; margin: 50px auto;" >
-        <thead>
-            <tr>
-                <th>Word</th>
-                <th>Versions</th>
-                <th>Class</th>
-                <th>Category</th>
-                <th>Set</th>
-            </tr>
-        </thead>
-        <tbody data-bind="foreach: filteredTable">
-            <tr>
-                <td data-bind="text: name"></td>
-                <td data-bind="text: versions"></td>
-                <td data-bind="text: classe"></td>
-                <td data-bind="text: category"></td>
-                <td data-bind="text: set"></td>
-                <td><a>Edit</a></td>
-            </tr>
+    <div class="pull-right">
+
+    </div>
+    <table class="table table-striped" style="width:800px; margin: 50px auto;">
+        <tr>
+            <td></td>
+            <td></td>
+            <td><select data-bind="options:classes, value:selectedClass"></select></td>
+            <td></td>
+            <td></td>
+            <td><button type="button" class="btn btn-info" data-bind="click:addWord">Add New Word</button></td>
+        </tr>
+        <tr>
+            <th>Word</th>
+            <th>Versions</th>
+            <th>Classes</th>
+            <th>Categories</th>
+            <th>Set</th>
+            <th></th>
+        </tr>
+        <tbody data-bind="foreach: filteredWords">
+        <tr>
+            <td data-bind="text: name"></td>
+            <td data-bind="text: versions"></td>
+            <td data-bind="text: classes"></td>
+            <td data-bind="text: categories"></td>
+            <td data-bind="text: set"></td>
+            <td><a>Edit</a></td>
+        </tr>
         </tbody>
     </table>
 </div>
-
-
-

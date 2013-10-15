@@ -1,14 +1,15 @@
 ﻿requirejs.config({
     paths: {
         'text': '../lib/require/text',
-        'durandal':'../lib/durandal/js',
-        'plugins' : '../lib/durandal/js/plugins',
-        'transitions' : '../lib/durandal/js/transitions',
+        'durandal': '../lib/durandal/js',
+        'plugins': '../lib/durandal/js/plugins',
+        'transitions': '../lib/durandal/js/transitions',
         'knockout': '../lib/knockout/knockout-2.3.0',
         'bootstrap': '../lib/bootstrap/js/bootstrap',
-        'jquery': '../lib/jquery/jquery-1.9.1'
+        'jquery': '../lib/jquery/jquery-1.9.1',
+        'socket': '../lib/socket.io'
     },
-    urlArgs: 't'+ (new Date).getTime(),
+    urlArgs: 't' + (new Date).getTime(),
     shim: {
         'bootstrap': {
             deps: ['jquery'],
@@ -17,16 +18,17 @@
     }
 });
 
-define(['durandal/system', 'durandal/app', 'durandal/viewLocator'],  function (system, app, viewLocator) {
+define(['durandal/system', 'durandal/app', 'durandal/viewLocator', 'api/server', 'api/_feed'],
+function (system, app, viewLocator) {
     //>>excludeStart("build", true);
     system.debug(true);
     //>>excludeEnd("build");
 
-    app.title = 'Durandal Samples';
+    app.title = 'Words Of Oz - Manager';
 
     //specify which plugins to install and their configuration
     app.configurePlugins({
-        router:true,
+        router: true,
         dialog: true,
         widget: {
             kinds: ['expander']
