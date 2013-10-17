@@ -8,8 +8,17 @@ define(['api/datacontext', './form', 'knockout'], function (ctx, form, ko) {
         self.words = ko.observableArray([]);
 
         self.addWord = function () {
-            form.show();
+            form.show().then(function (newWord) {
+                self.words.push(newWord);
+            });
         };
+
+        self.edit = function (word) {
+            form.show(word).then(function (newWord) {
+                var wordPos = self.words.indexOf(word);
+                self.words.splice(wordPos, 1, newWord);
+            });
+        }
 
         self.filteredWords = ko.computed(function () {
             if (self.selectedClass() !== 'All') {

@@ -1,7 +1,7 @@
 define(['api/datacontext', 'plugins/dialog', 'knockout'], function (ctx, dialog, ko) {
 
-    var WordForm = function () {
-        this.input = ko.observable('');
+    var WordForm = function (word) {
+        this.input = ko.observable(word.lemma || '');
         this.version = ko.observable('');
         this.selectedClass = ko.observable();
         this.selectedCategory = ko.observable();
@@ -11,24 +11,30 @@ define(['api/datacontext', 'plugins/dialog', 'knockout'], function (ctx, dialog,
         this.categories = ko.observableArray([]);
         this.sets = ko.observableArray([]);
 
-        this.versionList = ko.observableArray([]);
-        this.classList = ko.observableArray([]);
-        this.categoryList = ko.observableArray([]);
-        this.setList = ko.observableArray([]);
+        this.versionList = ko.observableArray(word.versions || []);
+        this.classList = ko.observableArray(word.classes || []);
+        this.categoryList = ko.observableArray(word.categories || []);
 
-
+        var base = this;
         this.save = function () {
-            dialog.close(this, this.input());
+            var word = {
+                lemma: base.input(),
+                versions: base.versionList(),
+                classes: base.classList(),
+                categories: base.categoryList(),
+                set: base.selectedSet()
+            };
+            dialog.close(this, word);
         }
 
         this.removeVersion = function (version, e) {
             e.preventDefault();
-            this.versionList.remove(version);
+            base.versionList.remove(version);
         }
 
-        this.addVersion = function () {
-            var version = this.version();                       
-            if (version != "" && this.versionList().indexOf(version) < 0) {
+        this.addVersion = function (a, b, c) {
+            var version = this.version();
+            if (version != "" && this.versionList.indexOf(version) < 0) {
                 this.versionList.push(version);
             }
             this.version('');
@@ -41,15 +47,10 @@ define(['api/datacontext', 'plugins/dialog', 'knockout'], function (ctx, dialog,
         this.addCategory = function () {
             this.categoryList.push(this.selectedCategory());
         }
-
-        this.addSet = function () {
-            this.setList.push(this.selectedSet());
-        }
-
-
     }
-    WordForm.show = function () {
-        return dialog.show(new WordForm);
+
+    WordForm.show = function (word) {
+        return dialog.show(new WordForm(word || {}));
     };
 
     WordForm.prototype.activate = function () {

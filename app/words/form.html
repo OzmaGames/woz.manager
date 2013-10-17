@@ -1,96 +1,66 @@
-<div class="messageBox" style="width:1000px; overflow:auto;">
+<div class="messageBox">
     <div class="modal-header"><b>New Word</b></div>
-    <div class="modal-body">
-        <table class="table table-hover" >
-            <tr>
-                <td style="border-top:none;">
+    <div class="modal-body" style="overflow-x: hidden">
+        <table style="width: 500px" class="table table-hover">
+            <tr style="border-top: 0">
+                <td style="width: 300px">
                     <label>Word:</label>
-                    <input type='text' data-bind="value: input" class="autofocus"/>
-                </td>        
+                    <input type="text" data-bind="value: input" class="autofocus" />
+                </td>
+                <td></td>
             </tr>
             <tr>
-                <td style="width:30%;">
+                <td class="form-inline">
                     <label>Versions</label>
-                    <form class="form-inline" role="form">
-                      <div class="form-group">
-                         <input type='text' data-bind="value: version" class="autofocus"/>
-                         <button data-bind="click:addVersion">Add</button>
-                      </div>
-                    </form>
+                    <div class="form-group">
+                        <input type="text" data-bind="value: version" class="autofocus" />
+                        <button class="btn" data-bind="click:addVersion">Add</button>
+                    </div>
                 </td>
-                <td>
-                    <ul data-bind="foreach:versionList">
-                            <li style="float:left; list-style:none; padding:10px;">
-                                <p><a href="#" data-bind="click: $parent.removeVersion">x</a>
-                                <span data-bind="text:$data">
-                                </span>
-                                </p>
-                            </li>
-                    </ul>  
+                <td data-bind="foreach:versionList">
+                    <div class="form-item">
+                        <a href="#" data-bind="click: $parent.removeVersion">x</a>
+                        <span data-bind="text:$data"></span>
+                    </div>
                 </td>
             </tr>
             <tr>
-                <td>
+                <td class="form-inline">
                     <label>Class</label>
-                    <form class="form-inline" role="form">
-                      <div class="form-group">
-                          <select data-bind="options:classes, value:selectedClass"></select>
-                          <button data-bind="click:addClass">Add</button>
-                      </div>
-                    </form>
+                    <div class="form-group">
+                        <select data-bind="options:classes, value:selectedClass"></select>
+                        <button class="btn" data-bind="click:addClass">Add</button>
+                    </div>
                 </td>
-                <td>
-                    <ul data-bind="foreach:classList">
-                            <li style="float:left;list-style:none; padding:10px;">
-                                <p><a>x</a>
-                                <span data-bind="text:$data">
-                                </span>
-                                </p>
-                            </li>
-                    </ul>
+                <td data-bind="foreach:classList">
+                    <div class="form-item">
+                        <span data-bind="text:$data"></span>
+                    </div>
                 </td>
             </tr>
             <tr>
-                <td>
+                <td class="form-inline">
                     <label>Category</label>
-                    <form class="form-inline" role="form">
-                      <div class="form-group">
+                    <div class="form-group">
                         <select data-bind="options:categories, value:selectedCategory"></select>
-                        <button data-bind="click:addCategory">Add</button>
-                      </div>
-                    </form>
+                        <button class="btn" data-bind="click:addCategory">Add</button>
+                    </div>
                 </td>
-                <td>
-                   <ul data-bind="foreach:categoryList">
-                            <li style="float:left;list-style:none; padding:10px;">
-                                <p><a>x</a>
-                                <span data-bind="text:$data">
-                                </span>
-                                </p>
-                            </li>
-                    </ul> 
+                <td data-bind="foreach:categoryList">
+                    <div class="form-item">
+                        <a>x</a>
+                        <span data-bind="text:$data"></span>
+                    </div>
                 </td>
             </tr>
             <tr>
-                <td>
+                <td class="form-inline">
                     <label>Set</label>
-                    <form class="form-inline" role="form">
-                      <div class="form-group">
+                    <div class="form-group">
                         <select data-bind="options:sets, value:selectedSet"></select>
-                        <button data-bind="click:addSet">Add</button>
-                      </div>
-                    </form>
+                    </div>
                 </td>
-                <td>
-                   <ul data-bind="foreach:setList">
-                            <li style="float:left;list-style:none; padding:10px;">
-                                <p><a>x</a>
-                                <span data-bind="text:$data">
-                                </span>
-                                </p>
-                            </li>
-                    </ul> 
-                </td>
+                <td></td>
             </tr>
         </table>
     </div>

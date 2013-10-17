@@ -21,12 +21,12 @@
         </tr>
         <tbody data-bind="foreach: filteredWords">
         <tr>
-            <td data-bind="text: name"></td>
+            <td data-bind="text: lemma"></td>
             <td data-bind="text: versions"></td>
             <td data-bind="text: classes"></td>
             <td data-bind="text: categories"></td>
             <td data-bind="text: set"></td>
-            <td><a>Edit</a></td>
+            <td><a data-bind="click: $parent.edit">Edit</a></td>
         </tr>
         </tbody>
     </table>
