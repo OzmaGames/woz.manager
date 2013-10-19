@@ -1,3 +1,3 @@
 define(function () {
-    return ['Body part', 'Body fluid'];
+    return ['body part', 'body fluid'];
 });

@@ -6,46 +6,52 @@ define(['api/datacontext', './form', 'knockout'], function (ctx, form, ko) {
         self.selectedClass = ko.observable();
         self.selectedCategory = ko.observable();
         self.selectedSet = ko.observable();
-        
+
         self.words = ko.observableArray([]);
         self.classes = ko.observableArray([]);
         self.categories = ko.observableArray([]);
         self.sets = ko.observableArray([]);
-        
 
         self.addWord = function () {
             form.show().then(function (newWord) {
-                self.words.push(newWord);
+                if (newWord) self.words.push(newWord);
             });
         };
 
         self.edit = function (word) {
             form.show(word).then(function (newWord) {
-                var wordPos = self.words.indexOf(word);
-                self.words.splice(wordPos, 1, newWord);
+                if (newWord) {
+                    var wordPos = self.words.indexOf(word);
+                    self.words.splice(wordPos, 1, newWord);
+                }
             });
         }
 
         self.filteredWords = ko.computed(function () {
-                var classKey = self.selectedClass();
-                var categoryKey = self.selectedCategory();
-                var setKey = self.selectedSet();
-                return ko.utils.arrayFilter(self.words(), function (item) {
-                    return genericFilter(item, "classes", classKey) &&
-                           genericFilter(item, "categories", categoryKey) &&
-                           genericFilter(item, "sets", setKey); 
-                });
+            var classKey = self.selectedClass();
+            var categoryKey = self.selectedCategory();
+            var setKey = self.selectedSet();
+            return ko.utils.arrayFilter(self.words(), function (item) {
+                return genericFilter(item["classes"], classKey) &&
+                       genericFilter(item["categories"], categoryKey) &&
+                       genericFilter(item["sets"], setKey);
+            });
         });
 
         //*private function
-        function genericFilter(item, prop, filter) {
+        function genericFilter(item, filter) {
             if (filter === 'All') return true;
-              for (var i = 0; i < item[prop].length; i++) { 
-                if (item[prop][i] === filter) return true;
+            console.log(item, filter);
+            if (typeof item === 'string' && item === filter) {
+                return true;
+            } else if (typeof item === 'object') {
+                for (var i = 0; i < item.length; i++) {
+                    if (item[i] === filter) return true;
+                }
             }
             return false;
-            }
-           
+        }
+
     };
 
     ctor.prototype.activate = function () {
@@ -60,13 +66,13 @@ define(['api/datacontext', './form', 'knockout'], function (ctx, form, ko) {
             base.classes(classes);
             base.selectedClass(classes[0]);
         });
-        
+
         ctx.load("categories").then(function (categories) {
             categories.unshift('All');
             base.categories(categories);
             base.selectedCategory(categories[0]);
         });
-        
+
         ctx.load("sets").then(function (sets) {
             sets.unshift('All');
             base.sets(sets);

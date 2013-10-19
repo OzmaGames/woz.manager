@@ -1,4 +1,4 @@
-define(['api/datacontext', 'plugins/dialog', 'knockout','durandal/app'], function (ctx, dialog, ko, app) {
+define(['api/datacontext', 'plugins/dialog', 'knockout', 'durandal/app'], function (ctx, dialog, ko, app) {
 
     var WordForm = function (word) {
         this.input = ko.observable(word.lemma || '');
@@ -23,9 +23,13 @@ define(['api/datacontext', 'plugins/dialog', 'knockout','durandal/app'], functio
                 versions: base.versionList(),
                 classes: base.classList(),
                 categories: base.categoryList(),
-                set: base.selectedSet()
+                sets: base.setList()
             };
             dialog.close(this, word);
+        }
+
+        this.close = function () {
+            dialog.close(this);
         }
 
         this.removeVersion = function (version, e) {
@@ -33,57 +37,55 @@ define(['api/datacontext', 'plugins/dialog', 'knockout','durandal/app'], functio
             base.versionList.remove(version);
         }
 
-        this.addVersion = function (a, b, c) {
-            var version = this.version();
-            if (version != "" && this.versionList.indexOf(version) < 0) {
-                this.versionList.push(version);
-            } else {
-                app.showMessage('This version already exits.', 'Oops');
-            }
-            this.version('');
-        }
-        
         this.removeClass = function (clas, e) {
             e.preventDefault();
             base.classList.remove(clas);
         }
 
-        this.addClass = function (a, b, c) {
-            var selected = this.selectedClass();
-            if (selected != "All" && this.classList.indexOf(selected) < 0) {
-                this.classList.push(selected);
-            } else if (selected == "All") {
-                this.classList().splice(0, this.classList().length);
-                this.classList.push("Noun", "Verb", "Adjective")
-            }
-        }
-        
         this.removeCategory = function (category, e) {
             e.preventDefault();
             base.categoryList.remove(category);
         }
 
-        this.addCategory = function (a, b, c) {
-            var  selected = this.selectedCategory();
-            if (this.categoryList.indexOf(selected) < 0) {
-               this.categoryList.push(selected);
-            } else {
-                app.showMessage('This category already exists.', 'Oops');
-            }
-        }
-        
-         this.removeSet = function (set, e) {
+        this.removeSet = function (set, e) {
             e.preventDefault();
             base.setList.remove(set);
         }
-        
-        this.addSet = function (a, b, c) {
-            var selected =  this.selectedSet();
-            if (this.setList.indexOf(selected) < 0) {
-                this.setList.push(selected);
-            } else {
-                app.showMessage('This set already exsits.','Oops');
+
+        this.addVersion = function () {
+            var version = this.version();
+            if (version == "" || !addIfNotExist(this.versionList, version)) {
+                app.showMessage('This version already exits.', 'Oops');
             }
+            this.version('');
+        }
+
+        this.addClass = function () {
+            addToList(this.classList, this.selectedClass(), this.classes);            
+        }
+
+        this.addCategory = function () {
+            addToList(this.categoryList, this.selectedCategory(), this.categories);
+        }
+
+        this.addSet = function () {
+            addToList(this.setList, this.selectedSet(), this.sets);            
+        }
+
+        function addToList(list, item, collection) {
+            if (item == "All") {
+                list(collection.slice(1));
+            } else if (!addIfNotExist(list, item)) {
+                app.showMessage('This item already exists.', 'Oops');
+            }
+        }
+
+        function addIfNotExist(list, item) {
+            if (list.indexOf(item) < 0) {
+                list.push(item);
+                return true;
+            }
+            return false;
         }
     }
 

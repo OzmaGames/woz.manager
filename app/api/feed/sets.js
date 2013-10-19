@@ -1,3 +1,3 @@
 define(function () {
-    return ['Words of Oz','Basic','Gothic-horror'];
+    return ['words of oz','basic','gothic-horror'];
 });

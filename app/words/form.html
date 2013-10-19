@@ -34,7 +34,7 @@
                 </td>
                 <td data-bind="foreach:classList">
                     <div class="form-item">
-                         <a href="#" data-bind="click: $parent.removeClass">x</a>
+                        <a href="#" data-bind="click: $parent.removeClass">x</a>
                         <span data-bind="text:$data"></span>
                     </div>
                 </td>
@@ -72,6 +72,7 @@
         </table>
     </div>
     <div class="modal-footer">
+        <button class="btn btn-default" data-bind="click: close">Cancel</button>
         <button class="btn btn-primary" data-bind="click: save">Save</button>
     </div>
 </div>

@@ -1,38 +1,49 @@
-<div class="clearfix">
-<div class="pull-right">
-        <button type="button" class="btn btn-info" data-bind="click:addWord">Add New Word</button>
-</div>
-</div>
+
 <div style="width:800px; margin:auto;">
-    <ul style="list-style:none; margin-left:70px; position:relative;">
-        <li style="display:inline;"><select data-bind="options:classes, value:selectedClass"></select></li>
-        <li style="display:inline;"><select data-bind="options:categories, value:selectedCategory"></select></li>
-        <li style="display:inline;"><select data-bind="options:sets, value:selectedSet"></select></li>
-    </ul>
-            <div class="table-responsive">
-    <table class="table table-striped table-bordered" >
-        <thead>
-        <tr>
-            <th>Word</th>
-            <th>Versions</th>
-            <th>Classes</th>
-            <th>Categories</th>
-            <th>Set</th>
-            <th></th>
-        </tr>
+    <div class="table-responsive">
+        <table class="table">
+            <thead>
+            <tr class="text-center">
+                <th>Class</th>
+                <th>Category</th>
+                <th>Set</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td><select data-bind="options:classes, value:selectedClass"></select></td>
+                <td><select data-bind="options:categories, value:selectedCategory"></select></td>
+                <td><select data-bind="options:sets, value:selectedSet"></select></td>
+            </tr>
+            </tbody>
+        </table>
+        <table class="table table-striped table-bordered">
+            <thead>
+            <tr>
+                <th>Word</th>
+                <th>Versions</th>
+                <th>Classes</th>
+                <th>Categories</th>
+                <th>Set</th>
+                <th class="text-center">
+                    <button type="button" class="btn btn-info btn-block" data-bind="click:addWord">Add</button>
+                </th>
+            </tr>
         </thead>
-        <tbody data-bind="foreach: filteredWords">
-        <tr>
-            <td data-bind="text: lemma"></td>
-            <td data-bind="text: versions"></td>
-            <td data-bind="text: classes"></td>
-            <td data-bind="text: categories"></td>
-            <td data-bind="text: set"></td>
-            <td><a data-bind="click: $parent.edit">Edit</a></td>
-        </tr>
+            <tbody data-bind="foreach: filteredWords">
+            <tr>
+                <td data-bind="text: lemma"></td>
+                <td data-bind="text: versions"></td>
+                <td data-bind="text: classes"></td>
+                <td data-bind="text: categories"></td>
+                <td data-bind="text: sets"></td>
+                <td>
+                    <a data-bind="click: $parent.edit" href="#">Edit</a>
+                </td>
+            </tr>
         </tbody>
-    </table>
+        </table>
     </div>
- 
-   
+
+
 </div>

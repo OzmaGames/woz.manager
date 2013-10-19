@@ -5,25 +5,25 @@ define(function () {
         versions: ['hands'],
         classes: ['Noun'],
         categories: ['body part'],
-        set: 'words of oz'
+        sets: ['words of oz']
     }, {
         lemma: 'work',
         versions: ['works', 'working'],
-        classes: ['Verb','Noun'],
+        classes: ['Verb', 'Noun'],
         categories: ['body part'],
-        set: 'basic'
+        sets: ['basic']
     }, {
         lemma: 'answer',
         versions: ['answer', 'answering'],
-        classes: ['Verb','Noun', 'Adjective'],
+        classes: ['Verb', 'Noun', 'Adjective'],
         categories: ['body part'],
-        set: 'basic'
+        sets: ['basic']
     }, {
         lemma: 'blood',
         versions: [],
         classes: ['Noun'],
         categories: ['body fluid'],
-        set: 'gothic-horror'
+        sets: ['gothic-horror']
     }];
 
 });
