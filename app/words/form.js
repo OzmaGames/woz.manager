@@ -1,4 +1,4 @@
-define(['api/datacontext', 'plugins/dialog', 'knockout'], function (ctx, dialog, ko) {
+define(['api/datacontext', 'plugins/dialog', 'knockout','durandal/app'], function (ctx, dialog, ko, app) {
 
     var WordForm = function (word) {
         this.input = ko.observable(word.lemma || '');
@@ -14,6 +14,7 @@ define(['api/datacontext', 'plugins/dialog', 'knockout'], function (ctx, dialog,
         this.versionList = ko.observableArray(word.versions || []);
         this.classList = ko.observableArray(word.classes || []);
         this.categoryList = ko.observableArray(word.categories || []);
+        this.setList = ko.observableArray(word.sets || []);
 
         var base = this;
         this.save = function () {
@@ -36,16 +37,53 @@ define(['api/datacontext', 'plugins/dialog', 'knockout'], function (ctx, dialog,
             var version = this.version();
             if (version != "" && this.versionList.indexOf(version) < 0) {
                 this.versionList.push(version);
+            } else {
+                app.showMessage('This version already exits.', 'Oops');
             }
             this.version('');
         }
-
-        this.addClass = function () {
-            this.classList.push(this.selectedClass());
+        
+        this.removeClass = function (clas, e) {
+            e.preventDefault();
+            base.classList.remove(clas);
         }
 
-        this.addCategory = function () {
-            this.categoryList.push(this.selectedCategory());
+        this.addClass = function (a, b, c) {
+            var selected = this.selectedClass();
+            if (selected != "All" && this.classList.indexOf(selected) < 0) {
+                this.classList.push(selected);
+            } else if (selected == "All") {
+                this.classList().splice(0, this.classList().length);
+                this.classList.push("Noun", "Verb", "Adjective")
+            }
+        }
+        
+        this.removeCategory = function (category, e) {
+            e.preventDefault();
+            base.categoryList.remove(category);
+        }
+
+        this.addCategory = function (a, b, c) {
+            var  selected = this.selectedCategory();
+            if (this.categoryList.indexOf(selected) < 0) {
+               this.categoryList.push(selected);
+            } else {
+                app.showMessage('This category already exists.', 'Oops');
+            }
+        }
+        
+         this.removeSet = function (set, e) {
+            e.preventDefault();
+            base.setList.remove(set);
+        }
+        
+        this.addSet = function (a, b, c) {
+            var selected =  this.selectedSet();
+            if (this.setList.indexOf(selected) < 0) {
+                this.setList.push(selected);
+            } else {
+                app.showMessage('This set already exsits.','Oops');
+            }
         }
     }
 

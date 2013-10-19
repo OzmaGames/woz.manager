@@ -4,8 +4,14 @@ define(['api/datacontext', './form', 'knockout'], function (ctx, form, ko) {
         var self = this;
 
         self.selectedClass = ko.observable();
-        self.classes = ko.observableArray([]);
+        self.selectedCategory = ko.observable();
+        self.selectedSet = ko.observable();
+        
         self.words = ko.observableArray([]);
+        self.classes = ko.observableArray([]);
+        self.categories = ko.observableArray([]);
+        self.sets = ko.observableArray([]);
+        
 
         self.addWord = function () {
             form.show().then(function (newWord) {
@@ -21,23 +27,25 @@ define(['api/datacontext', './form', 'knockout'], function (ctx, form, ko) {
         }
 
         self.filteredWords = ko.computed(function () {
-            if (self.selectedClass() !== 'All') {
-                var filterKey = self.selectedClass();
+                var classKey = self.selectedClass();
+                var categoryKey = self.selectedCategory();
+                var setKey = self.selectedSet();
                 return ko.utils.arrayFilter(self.words(), function (item) {
-                    return filter(item, filterKey)
+                    return genericFilter(item, "classes", classKey) &&
+                           genericFilter(item, "categories", categoryKey) &&
+                           genericFilter(item, "sets", setKey); 
                 });
-            } else {
-                return self.words();
-            }
         });
 
-        //private function
-        function filter(item, filter) {
-            for (var i = 0; i < item.classes.length; i++) {
-                if (item.classes[i] == filter) return true;
+        //*private function
+        function genericFilter(item, prop, filter) {
+            if (filter === 'All') return true;
+              for (var i = 0; i < item[prop].length; i++) { 
+                if (item[prop][i] === filter) return true;
             }
             return false;
-        }
+            }
+           
     };
 
     ctor.prototype.activate = function () {
@@ -51,6 +59,18 @@ define(['api/datacontext', './form', 'knockout'], function (ctx, form, ko) {
             classes.unshift('All');
             base.classes(classes);
             base.selectedClass(classes[0]);
+        });
+        
+        ctx.load("categories").then(function (categories) {
+            categories.unshift('All');
+            base.categories(categories);
+            base.selectedCategory(categories[0]);
+        });
+        
+        ctx.load("sets").then(function (sets) {
+            sets.unshift('All');
+            base.sets(sets);
+            base.selectedSet(sets[0]);
         });
     }
 
