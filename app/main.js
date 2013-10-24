@@ -18,7 +18,7 @@
     }
 });
 
-define(['durandal/system', 'durandal/app', 'durandal/viewLocator', 'api/server', 'api/_feed'],
+define(['durandal/system', 'durandal/app', 'durandal/viewLocator', 'api/server', 'api/knockout', 'api/_feed'],
 function (system, app, viewLocator) {
     //>>excludeStart("build", true);
     system.debug(true);
@@ -33,7 +33,7 @@ function (system, app, viewLocator) {
         widget: {
             kinds: ['expander']
         }
-    });
+    });   
 
     app.start().then(function () {
         //Replace 'viewmodels' in the moduleId with 'views' to locate the view.

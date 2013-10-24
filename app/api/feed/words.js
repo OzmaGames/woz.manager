@@ -2,28 +2,35 @@ define(function () {
 
     return [{
         lemma: 'hand',
-        versions: ['hands'],
+        versions: [{
+            lemma: 'hands',
+            classes: ['Noun']
+        }],
         classes: ['Noun'],
         categories: ['body part'],
-        sets: ['words of oz']
+        collections: ['words of oz']
     }, {
         lemma: 'work',
-        versions: ['works', 'working'],
         classes: ['Verb', 'Noun'],
         categories: ['body part'],
-        sets: ['basic']
+        collections: ['basic']
     }, {
         lemma: 'answer',
-        versions: ['answer', 'answering'],
+        versions: [{
+            lemma: 'answers',
+            classes: ['Verb']
+        }, {
+            lemma: 'answering',
+            classes: ['Noun', 'Verb']
+        }],
         classes: ['Verb', 'Noun', 'Adjective'],
         categories: ['body part'],
-        sets: ['basic']
+        collections: ['basic']
     }, {
         lemma: 'blood',
-        versions: [],
         classes: ['Noun'],
         categories: ['body fluid'],
-        sets: ['gothic-horror']
+        collections: ['gothic-horror']
     }];
 
 });

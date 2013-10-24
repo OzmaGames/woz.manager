@@ -27,6 +27,22 @@ define(['api/datacontext', './form', 'knockout'], function (ctx, form, ko) {
             });
         }
 
+        self.editVersion = function (version) {
+            form.show(version).then(function (newVersion) {
+                if (newVersion) {
+                    var word = newVersion.parent = version.parent;
+                    var vPos = word.versions.indexOf(version);
+                    word.versions.splice(vPos, 1, newVersion);
+                    
+                    //force ko to update its row
+                    var wPos = self.words.indexOf(word);
+                    self.words.splice(wPos, 1);
+                    self.words.splice(wPos, 0, word);
+                    //since the word is the same, two splices are needed, so ko can detect changes.
+                }
+            });
+        }
+
         self.filteredWords = ko.computed(function () {
             var classKey = self.selectedClass();
             var categoryKey = self.selectedCategory();
@@ -41,7 +57,6 @@ define(['api/datacontext', './form', 'knockout'], function (ctx, form, ko) {
         //*private function
         function genericFilter(item, filter) {
             if (filter === 'All') return true;
-            console.log(item, filter);
             if (typeof item === 'string' && item === filter) {
                 return true;
             } else if (typeof item === 'object') {
@@ -58,6 +73,12 @@ define(['api/datacontext', './form', 'knockout'], function (ctx, form, ko) {
         var base = this;
 
         ctx.load("words").then(function (words) {
+            ko.utils.arrayForEach(words, function (word) {
+                if (!word.versions) word.versions = [];
+                ko.utils.arrayForEach(word.versions, function (version) {
+                    version.parent = word;
+                });
+            });
             base.words(words);
         });
 

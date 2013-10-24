@@ -1,34 +1,31 @@
-define(['api/datacontext', 'plugins/dialog', 'knockout', 'durandal/app'], function (ctx, dialog, ko, app) {
+define(['api/datacontext', 'plugins/dialog', 'knockout', 'durandal/app', 'bootstrap'], function (ctx, dialog, ko, app) {
 
     var WordForm = function (word) {
         var base = this;
-        this.input = ko.observable(word.lemma || '');
-        this.version = ko.observable('');
-        this.selectedClass = ko.observableArray([]);
+
         this.selectedCategory = ko.observable();
-        this.selectedSet = ko.observable();
+        this.selectedCollection = ko.observable();
 
-        this.classes = ko.observableArray([]);
-        this.categories = ko.observableArray([]);
-        this.sets = ko.observableArray([]);
+        this.classList = ko.observableArray([]);
+        this.categoryList = ko.observableArray([]);
+        this.collectionList = ko.observableArray([]);
 
-        this.versionList = ko.observableArray(word.versions || []);
-        this.categoryList = ko.observableArray(word.categories || []);
-        this.setList = ko.observableArray(word.sets || []);
-        this.classList = ko.computed (function () {
-                           if (base.selectedClass() =="All") {
-                              return base.classes();
-                           } else {return base.selectedClass();}
-                         });
+        this.input = ko.observable(word.lemma || '');
+        this.classes = ko.observableArray(word.classes || []);
+        this.categories = ko.observableArray(word.categories || []);
+        this.collections = ko.observableArray(word.collections || []);
+        this.isVersion = word.parent ? true : null;
+
+        console.log(word, this.isVersion);
 
         this.save = function () {
             var word = {
                 lemma: base.input(),
-                versions: base.versionList(),
-                classes: base.classList(),
-                categories: base.categoryList(),
-                sets: base.setList()
-            };
+                versions: [],
+                classes: base.classes(),
+                categories: base.categories(),
+                collections: base.collections()
+            };            
             dialog.close(this, word);
         }
 
@@ -36,37 +33,22 @@ define(['api/datacontext', 'plugins/dialog', 'knockout', 'durandal/app'], functi
             dialog.close(this);
         }
 
-        this.removeVersion = function (version, e) {
+        this.removeCategory = function (item, e) {
             e.preventDefault();
-            base.versionList.remove(version);
+            base.categories.remove(item);
         }
 
-        this.removeCategory = function (category, e) {
+        this.removeCollection = function (item, e) {
             e.preventDefault();
-            base.categoryList.remove(category);
-        }
-
-        this.removeSet = function (set, e) {
-            e.preventDefault();
-            base.setList.remove(set);
-        }
-
-        this.addVersion = function () {
-            var version = base.version();
-            if (version == "" ) {
-                app.showMessage('Please enter a version.','Oops');
-            } else if (!addIfNotExist(this.versionList, version)) {
-                app.showMessage('This version already exits.', 'Oops');
-            }
-            this.version('');
+            base.collections.remove(item);
         }
 
         this.addCategory = function () {
-            addToList(this.categoryList, this.selectedCategory(), this.categories);
+            addTo(this.categories, this.selectedCategory(), this.categoryList);
         }
 
-        this.addSet = function () {
-            addToList(this.setList, this.selectedSet(), this.sets);            
+        this.addCollection = function () {
+            addTo(this.collections, this.selectedCollection(), this.collectionList);
         }
 
         function addToList(list, item, collection) {
@@ -92,18 +74,22 @@ define(['api/datacontext', 'plugins/dialog', 'knockout', 'durandal/app'], functi
 
     WordForm.prototype.activate = function () {
         var base = this;
-        
-        ctx.load("classes").then(function (classes) {
-            base.classes(classes);
+
+        ctx.load("classes").then(function (items) {
+            base.classList(items);
         });
-        ctx.load("categories").then(function (categories) {
-            base.categories(categories);
-            base.selectedCategory(categories[0]);
+        ctx.load("categories").then(function (items) {
+            base.categoryList(items);
+            base.selectedCategory(items[0]);
         });
-        ctx.load("sets").then(function (sets) {
-            base.sets(sets);
-            base.selectedSet(sets[0]);
+        ctx.load("sets").then(function (items) {
+            base.collectionList(items);
+            base.selectedCollection(items[0]);
         });
+    }
+
+    WordForm.prototype.bindingComplete = function (el) {
+
     }
 
     return WordForm;
