@@ -1,37 +1,47 @@
-define(['./setList', './RuleList', 'knockout'], function(setList,RuleList, ko) {
+define(['api/datacontext','knockout','./ruleForm'], function(ctx,ko,form) {
     
-    var Table = function () {
+    var ctor = function () {
         var self = this;
-        self.selectedClass= ko.observable(setList[0]);
         
-        self.filter = function (item, filter) {
-          return item.classe == filter;   
+        self.sets = ko.observableArray ([]);
+        self.rules = ko.observableArray([]);
+        
+        self.selectedSet = ko.observable();
+        
+        self.addRule = function(){
+            form.show().then(function(newRule){
+               if(newRule) self.rules.push(newRule);
+               });
         }
         
         self.filteredTable = ko.computed(function(){
-              
-              if (self.selectedClass().name !=='All') {
-                
-                var filter = self.selectedClass().name;
-                return result= ko.utils.arrayFilter(RuleList, function (item) {
-                return self.filter (item, filter)
+              if (self.selectedSet() !=='All') {
+                return ko.utils.arrayFilter(self.rules(), function (item) {
+                  return filter (item, self.selectedSet());
                 });
-              } else {
-                return RuleList;
-              }
+                } else {
+                  return self.rules();
+                }
             });
+        
+        function filter (item, filter) {
+            return item.set == filter;
+        }
     }
     
-    var table = new Table ();
-    
-    
-    
-    return {
-        
-        selectedClass: table.selectedClass,
-        setList:setList,
-        filteredTable:table.filteredTable,
-        addRule: function () { router.navigate('new-rules'); }
-     }
-})
+   ctor.prototype.activate = function () {
+        var base = this;
 
+        ctx.load("rules").then(function (rules) {
+            base.rules(rules);
+        });
+
+        ctx.load("sets").then(function (sets) {
+            sets.unshift('All');
+            base.sets(sets);
+            base.selectedSet(sets[0]);
+        });
+    }
+
+    return ctor;
+})

@@ -62,7 +62,7 @@ define(['api/datacontext', './form', 'knockout'], function (ctx, form, ko) {
         });
 
         ctx.load("classes").then(function (classes) {
-            classes.unshift('All');
+            classes = $.merge(['All'], classes);
             base.classes(classes);
             base.selectedClass(classes[0]);
         });

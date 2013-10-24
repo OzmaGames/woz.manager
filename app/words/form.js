@@ -1,9 +1,10 @@
 define(['api/datacontext', 'plugins/dialog', 'knockout', 'durandal/app'], function (ctx, dialog, ko, app) {
 
     var WordForm = function (word) {
+        var base = this;
         this.input = ko.observable(word.lemma || '');
         this.version = ko.observable('');
-        this.selectedClass = ko.observable();
+        this.selectedClass = ko.observableArray([]);
         this.selectedCategory = ko.observable();
         this.selectedSet = ko.observable();
 
@@ -12,11 +13,14 @@ define(['api/datacontext', 'plugins/dialog', 'knockout', 'durandal/app'], functi
         this.sets = ko.observableArray([]);
 
         this.versionList = ko.observableArray(word.versions || []);
-        this.classList = ko.observableArray(word.classes || []);
         this.categoryList = ko.observableArray(word.categories || []);
         this.setList = ko.observableArray(word.sets || []);
+        this.classList = ko.computed (function () {
+                           if (base.selectedClass() =="All") {
+                              return base.classes();
+                           } else {return base.selectedClass();}
+                         });
 
-        var base = this;
         this.save = function () {
             var word = {
                 lemma: base.input(),
@@ -37,11 +41,6 @@ define(['api/datacontext', 'plugins/dialog', 'knockout', 'durandal/app'], functi
             base.versionList.remove(version);
         }
 
-        this.removeClass = function (clas, e) {
-            e.preventDefault();
-            base.classList.remove(clas);
-        }
-
         this.removeCategory = function (category, e) {
             e.preventDefault();
             base.categoryList.remove(category);
@@ -53,15 +52,13 @@ define(['api/datacontext', 'plugins/dialog', 'knockout', 'durandal/app'], functi
         }
 
         this.addVersion = function () {
-            var version = this.version();
-            if (version == "" || !addIfNotExist(this.versionList, version)) {
+            var version = base.version();
+            if (version == "" ) {
+                app.showMessage('Please enter a version.','Oops');
+            } else if (!addIfNotExist(this.versionList, version)) {
                 app.showMessage('This version already exits.', 'Oops');
             }
             this.version('');
-        }
-
-        this.addClass = function () {
-            addToList(this.classList, this.selectedClass(), this.classes);            
         }
 
         this.addCategory = function () {
@@ -95,9 +92,9 @@ define(['api/datacontext', 'plugins/dialog', 'knockout', 'durandal/app'], functi
 
     WordForm.prototype.activate = function () {
         var base = this;
+        
         ctx.load("classes").then(function (classes) {
             base.classes(classes);
-            base.selectedClass(classes[0]);
         });
         ctx.load("categories").then(function (categories) {
             base.categories(categories);

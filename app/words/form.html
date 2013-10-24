@@ -10,10 +10,24 @@
                 <td style="border-top: none;"></td>
             </tr>
             <tr>
+                <td>
+                    <label>Class:</label>
+                    <div class="form-inline">
+                        <label>All</label>
+                        <input type="checkbox" value="All" data-bind="checked: selectedClass"/>
+                        
+                        <div data-bind="foreach: classes">
+                             <label class="checkbox-inline" data-bind="text:$data"></label>
+                             <input type="checkbox"  data-bind= "attr: { value: $data }, checked: $parent.selectedClass, disable: $parent.selectedClass()=='All'"/>
+                        </div>
+                    </div>
+               </td>
+            </tr>
+            <tr>
                 <td class="form-inline">
-                    <label>Versions</label>
+                    <label>Versions:</label>
                     <div class="form-group">
-                        <input type="text" data-bind="value: version" class="autofocus" />
+                        <input type="text" data-bind="value: version"/>
                         <button class="btn" data-bind="click:addVersion">Add</button>
                     </div>
                 </td>
@@ -26,22 +40,7 @@
             </tr>
             <tr>
                 <td class="form-inline">
-                    <label>Class</label>
-                    <div class="form-group">
-                        <select data-bind="options:classes, value:selectedClass"></select>
-                        <button class="btn" data-bind="click:addClass">Add</button>
-                    </div>
-                </td>
-                <td data-bind="foreach:classList">
-                    <div class="form-item">
-                        <a href="#" data-bind="click: $parent.removeClass">x</a>
-                        <span data-bind="text:$data"></span>
-                    </div>
-                </td>
-            </tr>
-            <tr>
-                <td class="form-inline">
-                    <label>Category</label>
+                    <label>Category:</label>
                     <div class="form-group">
                         <select data-bind="options:categories, value:selectedCategory"></select>
                         <button class="btn" data-bind="click:addCategory">Add</button>
@@ -56,7 +55,7 @@
             </tr>
             <tr>
                 <td class="form-inline">
-                    <label>Set</label>
+                    <label>Set:</label>
                     <div class="form-group">
                         <select data-bind="options:sets, value:selectedSet"></select>
                         <button class="btn" data-bind="click:addSet">Add</button>

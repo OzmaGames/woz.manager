@@ -1,42 +1,18 @@
-<div class="pull-right">
-   <button type="button" class="btn btn-info" data-bind="click:newTile">Add New Tile</button>
-</div>
-<div class="clearfix">
-    <h3 style="margin-left: 50px;">Tile Gallery</h3>
-    <div style="margin-left: 50px;">
-        <label>Set</label>
-        <select data-bind="options: setList , optionsText:'name', value: selectedSet "></select>
-    </div>
-</div>
-<div class="accordion" id="accordion2" data-bind="foreach:{data: images, as: 'img'}">
-    <div class="container-fluid">
-      <div class="row-fluid">
-         <div class="span4">
-           <div class="pull-left">
-             <div class="accordion-group">
-               <div class="accordion-heading">
-                 <a class="accordion-toggle" data-toggle="collapse"
-                    data-parent="#accordion2" data-bind="attr: {href:'#'+ img.id}">
-                    <img style="width: 260px; height: 180px;" data-bind="attr: { src: img.src}"/>
-                 </a>
-               </div>
-               <div class="accordion-body collapse in" data-bind="attr: { id: img.id}">
-                  <div class="accordion-inner">
-                     <div class="input-group  input-group-sm">
-                        <span class="input-group-addon">+</span>
-                        <input type="text" class="form-control" placeholder="New word" style="width:70px;">
-                     </div>
-                     <ul data-bind="foreach: img.words" style="list-style:none;">
-                        <li>
-                          <span><a>x</a></span> 
-                          <span data-bind="text: $data"></span>
-                        </li>
-                     </ul>
-                   </div>
-                </div>
-              </div>
-           </div>
-         </div>
-       </div>
+
+<div class="container">
+    <div class="table-responsive">
+        <table class="table">
+            <thead>
+            <tr class="text-center">
+                <th>Set</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td><select data-bind="options:sets, value:selectedSet"></select></td>
+                <td><button type="button" class="btn btn-info btn-block" data-bind="click: addTile">Add New Tile</button></td>
+            </tr>
+            </tbody>
+        </table>
     </div>
 </div>
