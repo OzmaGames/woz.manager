@@ -1,14 +1,23 @@
 
 <div class="messageBox">
+    <!-- ko ifnot: isVersion -->
     <div class="modal-header"><b>New Word</b></div>
+    <!-- /ko -->
+    <!-- ko if: isVersion -->
+    <div class="modal-header"><b>New Version</b></div>
+    <!-- /ko -->
     <div class="modal-body" style="overflow-x: hidden">
-        <table style="width: 700px;" class="table table-hover">
+        <table style="width: 600px;" class="table table-hover">
             <tr>
-                <td style="width: 300px;border-top: none;" class="form-inline">
+                <td style="border-top: none;" class="form-inline">
+                    <!-- ko ifnot: isVersion -->
                     <label>Word:</label>
+                    <!-- /ko -->
+                    <!-- ko if: isVersion -->
+                    <label>Version:</label>
+                    <!-- /ko -->
                     <input  type="text" class="input-small" placeholder="Type in the word.." data-bind="value: input" class="autofocus" />
                 </td>
-                <td style="border-top: none;"></td>
             </tr>
             <tr>
                 <td class="form-inline">
@@ -25,7 +34,7 @@
                     <label>Categories:</label>
                     <div class="form-group">
                         <select data-bind="options:categoryList, value:selectedCategory"></select>
-                        <button class="btn" data-bind="click:addCategory">Add</button>
+                        <button class="label label-danger" data-bind="click:addCategory">Add</button>
                     </div>
                 </td>
                 <td data-bind="foreach:categories">
@@ -40,7 +49,7 @@
                     <label>Collections:</label>
                     <div class="form-group">
                         <select data-bind="options:collectionList, value:selectedCollection"></select>
-                        <button class="btn" data-bind="click:addCollection">Add</button>
+                        <button class="label label-danger" data-bind="click:addCollection">Add</button>
                     </div>
                 </td>
                 <td data-bind="foreach:collections">

@@ -1,7 +1,7 @@
 define(['durandal/system', 'durandal/app', 'socket'], function (system, app, socket) {
 
     var dfd = system.defer(),
-        URL = null;         
+        URL = "wordsdevel.herokuapp.com";         
 
     socket = io.connect(URL);
     socket.on('connect', function () {
@@ -14,7 +14,7 @@ define(['durandal/system', 'durandal/app', 'socket'], function (system, app, soc
     });
 
     var applicationEvents = [
-     'words', 'tiles', 'rules'
+     'manager:getAllWords', 'tiles', 'rules'
     ], customEvents = {
         "server:login": function (data, callback) {
             socket.emit("login", data, callback);

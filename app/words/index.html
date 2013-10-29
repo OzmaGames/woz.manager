@@ -17,7 +17,7 @@
             </tbody>
         </table>
 
-        <table class="table table-striped table-bordered">
+        <table class="table table-bordered">
             <thead>
             <tr>
                 <th>Word</th>
@@ -26,7 +26,7 @@
                 <th>Categories</th>
                 <th>Collections</th>
                 <th class="text-center">
-                    <button type="button" class="btn btn-info btn-block" data-bind="click:addWord">Add</button>
+                    <button type="button" class="btn btn-info btn-block" data-bind="click:addWord">Add Word</button>
                 </th>
             </tr>
         </thead>
@@ -43,15 +43,8 @@
                     <a data-bind="click: $parent.edit" href="#">Edit</a>
                 </td>
             </tr>
-            <!-- ko foreach: versions -->
-            <tr>
-                <td data-bind="text: lemma"></td>
-                <td data-bind="text: classes"></td>
-                <td>
-                    <a data-bind="click: $root.editVersion" href="#">Edit</a>
-                </td>
-            </tr>
-            <!-- /ko -->
+           
+            
         </tbody>
         </table>
     </div>

@@ -1,4 +1,4 @@
-define(['api/datacontext', './form', 'knockout'], function (ctx, form, ko) {
+define(['api/datacontext', './form', 'knockout', 'jquery'], function (ctx, form, ko, $) {
 
     var ctor = function () {
         var self = this;
@@ -11,6 +11,7 @@ define(['api/datacontext', './form', 'knockout'], function (ctx, form, ko) {
         self.classes = ko.observableArray([]);
         self.categories = ko.observableArray([]);
         self.sets = ko.observableArray([]);
+       
 
         self.addWord = function () {
             form.show().then(function (newWord) {
@@ -26,6 +27,19 @@ define(['api/datacontext', './form', 'knockout'], function (ctx, form, ko) {
                 }
             });
         }
+        
+       self.addVersion = function(word){
+            var version = {parent: word};
+            form.show(version).then(function (newVersion) {
+                if (newVersion) {
+                    word.versions.push(newVersion);
+                    
+                    var wPos = self.words.indexOf(word);
+                    self.words.splice(wPos, 1);
+                    self.words.splice(wPos, 0, word);
+                }
+            });
+       }
 
         self.editVersion = function (version) {
             form.show(version).then(function (newVersion) {
@@ -50,7 +64,7 @@ define(['api/datacontext', './form', 'knockout'], function (ctx, form, ko) {
             return ko.utils.arrayFilter(self.words(), function (item) {
                 return genericFilter(item["classes"], classKey) &&
                        genericFilter(item["categories"], categoryKey) &&
-                       genericFilter(item["sets"], setKey);
+                       genericFilter(item["collections"], setKey);
             });
         });
 
@@ -72,7 +86,7 @@ define(['api/datacontext', './form', 'knockout'], function (ctx, form, ko) {
     ctor.prototype.activate = function () {
         var base = this;
 
-        ctx.load("words").then(function (words) {
+        ctx.load("manager:getAllWords").then(function (words) {
             ko.utils.arrayForEach(words, function (word) {
                 if (!word.versions) word.versions = [];
                 ko.utils.arrayForEach(word.versions, function (version) {
@@ -89,13 +103,13 @@ define(['api/datacontext', './form', 'knockout'], function (ctx, form, ko) {
         });
 
         ctx.load("categories").then(function (categories) {
-            categories.unshift('All');
+            categories = $.merge(["All"], categories);
             base.categories(categories);
             base.selectedCategory(categories[0]);
         });
 
         ctx.load("sets").then(function (sets) {
-            sets.unshift('All');
+            sets = $.merge(["All"], sets);
             base.sets(sets);
             base.selectedSet(sets[0]);
         });
