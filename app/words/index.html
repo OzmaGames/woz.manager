@@ -32,13 +32,13 @@
         </thead>
             <tbody data-bind="foreach: filteredWords">
             <tr>
-                <td data-bind="text: lemma, attr:{rowspan: versions.length + 1}"></td>
+                <td data-bind="text: lemma"></td>
                 <td class="text-center">
                     <a data-bind="click: $parent.addVersion" href="#">Add</a>
                 </td>
                 <td data-bind="text: classes"></td>
-                <td data-bind="text: categories, attr:{rowspan: versions.length + 1}" ></td>
-                <td data-bind="text: collections, attr:{rowspan: versions.length + 1}"></td>
+                <td data-bind="text: categories" ></td>
+                <td data-bind="text: collections"></td>
                 <td>
                     <a data-bind="click: $parent.edit" href="#">Edit</a>
                 </td>
