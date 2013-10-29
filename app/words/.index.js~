@@ -84,17 +84,17 @@ define(['api/datacontext', './form', 'knockout', 'jquery'], function (ctx, form,
     };
 
     ctor.prototype.activate = function () {
-      var base = this;
-
-      console.log( "im here" );
-      var socket = io.connect("http://localhost:8080");
-
-      socket.emit("manager:getAllWords", {}, function( data ){
-        console.log( "i got a response" );
-        console.log( data );
-        }
-      );
-      
+        var base = this;
+        
+        console.log( "im here" );
+        var socket = io.connect("http://localhost:8080");
+        
+        socket.emit("manager:getAllWords", {}, function( data ){
+          console.log( "i got a response" );
+          console.log( data );
+          }
+        );
+        
         ctx.load("manager:getAllWords").then(function (words) {
             ko.utils.arrayForEach(words, function (word) {
                 if (!word.versions) word.versions = [];

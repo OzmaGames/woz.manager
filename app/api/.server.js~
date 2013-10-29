@@ -22,8 +22,10 @@ define(['durandal/system', 'durandal/app', 'socket'], function (system, app, soc
     };
 
     for (var index = 0; index < applicationEvents.length; index++) {
+      console.log( "im here" );
         var event = applicationEvents[index];
         addEvent("server:" + event, function (data, callback) {
+          console.log( "im emitting" );
             socket.emit(event, data, callback);
         });
     }
