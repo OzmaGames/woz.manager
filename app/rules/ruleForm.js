@@ -27,8 +27,7 @@ define(['api/datacontext', 'plugins/dialog', 'knockout', 'durandal/app', 'bootst
         
         this.save = function(){
             var toSave = {
-                ruleList: self.shortRule()
-                
+                ruleList: [self.shortRule()]                
             }
             
             dialog.close(this, toSave);
