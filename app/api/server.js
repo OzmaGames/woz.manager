@@ -1,7 +1,7 @@
 define(['durandal/system', 'durandal/app', 'socket'], function (system, app, socket) {
 
     var dfd = system.defer(),
-        URL = "localhost:8080";
+        URL = null;
 
     socket = io.connect(URL);
     socket.on('connect', function () {
@@ -14,7 +14,7 @@ define(['durandal/system', 'durandal/app', 'socket'], function (system, app, soc
     });
 
     var applicationEvents = [
-     'manager:getAllWords', 'tiles', 'rules'
+     'words', 'tiles', 'rules'
     ], customEvents = {
         "server:login": function (data, callback) {
             socket.emit("login", data, callback);

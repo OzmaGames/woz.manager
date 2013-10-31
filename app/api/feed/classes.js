@@ -1,3 +1,3 @@
 define(function () {
-    return ['Noun', 'Verb', 'Adjective'];
+    return ['noun', 'verb', 'adjective'];
 });

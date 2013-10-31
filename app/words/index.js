@@ -11,8 +11,39 @@ define(['api/datacontext', './form', 'knockout', 'jquery'], function (ctx, form,
         self.classes = ko.observableArray([]);
         self.categories = ko.observableArray([]);
         self.sets = ko.observableArray([]);
-       
-
+        
+        self.pageIndex = ko.observable(0);
+        self.pageSize = ko.observable(5);
+        
+        
+        self.previousPage = function () {
+        if (self.pageIndex() > 0) {
+            self.pageIndex(self.pageIndex() - 1);
+           }
+        };
+        
+        self.nextPage = function () {
+        if (self.pageIndex() < self.maxPageIndex()) {
+            self.pageIndex(self.pageIndex() + 1);
+        }
+        };
+        
+        self.maxPageIndex = ko.computed(function () {
+        return Math.ceil(self.words().length/self.pageSize())-1;
+        });
+        
+        self.allPages = ko.computed(function () {
+           var pages = [];
+           for (i = 0; i <= self.maxPageIndex() ; i++) {
+            pages.push({ pageNumber: (i + 1) });
+           }
+           return pages;
+        });
+        
+        self.moveToPage = function (index) {
+          self.pageIndex(index);
+        };
+    
         self.addWord = function () {
             form.show().then(function (newWord) {
                 if (newWord) self.words.push(newWord);
@@ -32,7 +63,7 @@ define(['api/datacontext', './form', 'knockout', 'jquery'], function (ctx, form,
             var version = {parent: word};
             form.show(version).then(function (newVersion) {
                 if (newVersion) {
-                    word.versions.push(newVersion);
+                    word.versionOf.push(newVersion);
                     
                     var wPos = self.words.indexOf(word);
                     self.words.splice(wPos, 1);
@@ -56,12 +87,16 @@ define(['api/datacontext', './form', 'knockout', 'jquery'], function (ctx, form,
                 }
             });
         }
-
-        self.filteredWords = ko.computed(function () {
+        
+        self.filteredWords = ko.computed(function () {            
+            var size = self.pageSize();
+            var start = self.pageIndex() * size;
+            var words = self.words.slice(start, start + size);
+        
             var classKey = self.selectedClass();
             var categoryKey = self.selectedCategory();
             var setKey = self.selectedSet();
-            return ko.utils.arrayFilter(self.words(), function (item) {
+            return ko.utils.arrayFilter(words, function (item) {
                 return genericFilter(item["classes"], classKey) &&
                        genericFilter(item["categories"], categoryKey) &&
                        genericFilter(item["collections"], setKey);
@@ -86,16 +121,7 @@ define(['api/datacontext', './form', 'knockout', 'jquery'], function (ctx, form,
     ctor.prototype.activate = function () {
       var base = this;
 
-      console.log( "im here" );
-      var socket = io.connect("http://localhost:8080");
-
-      socket.emit("manager:getAllWords", {}, function( data ){
-        console.log( "i got a response" );
-        console.log( data );
-        }
-      );
-      
-        ctx.load("manager:getAllWords").then(function (words) {
+       ctx.load("words").then(function (words) {
             ko.utils.arrayForEach(words, function (word) {
                 if (!word.versions) word.versions = [];
                 ko.utils.arrayForEach(word.versions, function (version) {
@@ -104,7 +130,7 @@ define(['api/datacontext', './form', 'knockout', 'jquery'], function (ctx, form,
             });
             base.words(words);
         });
-
+      
         ctx.load("classes").then(function (classes) {
             classes = $.merge(['All'], classes);
             base.classes(classes);

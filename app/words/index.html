@@ -29,23 +29,43 @@
                     <button type="button" class="btn btn-info btn-block" data-bind="click:addWord">Add Word</button>
                 </th>
             </tr>
-        </thead>
-            <tbody data-bind="foreach: filteredWords">
+            </thead>
+            
+            <tbody data-bind="foreach:filteredWords">
+             
             <tr>
-                <td data-bind="text: lemma"></td>
+                <td data-bind="text: lemma, attr:{rowspan: versions.length + 1}"></td>
                 <td class="text-center">
                     <a data-bind="click: $parent.addVersion" href="#">Add</a>
                 </td>
                 <td data-bind="text: classes"></td>
-                <td data-bind="text: categories" ></td>
-                <td data-bind="text: collections"></td>
+                <td data-bind="text: categories, attr:{rowspan: versions.length + 1}" ></td>
+                <td data-bind="text: collections, attr:{rowspan: versions.length + 1}"></td>
                 <td>
                     <a data-bind="click: $parent.edit" href="#">Edit</a>
                 </td>
             </tr>
-           
-            
+            <!-- ko foreach: versions -->
+            <tr class="active">
+                <td data-bind="text: lemma"></td>
+                <td data-bind="text: classes"></td>
+                <td>
+                    <a data-bind="click: $root.editVersion" href="#">Edit Version</a>
+                </td>
+            </tr>
+            <!-- /ko -->
+          
         </tbody>
+             
         </table>
+         
+        <ul class="pagination">
+             <li data-bind="css: { disabled: pageIndex() === 0 }"><a href="#" data-bind="click: previousPage">Previous</a></li>
+             <!-- ko foreach: allPages -->
+                  <li data-bind="css: { active: $data.pageNumber === ($root.pageIndex() + 1) }"><a href="#" data-bind="text: $data.pageNumber, click: function() { $root.moveToPage($data.pageNumber-1); }"></a></li>
+             <!--/ko-->
+            <li data-bind="css: { disabled: pageIndex() === maxPageIndex() }"><a href="#" data-bind="click: nextPage">Next</a></li>
+       </ul>
+
     </div>
 </div>
