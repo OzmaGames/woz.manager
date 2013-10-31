@@ -21,7 +21,7 @@ define(['api/datacontext','./tileForm' ,'knockout'], function(ctx,form,ko){
         });
 
         ctx.load("sets").then(function (sets) {
-            sets.unshift('All');
+            sets = $.merge(['All'], sets);            
             base.sets(sets);
             base.selectedSet(sets[0]);
         });
