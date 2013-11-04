@@ -20,13 +20,13 @@
 
 define(['durandal/system', 'durandal/app', 'durandal/viewLocator', 'api/server', 'api/knockout', 'api/_feed'],
 function (system, app, viewLocator) {
-    //>>excludeStart("build", true);
+    
     system.debug(true);
-    //>>excludeEnd("build");
+    
 
     app.title = 'Words Of Oz - Manager';
 
-    //specify which plugins to install and their configuration
+    
     app.configurePlugins({
         router: true,
         dialog: true,
@@ -36,11 +36,9 @@ function (system, app, viewLocator) {
     });   
 
     app.start().then(function () {
-        //Replace 'viewmodels' in the moduleId with 'views' to locate the view.
-        //Look for partial views in a 'views' folder in the root.
+        
         viewLocator.useConvention();
 
-        //Show the app by setting the root view model for our application.
         app.setRoot('shell');
     });
 });

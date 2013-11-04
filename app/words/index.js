@@ -1,4 +1,4 @@
-define(['api/datacontext', './form', 'knockout', 'jquery'], function (ctx, form, ko, $) {
+define(['api/datacontext', './form', './versionForm', 'knockout', 'jquery'], function (ctx, form, versionForm, ko, $) {
 
     var ctor = function () {
         var self = this;
@@ -14,6 +14,9 @@ define(['api/datacontext', './form', 'knockout', 'jquery'], function (ctx, form,
 
         self.pageIndex = ko.observable(0);
         self.pageSize = ko.observable(5);
+        self.newPageNumber = ko.observable(self.pageIndex() + 1);
+        
+        self.query = ko.observable();
 
 
         self.previousPage = function () {
@@ -33,13 +36,16 @@ define(['api/datacontext', './form', 'knockout', 'jquery'], function (ctx, form,
         });
 
         self.allPages = ko.computed(function () {
-            var pages = [], length = self.maxPageIndex();
+            var pages = [],
+                length = self.maxPageIndex();
+                
             for (i = 0; i <= length; i++) {
                 pages.push({ pageNumber: (i + 1) });
             }
-            return pages;
+         return pages;
+        
         });
-
+        
         self.moveToPage = function (index) {
             self.pageIndex(index);
         };
@@ -58,12 +64,18 @@ define(['api/datacontext', './form', 'knockout', 'jquery'], function (ctx, form,
                 }
             });
         }
+        
+        self.versions = function(word) {
+            versionForm.show(word).then(function (newWord) {
+                if (newWord) self.words.push(newWord);
+            });
+        }
 
         self.addVersion = function (word) {
             var version = { parent: word };
             form.show(version).then(function (newVersion) {
                 if (newVersion) {
-                    word.versionOf.push(newVersion);
+                    word.versions.push(newVersion);
 
                     var wPos = self.words.indexOf(word);
                     self.words.splice(wPos, 1);
@@ -79,11 +91,10 @@ define(['api/datacontext', './form', 'knockout', 'jquery'], function (ctx, form,
                     var vPos = word.versions.indexOf(version);
                     word.versions.splice(vPos, 1, newVersion);
 
-                    //force ko to update its row
                     var wPos = self.words.indexOf(word);
                     self.words.splice(wPos, 1);
                     self.words.splice(wPos, 0, word);
-                    //since the word is the same, two splices are needed, so ko can detect changes.
+                  
                 }
             });
         }
@@ -103,7 +114,6 @@ define(['api/datacontext', './form', 'knockout', 'jquery'], function (ctx, form,
             });
         });
 
-        //*private function
         function genericFilter(item, filter) {
             if (filter === 'All') return true;
             if (typeof item === 'string' && item === filter) {
@@ -115,6 +125,13 @@ define(['api/datacontext', './form', 'knockout', 'jquery'], function (ctx, form,
             }
             return false;
         }
+        
+        self.searchWord = ko.computed(function () {
+            var search = self.query();
+            return ko.utils.arrayFilter(self.words, function(word){
+                return word.indexOf(search) >= 0;
+                })
+            })
 
     };
 

@@ -1,0 +1,60 @@
+<div>
+    <div class="messageBox">
+        <div class="modal-header"><b>Versions</b></div>
+        <div class="modal-body" style="overflow-x: hidden">
+        <table style="width: 600px" class="table">
+            <tbody>
+            <tr>
+                <td style="border: none;" class="form-inline">
+                    <label>New Version</label>
+                    <input  type="text" class="input-small" placeholder="Type in the version.." data-bind="value: input" class="autofocus" />
+                </td>
+            </tr>
+            <tr>
+                <td class="form-inline">
+                    <label>Classes:</label>
+                    <div class="btn-group" data-bind="foreach: classList">
+                        <button type="button" class="btn btn-default" 
+                            data-bind="checkbox: {value: $data, pool: $parent.classes}"></button>
+                    </div>
+                    <button type="button" class="btn btn-warning" data-bind="click:addVersion"><span class="glyphicon glyphicon-plus-sign"></span></button>
+                </td>
+               
+            </tr>
+            </tbody>
+            </table>
+            
+            <table style="width: 400px;" class="table table-hover">
+            
+            
+               
+                   <thead>
+                    <tr>
+                        <th>Versions</th>
+                        <th>Classes</th>
+                    </tr>
+                   </thead>
+                   
+                        <!-- ko with:word -->
+                        <tbody data-bind="foreach:versions">
+                            <tr class="active">
+                              <td data-bind="text: lemma"></td>
+                              <td data-bind="text: classes"></td>
+                              <td>
+                                 <a data-bind="click: $root.editVersion" href="#">Edit</a>
+                              </td>
+                            </tr>
+                        </tbody>
+                        <!-- /ko -->
+                   
+               
+           
+        </table>
+            
+        </div>
+        <div class="modal-footer">
+        <button class="btn btn-default" >Cancel</button>
+        <button class="btn btn-primary" data-bind="click:save">Save</button>
+    </div>
+        </div>
+</div>

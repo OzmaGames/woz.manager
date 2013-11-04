@@ -24,7 +24,6 @@ define(['api/datacontext', 'plugins/dialog', 'knockout', 'durandal/app', 'bootst
         this.value = ko.observable();
         
         
-        
         this.save = function(){
             var toSave = {
                 ruleList: [self.shortRule()]                
@@ -57,8 +56,7 @@ define(['api/datacontext', 'plugins/dialog', 'knockout', 'durandal/app', 'bootst
             
             line.amountValue = self.amountValue();
             line.enableAdd = self.enableAdd();
-
-         }
+        }
         
          
         this.addToInclude = function () {

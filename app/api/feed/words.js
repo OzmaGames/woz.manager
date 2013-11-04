@@ -43,10 +43,7 @@ define(function () {
         collections: ['words of oz']
     }, {
         lemma: 'door',
-        versions:[{
-            lemma: 'doors',
-            classes: ['noun']
-        }],
+        versions:[],
         classes: ['noun'],
         categories: [],
         collections: ['basic']
