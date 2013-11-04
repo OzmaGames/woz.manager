@@ -12,12 +12,10 @@ define(['api/datacontext', './form', './versionForm', 'knockout', 'jquery'], fun
         self.categories = ko.observableArray([]);
         self.sets = ko.observableArray([]);
 
+        self.query = ko.observable();
         self.pageIndex = ko.observable(0);
         self.pageSize = ko.observable(5);
-        self.newPageNumber = ko.observable(self.pageIndex() + 1);
-        
-        self.query = ko.observable();
-
+        self.pageNumberInput = ko.observable(self.pageIndex() + 1);
 
         self.previousPage = function () {
             if (self.pageIndex() > 0) {
@@ -38,14 +36,13 @@ define(['api/datacontext', './form', './versionForm', 'knockout', 'jquery'], fun
         self.allPages = ko.computed(function () {
             var pages = [],
                 length = self.maxPageIndex();
-                
+
             for (i = 0; i <= length; i++) {
-                pages.push({ pageNumber: (i + 1) });
+                pages.push(i);
             }
-         return pages;
-        
+            return pages;
         });
-        
+
         self.moveToPage = function (index) {
             self.pageIndex(index);
         };
@@ -64,38 +61,10 @@ define(['api/datacontext', './form', './versionForm', 'knockout', 'jquery'], fun
                 }
             });
         }
-        
-        self.versions = function(word) {
+
+        self.versions = function (word) {
             versionForm.show(word).then(function (newWord) {
                 if (newWord) self.words.push(newWord);
-            });
-        }
-
-        self.addVersion = function (word) {
-            var version = { parent: word };
-            form.show(version).then(function (newVersion) {
-                if (newVersion) {
-                    word.versions.push(newVersion);
-
-                    var wPos = self.words.indexOf(word);
-                    self.words.splice(wPos, 1);
-                    self.words.splice(wPos, 0, word);
-                }
-            });
-        }
-
-        self.editVersion = function (version) {
-            form.show(version).then(function (newVersion) {
-                if (newVersion) {
-                    var word = newVersion.parent = version.parent;
-                    var vPos = word.versions.indexOf(version);
-                    word.versions.splice(vPos, 1, newVersion);
-
-                    var wPos = self.words.indexOf(word);
-                    self.words.splice(wPos, 1);
-                    self.words.splice(wPos, 0, word);
-                  
-                }
             });
         }
 
@@ -107,12 +76,18 @@ define(['api/datacontext', './form', './versionForm', 'knockout', 'jquery'], fun
             var classKey = self.selectedClass();
             var categoryKey = self.selectedCategory();
             var setKey = self.selectedSet();
+            var query = self.query();
             return ko.utils.arrayFilter(words, function (item) {
                 return genericFilter(item["classes"], classKey) &&
                        genericFilter(item["categories"], categoryKey) &&
-                       genericFilter(item["collections"], setKey);
+                       genericFilter(item["collections"], setKey) &&
+                       contains(item["lemma"], query);
             });
         });
+
+        function contains(item, query) {
+            return item.search(query) !== -1;
+        }
 
         function genericFilter(item, filter) {
             if (filter === 'All') return true;
@@ -125,13 +100,13 @@ define(['api/datacontext', './form', './versionForm', 'knockout', 'jquery'], fun
             }
             return false;
         }
-        
+               
         self.searchWord = ko.computed(function () {
             var search = self.query();
-            return ko.utils.arrayFilter(self.words, function(word){
+            return ko.utils.arrayFilter(self.words, function (word) {
                 return word.indexOf(search) >= 0;
-                })
             })
+        })
 
     };
 
@@ -141,9 +116,6 @@ define(['api/datacontext', './form', './versionForm', 'knockout', 'jquery'], fun
         ctx.load("words").then(function (words) {
             ko.utils.arrayForEach(words, function (word) {
                 if (!word.versions) word.versions = [];
-                ko.utils.arrayForEach(word.versions, function (version) {
-                    version.parent = word;
-                });
             });
             base.words(words);
         });

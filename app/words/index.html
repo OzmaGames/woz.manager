@@ -1,45 +1,30 @@
 <div>
     <div class="container">
-       <table class="table">
+        <table class="table">
             <thead>
-                <tr class="text-center">
-                   <th>Class</th>
-                   <th>Category</th>
-                   <th>Collection</th>
-                   <th style="border-bottom:none" class="pull-right">
-                    <div class="btn-group">
-                       <button type="button" class="btn btn-info btn-xs dropdown-toggle" data-toggle="dropdown">
-                          Word per page <span class="caret"></span>
-                          <span class="sr-only">Toggle Dropdown</span>
-                       </button>
-                       <ul class="dropdown-menu" role="menu">
-                        
-                            <li><a href="#" data-bind="click:function() {pageSize(1)}">20</a></li>
-                            <li><a href="#" data-bind="click:function() {pageSize(3)}" >50</a></li>
-                            <li><a href="#" data-bind="click:function() {pageSize(4)}">70</a></li>
-                       </ul>
+            <tr class="text-center">
+                <th>Class</th>
+                <th>Category</th>
+                <th>Collection</th>
+                <td style="border-bottom:none; text-align: right">
+                    <div class="form-inline">
+                        <div class="btn-group">
+                            <button type="button" class="btn btn-info btn-sm dropdown-toggle" data-toggle="dropdown">
+                                Arrange
+                                <span class="caret"></span>
+                            </button>
+                            <ul class="dropdown-menu" role="menu" style="text-align: left">
+                                <li><a href="#">Name</a></li>
+                                <li><a href="#">Date Added</a></li>
+                                <li><a href="#">Date Modified</a></li>
+                            </ul>
+                        </div>
+                        <div class="form-group form-inline">
+                            <input type="search" class="form-control input-sm" 
+                                data-bind="value: query, valueUpdate:'afterkeydown'" placeholder="Search word...">
+                        </div>
                     </div>
-                    <div class="btn-group">
-                       <button type="button" class="btn btn-info btn-xs dropdown-toggle" data-toggle="dropdown">
-                          Arrange <span class="caret"></span>
-                       </button>
-                       <ul class="dropdown-menu" role="menu">
-                             <li><a href="#">Name</a></li>
-                             <li><a href="#">Date Added</a></li>
-                             <li><a href="#">Date Modified</a></li>
-                      </ul>
-                    </div>
-                    
-                    <div class="btn-group">
-                      <button type="button" class="btn btn-info btn-xs" data-bind="click: function() {moveToPage(newPageNumber() - 1)}">Go to page: </button>
-                      <input type="text" style="width:25px;" data-bind="value:newPageNumber">
-                    </div>
-                   <div class="btn-group">
-                      <button type="button" class="btn btn-info btn-xs" data-bind="click: searchWord"><span class="glyphicon glyphicon-search"></span></button>
-                      <input type="search" data-bind="value:query" placeholder="Search word...">
-                   </div>
-                   </th>
-                
+                </td>
             </tr>
             </thead>
             <tbody>
@@ -47,7 +32,6 @@
                 <td><select class="form-control" data-bind="options:classes, value:selectedClass"></select></td>
                 <td><select class="form-control" data-bind="options:categories, value:selectedCategory"></select></td>
                 <td><select class="form-control" data-bind="options:sets, value:selectedSet"></select></td>
-                
             </tr>
             </tbody>
         </table>
@@ -65,9 +49,8 @@
                 </th>
             </tr>
             </thead>
-            
             <tbody data-bind="foreach:filteredWords">
-             
+
             <tr>
                 <td data-bind="text: lemma"></td>
                 <td><a href="#" data-bind="click: $root.versions">Versions</a></td>
@@ -78,24 +61,41 @@
                     <a data-bind="click: $parent.edit" href="#">Edit</a>
                 </td>
             </tr>
-          
+
         </tbody>
-             
         </table>
         <div class="text-center">
-                     
-        <ul class="pagination">
-             <li data-bind="css: { disabled: pageIndex() === 0 }"><a href="#" data-bind="click: function (){pageIndex(0)}">&laquo;</a></li>
-             <li data-bind="css: { disabled: pageIndex() === 0 }"><a href="#" data-bind="click: previousPage"><</a></li>
-             <!-- ko foreach: allPages -->
-                <li data-bind="css: { active: $data.pageNumber === $root.pageIndex() + 1} "><a href="#" data-bind="text: $data.pageNumber, click: function() { $root.moveToPage($data.pageNumber-1);},
-                visible: (($root.pageIndex() - 2) <= $data.pageNumber  &&  $data.pageNumber <= ($root.pageIndex() + 2)) "></a></li>
-             <!--/ko-->
-            <li data-bind="css: { disabled: pageIndex() === maxPageIndex() }"><a href="#" data-bind="click: nextPage">></a></li>
-            <li data-bind="css: { disabled: pageIndex() === maxPageIndex() }"><a href="#" data-bind="click: function (){pageIndex(maxPageIndex())}, text:maxPageIndex()+1"></a></li>
-       </ul>
 
+            <ul class="pagination">
+                <li data-bind="css: { disabled: pageIndex() === 0 }"><a href="#" data-bind="click: pageIndex.bind(0)">&laquo;</a></li>
+                <li data-bind="css: { disabled: pageIndex() === 0 }"><a href="#" data-bind="click: previousPage"><</a></li>
+                <!-- ko foreach: allPages -->
+                <li data-bind="css: { active: $data === $root.pageIndex()}">
+                    <a href="#" data-bind="text: $data + 1, click: $root.pageIndex.bind($data)"></a>
+                </li>
+                <!--/ko-->
+                <li data-bind="css: { disabled: pageIndex() === maxPageIndex() }"><a href="#" data-bind="click: nextPage">></a></li>
+                <li data-bind="css: { disabled: pageIndex() === maxPageIndex() }"><a href="#" data-bind="click: pageIndex.bind(maxPageIndex())">&raquo;</a></li>
+            </ul>
+
+            <div class="form-group form-inline">
+                <div class="btn-group">
+                    <button type="button" class="btn btn-info btn-sm dropdown-toggle" data-toggle="dropdown">
+                        Word per page
+                        <span class="caret"></span>
+                        <span class="sr-only">Toggle Dropdown</span>
+                    </button>
+                    <ul class="dropdown-menu" role="menu" style="text-align: left">
+                        <li><a href="#" data-bind="click: pageSize.bind(1)">20</a></li>
+                        <li><a href="#" data-bind="click: pageSize.bind(3)">50</a></li>
+                        <li><a href="#" data-bind="click: pageSize.bind(4)">70</a></li>
+                    </ul>
+                </div>
+
+                <button type="button" class="btn btn-info btn-sm" data-bind="click: function() {moveToPage(pageNumberInput() - 1)}">Go to page: </button>
+                <input type="text" class="form-control input-sm" style="width:3em" data-bind="value:pageNumberInput">
+            </div>
         </div>
-        
+
     </div>
 </div>
