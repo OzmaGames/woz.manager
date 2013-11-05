@@ -38,7 +38,7 @@ define(['api/datacontext', './form', './versionForm', 'knockout', 'jquery'], fun
                 length = self.maxPageIndex();
 
             for (i = 0; i <= length; i++) {
-                pages.push(i);
+                pages.push({ pageNumber: (i + 1) });
             }
             return pages;
         });
@@ -61,11 +61,13 @@ define(['api/datacontext', './form', './versionForm', 'knockout', 'jquery'], fun
                 }
             });
         }
+        
+        self.remove = function(word){
+            self.words.remove(word);
+        }
 
         self.versions = function (word) {
-            versionForm.show(word).then(function (newWord) {
-                if (newWord) self.words.push(newWord);
-            });
+            versionForm.show(word);
         }
 
         self.filteredWords = ko.computed(function () {
@@ -86,7 +88,7 @@ define(['api/datacontext', './form', './versionForm', 'knockout', 'jquery'], fun
         });
 
         function contains(item, query) {
-            return item.search(query) !== -1;
+             return !item || !query || item.search(query) !== -1;
         }
 
         function genericFilter(item, filter) {
@@ -107,15 +109,17 @@ define(['api/datacontext', './form', './versionForm', 'knockout', 'jquery'], fun
                 return word.indexOf(search) >= 0;
             })
         })
-
-    };
+};
 
     ctor.prototype.activate = function () {
         var base = this;
 
         ctx.load("words").then(function (words) {
             ko.utils.arrayForEach(words, function (word) {
+                word.newV = ko.observableArray([]);
                 if (!word.versions) word.versions = [];
+                word.newV.push(word.versions);
+               
             });
             base.words(words);
         });

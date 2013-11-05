@@ -17,11 +17,15 @@ define(['api/datacontext', 'plugins/dialog', 'knockout', 'durandal/app', 'bootst
         }
 
         this.add = function () {
-            self.versions.push({
+            if(null == ko.utils.arrayFirst(self.versions(), function(v){ return v.lemma.toLowerCase() === self.input()}) && self.input()) {
+                self.versions.push({
                 lemma: self.input(),
                 classes: self.classes(),
                 editMode: ko.observable(false)
             });
+            } else if (!self.input()){ app.showMessage('Please enter a version.', 'Oops');
+            } else { app.showMessage('This version already exists.', 'Oops')}
+            
         }
 
         this.edit = function (version) {
@@ -37,7 +41,7 @@ define(['api/datacontext', 'plugins/dialog', 'knockout', 'durandal/app', 'bootst
         }
 
         this.cancel = function (version) {
-            //todo
+            version.editMode(false);
         }
 
         this.remove = function (version) {

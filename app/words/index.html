@@ -53,12 +53,21 @@
 
             <tr>
                 <td data-bind="text: lemma"></td>
-                <td><a href="#" data-bind="click: $root.versions">Versions</a></td>
+                <td> 
+                    <a href="#" data-bind="click: $root.versions, text: versions.length"></a>
+                    <span>  |  </span>
+                    <!-- ko foreach:versions -->
+                    <span data-bind="text:lemma"></span>
+                    <!--/ko-->
+                </td>
                 <td data-bind="text: classes"></td>
                 <td data-bind="text: categories"></td>
                 <td data-bind="text: collections"></td>
                 <td>
-                    <a data-bind="click: $parent.edit" href="#">Edit</a>
+                    <div class="text-center">
+                    <a data-bind="click: $parent.edit" href="#">Edit</a> |
+                    <a data-bind="click: $parent.remove" href="#">Remove</a>
+                    </div>
                 </td>
             </tr>
 
@@ -70,12 +79,11 @@
                 <li data-bind="css: { disabled: pageIndex() === 0 }"><a href="#" data-bind="click: pageIndex.bind(0)">&laquo;</a></li>
                 <li data-bind="css: { disabled: pageIndex() === 0 }"><a href="#" data-bind="click: previousPage"><</a></li>
                 <!-- ko foreach: allPages -->
-                <li data-bind="css: { active: $data === $root.pageIndex()}">
-                    <a href="#" data-bind="text: $data + 1, click: $root.pageIndex.bind($data)"></a>
-                </li>
+                 <li data-bind="css: { active: $data.pageNumber === $root.pageIndex() + 1} "><a href="#" data-bind="text: $data.pageNumber, click: function() { $root.moveToPage($data.pageNumber-1);},
+-                visible: (($root.pageIndex() - 2) <= $data.pageNumber  &&  $data.pageNumber <= ($root.pageIndex() + 2)) "></a></li>
                 <!--/ko-->
                 <li data-bind="css: { disabled: pageIndex() === maxPageIndex() }"><a href="#" data-bind="click: nextPage">></a></li>
-                <li data-bind="css: { disabled: pageIndex() === maxPageIndex() }"><a href="#" data-bind="click: pageIndex.bind(maxPageIndex())">&raquo;</a></li>
+               <li data-bind="css: { disabled: pageIndex() === maxPageIndex() }"><a href="#" data-bind="click: function (){pageIndex(maxPageIndex())}, text:maxPageIndex()+1"></a></li>
             </ul>
 
             <div class="form-group form-inline">
@@ -86,9 +94,9 @@
                         <span class="sr-only">Toggle Dropdown</span>
                     </button>
                     <ul class="dropdown-menu" role="menu" style="text-align: left">
-                        <li><a href="#" data-bind="click: pageSize.bind(1)">20</a></li>
-                        <li><a href="#" data-bind="click: pageSize.bind(3)">50</a></li>
-                        <li><a href="#" data-bind="click: pageSize.bind(4)">70</a></li>
+                        <li><a href="#" data-bind="click: function(){pageSize(20)}">20</a></li>
+                        <li><a href="#" data-bind="click: function(){pageSize(50)}">50</a></li>
+                        <li><a href="#" data-bind="click: function(){pageSize(70)}">70</a></li>
                     </ul>
                 </div>
 

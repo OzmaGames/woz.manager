@@ -22,6 +22,12 @@ define(function () {
         }, {
             lemma: 'answering',
             classes: ['noun', 'verb']
+        },{
+            lemma: 'answers',
+            classes: ['verb']
+        }, {
+            lemma: 'answering',
+            classes: ['noun', 'verb']
         }],
         classes: ['verb', 'noun', 'adjective'],
         categories: ['body part'],
