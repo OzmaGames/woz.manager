@@ -61,13 +61,17 @@ define(['api/datacontext', './form', './versionForm', 'knockout', 'jquery'], fun
                 }
             });
         }
-        
-        self.remove = function(word){
+
+        self.remove = function (word) {
             self.words.remove(word);
         }
 
         self.versions = function (word) {
-            versionForm.show(word);
+            versionForm.show(word).then(function () {
+                var wordPos = self.words.indexOf(word);
+                self.words.splice(wordPos, 1);
+                self.words.splice(wordPos, 0, word);
+            });
         }
 
         self.filteredWords = ko.computed(function () {
@@ -88,7 +92,7 @@ define(['api/datacontext', './form', './versionForm', 'knockout', 'jquery'], fun
         });
 
         function contains(item, query) {
-             return !item || !query || item.search(query) !== -1;
+            return !item || !query || item.search(query) !== -1;
         }
 
         function genericFilter(item, filter) {
@@ -102,14 +106,14 @@ define(['api/datacontext', './form', './versionForm', 'knockout', 'jquery'], fun
             }
             return false;
         }
-               
+
         self.searchWord = ko.computed(function () {
             var search = self.query();
             return ko.utils.arrayFilter(self.words, function (word) {
                 return word.indexOf(search) >= 0;
             })
         })
-};
+    };
 
     ctor.prototype.activate = function () {
         var base = this;
@@ -119,7 +123,7 @@ define(['api/datacontext', './form', './versionForm', 'knockout', 'jquery'], fun
                 word.newV = ko.observableArray([]);
                 if (!word.versions) word.versions = [];
                 word.newV.push(word.versions);
-               
+
             });
             base.words(words);
         });
