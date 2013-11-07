@@ -78,13 +78,7 @@ define(['api/datacontext', './form','durandal/app', './versionForm', './checkFor
                 self.words.splice(wordPos, 0, word);
             });
         }
-        var wordfor = self.filteredWords();
-        self.sortedWords = ko.computed(function(){
-            
-            return wordfor.sort(function(a,b){
-                return a.date < b.date;
-                });
-            })
+        
 
         self.filteredWords = ko.computed(function () {
             var size = self.pageSize();
@@ -118,6 +112,15 @@ define(['api/datacontext', './form','durandal/app', './versionForm', './checkFor
             }
             return false;
         }
+        
+        
+        self.sortedWords = ko.computed(function(){
+            var wordfor = self.filteredWords();
+            console.log(wordfor);
+            return wordfor.sort(function(a,b){
+                return a.date < b.date;
+                });
+        })
 
         self.searchWord = ko.computed(function () {
             var search = self.query();

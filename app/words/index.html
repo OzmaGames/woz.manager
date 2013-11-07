@@ -49,12 +49,9 @@
                 </th>
             </tr>
             </thead>
-            <!-- ko if:self.sortDateAdded -->
+            
             <tbody data-bind="foreach:sortedWords">
-            <!--/ko-->
-            <!-- ko ifnot:self.sortDateAdded -->
-            <tbody data-bind="foreach:filteredWords">
-            <!--/ko-->
+            
 
             <tr>
                 <td data-bind="text: lemma"></td>
