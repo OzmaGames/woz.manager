@@ -19,12 +19,14 @@ define(['api/datacontext', 'plugins/dialog', 'knockout', 'durandal/app', 'bootst
         console.log(word, this.isVersion);
 
         this.save = function () {
+            
             var word = {
                 lemma: self.input(),
                 versions: [],
                 classes: self.classes(),
                 categories: self.categories(),
-                collections: self.collections()
+                collections: self.collections(),
+                date: new Date().getTime()
             };            
             dialog.close(this, word);
         }

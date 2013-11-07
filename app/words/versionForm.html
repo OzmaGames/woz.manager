@@ -16,8 +16,8 @@
                     <td data-bind="text: lemma"></td>
                     <td data-bind="text: classes"></td>
                     <td>
-                        <a data-bind="click: $root.edit" href="#">Edit</a> |
-                        <a data-bind="click: $root.remove" href="#">Remove</a>
+                        <span data-bind="click: $root.edit" class="glyphicon glyphicon-edit" href="#" style="cursor:pointer"> </span>  | 
+                        <span data-bind="click: $root.remove" class="glyphicon glyphicon-trash" href="#" style="cursor:pointer">  </span>
                     </td>
                 </tr>
                 <!-- /ko --><!-- ko if:editMode() -->

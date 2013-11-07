@@ -15,13 +15,9 @@ define(['api/datacontext', 'knockout', './ruleForm'], function (ctx, ko, form) {
         }
 
         self.filteredTable = ko.computed(function () {
-            if (self.selectedSet() !== 'All') {
                 return ko.utils.arrayFilter(self.rules(), function (item) {
                     return filter(item, self.selectedSet());
                 });
-            } else {
-                return self.rules();
-            }
         });
 
         function filter(item, filter) {
@@ -37,7 +33,6 @@ define(['api/datacontext', 'knockout', './ruleForm'], function (ctx, ko, form) {
         });
 
         ctx.load("sets").then(function (sets) {
-            sets = $.merge(['All'], sets);
             base.sets(sets);
             base.selectedSet(sets[0]);
         });

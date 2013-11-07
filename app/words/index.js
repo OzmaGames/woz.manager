@@ -1,4 +1,4 @@
-define(['api/datacontext', './form', './versionForm', 'knockout', 'jquery'], function (ctx, form, versionForm, ko, $) {
+define(['api/datacontext', './form','durandal/app', './versionForm', './checkForm', 'knockout', 'jquery'], function (ctx, form, app,versionForm, checkForm, ko, $) {
 
     var ctor = function () {
         var self = this;
@@ -16,6 +16,8 @@ define(['api/datacontext', './form', './versionForm', 'knockout', 'jquery'], fun
         self.pageIndex = ko.observable(0);
         self.pageSize = ko.observable(5);
         self.pageNumberInput = ko.observable(self.pageIndex() + 1);
+        
+        self.sortDateAdded = ko.observable(false);
 
         self.previousPage = function () {
             if (self.pageIndex() > 0) {
@@ -49,7 +51,8 @@ define(['api/datacontext', './form', './versionForm', 'knockout', 'jquery'], fun
 
         self.addWord = function () {
             form.show().then(function (newWord) {
-                if (newWord) self.words.push(newWord);
+                if (newWord) {self.words.push(newWord);
+                };
             });
         };
 
@@ -63,7 +66,9 @@ define(['api/datacontext', './form', './versionForm', 'knockout', 'jquery'], fun
         }
 
         self.remove = function (word) {
-            self.words.remove(word);
+           checkForm.show(word).then(function(response){
+            if (response) self.words.remove(response);
+            })
         }
 
         self.versions = function (word) {
@@ -73,6 +78,13 @@ define(['api/datacontext', './form', './versionForm', 'knockout', 'jquery'], fun
                 self.words.splice(wordPos, 0, word);
             });
         }
+        var wordfor = self.filteredWords();
+        self.sortedWords = ko.computed(function(){
+            
+            return wordfor.sort(function(a,b){
+                return a.date < b.date;
+                });
+            })
 
         self.filteredWords = ko.computed(function () {
             var size = self.pageSize();
@@ -113,6 +125,20 @@ define(['api/datacontext', './form', './versionForm', 'knockout', 'jquery'], fun
                 return word.indexOf(search) >= 0;
             })
         })
+        
+        self.sortByName = function(){
+            self.words.sort(function (a,b) {
+                return a.lemma > b.lemma;
+                });
+        }
+            
+        self.sortByDateAdded = function () {
+            self.words.sort(function(a,b){
+                return a.date < b.date;
+                });
+            self.sortDateAdded(true);
+        }
+        
     };
 
     ctor.prototype.activate = function () {
@@ -120,13 +146,12 @@ define(['api/datacontext', './form', './versionForm', 'knockout', 'jquery'], fun
 
         ctx.load("words").then(function (words) {
             ko.utils.arrayForEach(words, function (word) {
-                word.newV = ko.observableArray([]);
                 if (!word.versions) word.versions = [];
-                word.newV.push(word.versions);
-
-            });
+                word.date = new Date().getTime();
+                });
             base.words(words);
         });
+        
 
         ctx.load("classes").then(function (classes) {
             classes = $.merge(['All'], classes);

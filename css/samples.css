@@ -26,3 +26,8 @@
 .vCenter {
     vertical-align: middle!important;
 }
+
+.required:after {
+    color:red;
+    content: "*";
+}
