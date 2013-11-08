@@ -18,18 +18,25 @@ define(['api/datacontext', './form','durandal/app', './versionForm', './checkFor
         self.pageNumberInput = ko.observable(self.pageIndex() + 1);
          
         var sortMethods = {
-            base : function (a,b){ return a.lemma > b.lemme},
-            dateAdded : function (a,b){ return a.date < b.date}
+            base : function (a,b){return a["lemma"].localeCompare(b["lemma"]);},
+            dateAdded : function (a,b){ return a.date - b.date}
         }
         
         self.sortMethod = ko.observable(sortMethods.base);
+        
+        self.sortByName = function() {
+            var method = self.sortMethod();
+            method(sortMethods.base);
+        }
+        
+        self.sortByDate = function(){
+            var method = self.sortMethod();
+            method(sortMethods.dateAdded);
+        }
      
         ko.computed(function(){
-            console.log("a");
-            var tmp = self.words();
-            tmp.sort(self.sortMethod());
+            self.words().sort(self.sortMethod());
         })
-        
 
         self.previousPage = function () {
             if (self.pageIndex() > 0) {
