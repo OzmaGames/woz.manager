@@ -16,8 +16,20 @@ define(['api/datacontext', './form','durandal/app', './versionForm', './checkFor
         self.pageIndex = ko.observable(0);
         self.pageSize = ko.observable(5);
         self.pageNumberInput = ko.observable(self.pageIndex() + 1);
+         
+        var sortMethods = {
+            base : function (a,b){ return a.lemma > b.lemme},
+            dateAdded : function (a,b){ return a.date < b.date}
+        }
         
-        self.sortDateAdded = ko.observable(false);
+        self.sortMethod = ko.observable(sortMethods.base);
+     
+        ko.computed(function(){
+            console.log("a");
+            var tmp = self.words();
+            tmp.sort(self.sortMethod());
+        })
+        
 
         self.previousPage = function () {
             if (self.pageIndex() > 0) {
@@ -113,35 +125,13 @@ define(['api/datacontext', './form','durandal/app', './versionForm', './checkFor
             return false;
         }
         
-        
-        self.sortedWords = ko.computed(function(){
-            var wordfor = self.filteredWords();
-            console.log(wordfor);
-            return wordfor.sort(function(a,b){
-                return a.date < b.date;
-                });
-        })
-
         self.searchWord = ko.computed(function () {
             var search = self.query();
             return ko.utils.arrayFilter(self.words, function (word) {
                 return word.indexOf(search) >= 0;
             })
         })
-        
-        self.sortByName = function(){
-            self.words.sort(function (a,b) {
-                return a.lemma > b.lemma;
-                });
-        }
             
-        self.sortByDateAdded = function () {
-            self.words.sort(function(a,b){
-                return a.date < b.date;
-                });
-            self.sortDateAdded(true);
-        }
-        
     };
 
     ctor.prototype.activate = function () {

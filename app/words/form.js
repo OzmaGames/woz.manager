@@ -1,4 +1,4 @@
-define(['api/datacontext', 'plugins/dialog', 'knockout', 'durandal/app', 'bootstrap'], function (ctx, dialog, ko, app) {
+define(['api/datacontext', 'plugins/dialog', 'knockout', 'durandal/app', 'bootstrap','jquery'], function (ctx, dialog, ko, app,$) {
 
     var WordForm = function (word) {
         var self = this;
