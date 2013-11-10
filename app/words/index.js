@@ -18,26 +18,59 @@ define(['api/datacontext', './form','durandal/app', './versionForm', './checkFor
         self.pageNumberInput = ko.observable(self.pageIndex() + 1);
          
         var sortMethods = {
-            base : function (a,b){return a["lemma"].localeCompare(b["lemma"]);},
-            dateAdded : function (a,b){ return a.date - b.date}
+            lemma: function (a, b) { return a.lemma.localeCompare(b.lemma); },
+            dateAdded: function (a, b) { return b.date - a.date }
         }
-        
-        self.sortMethod = ko.observable(sortMethods.base);
-        
-        self.sortByName = function() {
-            var method = self.sortMethod();
-            method(sortMethods.base);
+        self.sortMethod = ko.observable(sortMethods.lemma);
+        self.sortByName = function () {
+            self.sortMethod(sortMethods.lemma);
         }
-        
-        self.sortByDate = function(){
-            var method = self.sortMethod();
-            method(sortMethods.dateAdded);
+        self.sortByDate = function () {
+            self.sortMethod(sortMethods.dateAdded);
         }
-     
-        ko.computed(function(){
-            self.words().sort(self.sortMethod());
+        ko.computed(function () {            
+            self.words().sort(self.sortMethod());            
+            self.words.valueHasMutated();
+            
         })
+        
+        self.filteredWords = ko.computed(function () {
+            var classKey = self.selectedClass();
+            var categoryKey = self.selectedCategory();
+            var setKey = self.selectedSet();
+            var query = self.query();
+            return ko.utils.arrayFilter(self.words(), function (item) {
+                if (item.ignoreFilter) {delete item.ignoreFilter; return true;} 
+                return genericFilter(item["classes"], classKey) &&
+                       genericFilter(item["categories"], categoryKey) &&
+                       genericFilter(item["collections"], setKey) &&
+                       contains(item["lemma"], query);
+            });
+        });
 
+        function contains(item, query) {
+            return !item || !query || item.search(query) !== -1;
+        }
+
+        function genericFilter(item, filter) {
+            if (filter === 'All') return true;
+            if (typeof item === 'string' && item === filter) {
+                return true;
+            } else if (typeof item === 'object') {
+                for (var i = 0; i < item.length; i++) {
+                    if (item[i] === filter) return true;
+                }
+            }
+            return false;
+        }
+        
+        self.pagedWords = ko.computed(function(){
+            var size = self.pageSize();
+            var start = self.pageIndex() * size;
+            return self.filteredWords().slice(start, start + size);
+            
+        });
+        
         self.previousPage = function () {
             if (self.pageIndex() > 0) {
                 self.pageIndex(self.pageIndex() - 1);
@@ -51,7 +84,7 @@ define(['api/datacontext', './form','durandal/app', './versionForm', './checkFor
         };
 
         self.maxPageIndex = ko.computed(function () {
-            return Math.ceil(self.words().length / self.pageSize()) - 1;
+            return Math.ceil(self.filteredWords().length / self.pageSize()) - 1;
         });
 
         self.allPages = ko.computed(function () {
@@ -70,7 +103,12 @@ define(['api/datacontext', './form','durandal/app', './versionForm', './checkFor
 
         self.addWord = function () {
             form.show().then(function (newWord) {
-                if (newWord) {self.words.push(newWord);
+                if (newWord) {
+                    newWord.ignoreFilter = true;
+                    self.words.push(newWord);
+                    var wordPos = self.filteredWords().indexOf(newWord) +1 ;
+                    var newPage = Math.ceil(wordPos / self.pageSize()) - 1;
+                    self.pageIndex(newPage);
                 };
             });
         };
@@ -98,39 +136,6 @@ define(['api/datacontext', './form','durandal/app', './versionForm', './checkFor
             });
         }
         
-
-        self.filteredWords = ko.computed(function () {
-            var size = self.pageSize();
-            var start = self.pageIndex() * size;
-            var words = self.words.slice(start, start + size);
-
-            var classKey = self.selectedClass();
-            var categoryKey = self.selectedCategory();
-            var setKey = self.selectedSet();
-            var query = self.query();
-            return ko.utils.arrayFilter(words, function (item) {
-                return genericFilter(item["classes"], classKey) &&
-                       genericFilter(item["categories"], categoryKey) &&
-                       genericFilter(item["collections"], setKey) &&
-                       contains(item["lemma"], query);
-            });
-        });
-
-        function contains(item, query) {
-            return !item || !query || item.search(query) !== -1;
-        }
-
-        function genericFilter(item, filter) {
-            if (filter === 'All') return true;
-            if (typeof item === 'string' && item === filter) {
-                return true;
-            } else if (typeof item === 'object') {
-                for (var i = 0; i < item.length; i++) {
-                    if (item[i] === filter) return true;
-                }
-            }
-            return false;
-        }
         
         self.searchWord = ko.computed(function () {
             var search = self.query();
