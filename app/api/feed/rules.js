@@ -1,25 +1,113 @@
 define(function () {
 
     return [{
-        set: 'basic',
-        ruleList: [
-                'The phrase must contain two adjectives',
-                'The phrase must contain two adverbs',
-                'The phrase must contain two verbs',
-                'The phrase must contain three nouns',
-                'The phrase must contain two prepositions',
-                'The phrase must contain two conjunctions'
-            ]
-    }, {
-        set: 'words of oz',
-        ruleList: [
-                'The phrase must begin or end with a pronoun'
-            ]
-    }, {
-        set: 'gothic-horor',
-        ruleList: [
-                'The phrase must contain two words that begins with',
-                'The phrase must contain two words that begins with'
-            ]
-    }];
+    id: 0,
+    shortDescription: "The phrase must contain two adjectives",
+    longDescription: "The phrase must contain two adjectivesThe phrase must contain two adjectives",
+    collections: ["words of oz"],
+    bonus: 15,
+    mult: 0,
+    level:  1,
+    details:[
+        {
+            amount: 2,
+           'class': "verb",
+            type: "class"
+        },
+        {
+            amount: 1,
+            category: "body part",
+            type: "category"
+        },
+        {
+            amount: 1,
+            letter: "L",
+            type: "startWith"
+        },
+        {
+            amount: 1,
+            letter: "B",
+            type: "endWith"
+        },
+        {
+            amount: 2,
+            letters: 3,
+            type: "letters"
+        },
+        
+        ]}, {
+    id: 1,
+    shortDescription: "The phrase must contain no adjectives",
+    longDescription: "",
+    collections: ["gothic-horror", "words of oz"],
+    bonus: 15,
+    mult: 0,
+    level:  1,
+    details:[
+        {
+            amount: 2,
+           'class': "verb",
+            type: "class"
+        },
+        {
+            amount: 1,
+            category: "body part",
+            type: "category"
+        },
+        {
+            amount: 1,
+            letter: "L",
+            type: "startWith"
+        },
+        {
+            amount: 1,
+            letter: "B",
+            type: "endWith"
+        },
+        {
+            amount: 2,
+            letters: 3,
+            type: "letters"
+        },
+        
+        ]},
+    
+    {
+    id: 2,
+    shortDescription: "The phrase must contain lots of nouns",
+    longDescription: "",
+    collections: ["words of oz", "basic"],
+    bonus: 15,
+    mult: 0,
+    level:  1,
+    details:[
+        {
+            amount: 2,
+           'class': "verb",
+            type: "class"
+        },
+        {
+            amount: 1,
+            category: "body part",
+            type: "category"
+        },
+        {
+            amount: 1,
+            letter: "L",
+            type: "startWith"
+        },
+        {
+            amount: 1,
+            letter: "B",
+            type: "endWith"
+        },
+        {
+            amount: 2,
+            letters: 3,
+            type: "letters"
+        },
+        
+        ]}
+    
+    ];
 })

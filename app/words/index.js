@@ -13,6 +13,7 @@ define(['api/datacontext', './form','durandal/app', './versionForm', './checkFor
         self.sets = ko.observableArray([]);
 
         self.query = ko.observable();
+        self.ByName = ko.observable(true);
         self.pageIndex = ko.observable(0);
         self.pageSize = ko.observable(5);
         self.pageNumberInput = ko.observable(self.pageIndex() + 1);
@@ -24,13 +25,18 @@ define(['api/datacontext', './form','durandal/app', './versionForm', './checkFor
         self.sortMethod = ko.observable(sortMethods.lemma);
         self.sortByName = function () {
             self.sortMethod(sortMethods.lemma);
+            self.words.valueHasMutated();
+            self.ByName(true);
         }
+        
         self.sortByDate = function () {
             self.sortMethod(sortMethods.dateAdded);
+            self.words.valueHasMutated();
+            self.ByName(false);
         }
+        
         ko.computed(function () {            
             self.words().sort(self.sortMethod());            
-            self.words.valueHasMutated();
             
         })
         
@@ -103,13 +109,14 @@ define(['api/datacontext', './form','durandal/app', './versionForm', './checkFor
 
         self.addWord = function () {
             form.show().then(function (newWord) {
-                if (newWord) {
+                if (newWord.lemma && null == ko.utils.arrayFirst(self.words(), function(word){return word.lemma == newWord.lemma})) {
                     newWord.ignoreFilter = true;
                     self.words.push(newWord);
                     var wordPos = self.filteredWords().indexOf(newWord) +1 ;
                     var newPage = Math.ceil(wordPos / self.pageSize()) - 1;
                     self.pageIndex(newPage);
-                };
+                } else if (!newWord.lemma){ app.showMessage('Please enter a word.', 'Oops');
+                } else {app.showMessage('This word already exists.', 'Oops');};
             });
         };
 

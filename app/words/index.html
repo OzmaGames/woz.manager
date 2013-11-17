@@ -14,9 +14,8 @@
                                 <span class="caret"></span>
                             </button>
                             <ul  class="dropdown-menu" role="menu" style="text-align: left">
-                                <li><a href="#" data-bind="click: sortByName">Name</a></li>
-                                <li><a href="#" data-bind="click: sortByDate">Date Added</a></li>
-                                <li><a href="#">Date Modified</a></li>
+                                <li><a href="#" data-bind="click: sortByName, css:{'btn-info':ByName}">Name</a></li>
+                                <li><a href="#" data-bind="click: sortByDate, css:{'btn-info':!ByName()}">Date Modified</a></li>
                             </ul>
                         </div>
                         <div class="form-group form-inline">
@@ -51,19 +50,17 @@
             </thead>
             
             <tbody data-bind="foreach:pagedWords">
-            
-
             <tr>
-                <td data-bind="text: lemma"></td>
+                <td><a href="#" data-bind="text: lemma, click:$parent.edit" style="cursor:pointer"</a></td>
                 <td> 
                     <button type="button" class="btn btn-default btn-sm" data-bind="click: $root.versions, text: versions.length"></button>
                     <!-- ko foreach:versions -->
-                    <span data-bind="text:lemma"></span><span>,</span>
+                    <a href="#" data-bind="click: $root.versions, text:lemma" style="cursor:pointer"></a><span>,</span>
                     <!--/ko-->
                 </td>
                 <td data-bind="text: classes"></td>
                 <td data-bind="text: categories"></td>
-                <td data-bind="text: collections"></td>
+                <td data-bind="text: collections"></td> 
                 <td>
                     <div class="text-center">
                     <span data-bind="click: $parent.edit" class="glyphicon glyphicon-edit" href="#" style="cursor:pointer"></span> |   

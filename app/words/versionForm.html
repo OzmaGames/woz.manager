@@ -13,7 +13,7 @@
                 <tbody data-bind="foreach:versions">
                 <!-- ko if:!editMode() -->
                 <tr>
-                    <td data-bind="text: lemma"></td>
+                    <td><a data-bind="click: $root.edit, text: lemma"></a></td>
                     <td data-bind="text: classes"></td>
                     <td>
                         <span data-bind="click: $root.edit" class="glyphicon glyphicon-edit" href="#" style="cursor:pointer"> </span>  | 

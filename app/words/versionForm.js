@@ -1,4 +1,4 @@
-define(['api/datacontext', 'plugins/dialog', 'knockout', 'durandal/app', 'bootstrap'], function (ctx, dialog, ko, app) {
+define(['api/datacontext', 'plugins/dialog', 'knockout', 'durandal/app', 'bootstrap', './checkForm'], function (ctx, dialog, ko, app, checkForm) {
     var VersionForm = function (word) {
         var self = this;
 
@@ -44,9 +44,13 @@ define(['api/datacontext', 'plugins/dialog', 'knockout', 'durandal/app', 'bootst
             version.editMode(false);
         }
 
-        this.remove = function (version) {
-            var pos = self.versions.indexOf(version);
+        this.remove = function (word) {
+            checkForm.show(word).then(function(response){
+            if (response){
+            var pos = self.versions.indexOf(response);
             self.versions.splice(pos, 1);
+            }
+            })
         }
 
         this.close = function () {

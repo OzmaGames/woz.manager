@@ -17,18 +17,16 @@
             <div class="panel-heading">
                 <label calss="panel-title"><h5>Rules</h5></label>
                 <div class="pull-right">
-                <button type="button" class="btn btn-info" data-bind="click: addRule" >Add Rule</button>
+                <a href="#create-rule" ><button type="button" class="btn btn-info" >Add Rule</button></a>
                 </div>
            
             </div>
-            
-        <table class="table table-striped table-bordered">
+            <table class="table table-striped table-bordered">
             <tbody data-bind="foreach: filteredTable">
-                <!-- ko foreach: ruleList -->
                  <tr>
-                        <td><a data-bind="text: $data" href="#" style="cursor:pointer"></a></td>
+                        <td><a data-bind="text: shortDescription, click: $parent.editRule" style="cursor:pointer"></a></td>
                  </tr>
-                <!-- /ko -->
+              
             </tbody>
         </table>
     </div>

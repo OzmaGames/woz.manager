@@ -1,22 +1,17 @@
 
 <div class="messageBox">
-    <!-- ko ifnot: isVersion -->
+    <!-- ko ifnot: isEdit -->
     <div class="modal-header"><b>New Word</b></div>
     <!-- /ko -->
-    <!-- ko if: isVersion -->
-    <div class="modal-header"><b>New Version</b></div>
+    <!-- ko if: isEdit -->
+    <div class="modal-header"><b>Edit</b></div>
     <!-- /ko -->
     <div class="modal-body" style="overflow-x: hidden">
         <table style="width: 600px;" class="table table-hover">
             <tr>
                 <td style="border-top: none;" class="form-inline">
-                    <!-- ko ifnot: isVersion -->
                     <label>Word:</label>
-                    <!-- /ko -->
-                    <!-- ko if: isVersion -->
-                    <label>Version:</label>
-                    <!-- /ko -->
-                    <input  type="text" class="input-small autofocus" placeholder="Type in the word.." data-bind="value: input" class="required"/><span>*</span>
+                    <input  type="text" class="input-small autofocus" placeholder="Type in the word.." data-bind="value: input" class="required"/>
                 </td>
             </tr>
             <tr>
@@ -28,7 +23,6 @@
                     </div>
                 </td>
             </tr>
-            <!-- ko ifnot: isVersion -->
             <tr>
                 <td class="form-inline">
                     <label>Categories:</label>
@@ -59,7 +53,6 @@
                     </div>
                 </td>
             </tr>
-            <!-- /ko -->
         </table>
     </div>
     <div class="modal-footer">

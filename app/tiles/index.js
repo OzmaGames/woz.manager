@@ -1,28 +1,24 @@
-define(['api/datacontext','./tileForm' ,'knockout'], function(ctx,form,ko){
+define(['api/datacontext' ,'knockout','jquery'], function(ctx,ko, $){
     var ctor = function(){
         var self=this;
         
-        self.sets= ko.observableArray([]);
-        self.tiles= ko.observableArray([]);
+        self.setList= ko.observableArray([]);
+        self.tileList= ko.observableArray([]);
         
         self.selectedSet= ko.observable();
         
-        self.addTile = function(){
-            form.show().then(function(newTile){
-                if(newTile) self.tiles.push(newTile);
-                })
-        }
+
     }
     ctor.prototype.activate = function () {
         var base = this;
 
         ctx.load("tiles").then(function (tiles) {
-            base.tiles(tiles);
+            base.tileList(tiles);
         });
 
         ctx.load("sets").then(function (sets) {
             sets = $.merge(['All'], sets);            
-            base.sets(sets);
+            base.setList(sets);
             base.selectedSet(sets[0]);
         });
     }

@@ -2,7 +2,7 @@ define(['api/datacontext', 'plugins/dialog', 'knockout', 'durandal/app', 'bootst
 
     var WordForm = function (word) {
         var self = this;
-
+        
         this.selectedCategory = ko.observable();
         this.selectedCollection = ko.observable();
 
@@ -14,9 +14,9 @@ define(['api/datacontext', 'plugins/dialog', 'knockout', 'durandal/app', 'bootst
         this.classes = ko.observableArray(word.classes || []);
         this.categories = ko.observableArray(word.categories || []);
         this.collections = ko.observableArray(word.collections || []);
-        this.isVersion = word.parent ? true : null;
+        this.isEdit = word.lemma ? true : null;
 
-        console.log(word, this.isVersion);
+        console.log(word, this.isEdit);
 
         this.save = function () {
             
