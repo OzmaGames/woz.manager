@@ -1,0 +1,15 @@
+<div class="form-inline" data-bind="if: editMode">
+   <label class="normal">
+      Word Class
+      <select class="form-control" data-bind="options:classList, value:css" style="width:150px"></select>
+   </label>
+   <label class="normal">
+      Amount
+      <input class="form-control" type="number" style="width:4em" data-bind="value: amount" />
+   </label>
+</div>
+<div data-bind="ifnot: editMode">
+   <b data-bind="text: amount"></b>
+   <span data-bind="text: (amount > 1)? 'words that are': 'word that is' "></span>
+   <b data-bind="text: css"></b>
+</div>
