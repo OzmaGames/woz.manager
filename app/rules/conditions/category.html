@@ -1,0 +1,15 @@
+<div class="form-inline" data-bind="if: editMode">
+   <label class="normal">
+      Category
+      <select class="form-control" data-bind="options:categoryList, value:category" style="width:150px"></select>
+   </label>
+   <label class="normal">
+      Amount
+      <input class="form-control" type="number" style="width:4em" data-bind="value: amount" />
+   </label>
+</div>
+<div data-bind="ifnot: editMode">
+   <b data-bind="text: amount"></b>
+   <span data-bind="text: (amount > 1)? 'words with categories of': 'word with category of' "></span>
+   <b data-bind="text: category"></b>
+</div>

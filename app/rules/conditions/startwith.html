@@ -1,0 +1,15 @@
+<div class="form-inline" data-bind="if: editMode">
+   <label class="normal">
+      Words that start with the letter
+      <input class="form-control" type="text" style="width:4em" data-bind="value: letter" />
+   </label>
+   <label class="normal">
+      Amount
+      <input class="form-control" type="number" style="width:4em" data-bind="value: amount" />
+   </label>
+</div>
+<div data-bind="ifnot: editMode">
+   <b data-bind="text: amount"></b>
+   <span data-bind="text: (amount > 1)? 'words that start with the letter': 'word that starts with the letter' "></span>
+   <b data-bind="text: letter"></b>
+</div>

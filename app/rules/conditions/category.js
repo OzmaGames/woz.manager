@@ -1,29 +1,29 @@
 define(['knockout', 'api/datacontext', './_Condition'], function (ko, ctx, Condition) {
 
-  function Class(css) {
+  function Category(category) {
     var self = this;
 
-    this.css = ko.observable(css);
-    this.classList = ko.observableArray();
+    this.category = ko.observable(category);
+    this.categoryList = ko.observableArray();
+
 
     //return a new object that represent the condition
     this.getCondition = function () {      
       return {
-        css: self.css(),
+        category: self.category(),
         amount: self.amount(),
         type: self.type,
         editMode: false
       };
     }
 
-    ctx.load("classes").then(function (items) {
-      self.classList(items);
-      console.log(self.classList());
+    ctx.load("categories").then(function (items) {
+      self.categoryList(items);
     });
   }
 
   //Class inherits from Condition
-  Condition.Inherit(Class);
+  Condition.Inherit(Category);
 
-  return Class;
+  return Category;
 })

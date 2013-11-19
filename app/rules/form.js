@@ -1,5 +1,5 @@
-define(['api/datacontext', 'plugins/dialog', 'knockout', 'durandal/app', 'jquery', 'plugins/router', './conditions/class'],
-  function (ctx, dialog, ko, app, $, router, Class) {
+define(['api/datacontext', 'plugins/dialog', 'knockout', 'durandal/app', 'jquery', 'plugins/router', './conditions/class', './conditions/category', './conditions/startwith', './conditions/endwith', './conditions/length' ],
+  function (ctx, dialog, ko, app, $, router, Class, Category, StartWith, EndWith, Length) {
 
     var RuleForm = function () {
       var self = this;
@@ -43,7 +43,14 @@ define(['api/datacontext', 'plugins/dialog', 'knockout', 'durandal/app', 'jquery
       }
 
       this.addCondition = function (item) {
-        self.conditions.push(item.getCondition());
+        if (self.conditions.indexOf(item)<0) {
+          self.conditions.push(item.getCondition());
+        } else {app.showMessage('This condition already exists.', 'Oops');};
+        
+      }
+      
+      this.removeCondition = function (item) {
+        self.conditions.remove(item);
       }
 
       //this.lineToInclude = ko.computed(function () {
@@ -71,6 +78,10 @@ define(['api/datacontext', 'plugins/dialog', 'knockout', 'durandal/app', 'jquery
 
       //Add new type of conditions here:
       base.newConditions.push(new Class());
+      base.newConditions.push(new Category());
+      base.newConditions.push(new StartWith());
+      base.newConditions.push(new EndWith());
+      base.newConditions.push(new Length());
 
 
       if (id !== null) {

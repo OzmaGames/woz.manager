@@ -11,7 +11,7 @@ define(function () {
     details:[
         {
             amount: 2,
-           'class': "verb",
+            css: "verb",
             type: "class"
         },
         {
@@ -31,7 +31,7 @@ define(function () {
         },
         {
             amount: 2,
-            letters: 3,
+            letter: 3,
             type: "letters"
         },
         
@@ -46,7 +46,7 @@ define(function () {
     details:[
         {
             amount: 2,
-           'class': "verb",
+            css: "verb",
             type: "class"
         },
         {
@@ -66,7 +66,7 @@ define(function () {
         },
         {
             amount: 2,
-            letters: 3,
+            letter: 3,
             type: "letters"
         },
         
@@ -83,7 +83,7 @@ define(function () {
     details:[
         {
             amount: 2,
-           'class': "verb",
+            css: "verb",
             type: "class"
         },
         {
@@ -103,7 +103,7 @@ define(function () {
         },
         {
             amount: 2,
-            letters: 3,
+            letter: 3,
             type: "letters"
         },
         
