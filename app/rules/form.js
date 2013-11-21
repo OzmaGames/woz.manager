@@ -20,8 +20,11 @@ define(['api/datacontext', 'plugins/dialog', 'knockout', 'durandal/app', 'jquery
             shortDescription: self.shortDes(),
             longDescription: self.longDes(),
             collections: self.collections(),
+            details: self.conditions()
           }
           rules.push(newRule);
+          console.log(newRule);
+          
           router.navigate('#rules');
         })
       }
@@ -91,6 +94,12 @@ define(['api/datacontext', 'plugins/dialog', 'knockout', 'durandal/app', 'jquery
             base.shortDes(foo.shortDescription);
             base.longDes(foo.longDescription);
             base.collections(foo.collections);
+            var edit= base.conditions(foo.details);
+            for (var i=0; i<edit.length; i++) {
+             edit[i].editMode = false;
+            }
+            console.log("a");
+            console.log(foo);
           }
         });
       }

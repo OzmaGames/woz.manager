@@ -108,6 +108,5 @@ define(function () {
         },
         
         ]}
-    
     ];
 })
