@@ -8,7 +8,7 @@ define(['durandal/system', 'durandal/app', 'api/server'], function (system, app)
          forced = forced || false;
          return system.defer(function (dfd) {
             if (forced || !pool.hasOwnProperty(event)) {
-               app.trigger('server:manager:' + event, function (json) {
+               app.trigger('server:' + event, {}, function (json) {                  
                   pool[event] = json;
                   dfd.resolve(pool[event]);
                });

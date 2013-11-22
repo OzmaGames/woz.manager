@@ -36,7 +36,7 @@ define(['durandal/system', 'durandal/app', 'socket'], function (system, app, soc
 
   //add custom events, accessible via: app.trigger("server:manager:???", function(data){ ... })
   var applicationEvents = [
-   'words', 'tiles', 'rules'
+   'manager:getAllWords', 'tiles', 'rules'
   ], customEvents = {
     "server:login": function (data, callback, socket) {
       socket.emit("login", data, callback);
@@ -52,7 +52,7 @@ define(['durandal/system', 'durandal/app', 'socket'], function (system, app, soc
   }
 
   function addEvent(event, func) {
-    event = "server:manager:" + event;
+    event = "server:" + event;
     app.on(event).then(function (data, callback) {
       server.connected.then(function () {
         console.log('%c' + event + ' sent:', 'background: #222; color: #bada55', data);
