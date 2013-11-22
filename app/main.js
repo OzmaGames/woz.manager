@@ -41,4 +41,6 @@ function (system, app, viewLocator) {
 
         app.setRoot('shell');
     });
+
+    window.app = app;
 });

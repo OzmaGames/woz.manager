@@ -1,45 +1,67 @@
 define(['durandal/system', 'durandal/app', 'socket'], function (system, app, socket) {
 
-    var dfd = system.defer(),
-        URL = null;
+  socket = io.connect("http://wordstesting.herokuapp.com:80");
 
-    socket = io.connect(URL);
-    socket.on('connect', function () {
-        dfd.resolve();
-        console.log("connected");
+  var state;
+
+  socket.on('connect', function () {
+    console.log("%c" + "connected", "background: green; color: white");
+    app.trigger("socket:status", "connect");
+    state = true;
+  });
+
+  socket.on('disconnect', function () {
+    console.log("%c" + "disconnected", "background: red; color: white");
+    app.trigger("socket:status", "disconnect");
+    state = false;
+  });
+
+  var server = {
+    addEvent: addEvent,
+    addEmission: function (event) {
+      addEvent(event, function (data, callback, socket) {
+        socket.emit(event, data, callback);
+      });
+    },
+    connected: $.Deferred(function (dfd) {
+      if (state) dfd.resolve();
+      app.on("socket:status", resolve, dfd);
+
+      function resolve(status) {
+        if (status == 'connect') dfd.resolve();
+        app.off("socket:status", resolve, dfd);
+      }
+    }).promise()
+  }
+
+  //add custom events, accessible via: app.trigger("server:manager:???", function(data){ ... })
+  var applicationEvents = [
+   'words', 'tiles', 'rules'
+  ], customEvents = {
+    "server:login": function (data, callback, socket) {
+      socket.emit("login", data, callback);
+    }
+  };
+
+  for (var i = 0; i < applicationEvents.length; i++) {
+    server.addEmission(applicationEvents[i]);
+  }
+
+  for (var event in customEvents) {
+    server.addEvent(event, customEvents[event]);
+  }
+
+  function addEvent(event, func) {
+    event = "server:manager:" + event;
+    app.on(event).then(function (data, callback) {
+      server.connected.then(function () {
+        console.log('%c' + event + ' sent:', 'background: #222; color: #bada55', data);
+        func(data, function (sdata) {
+          console.log('%c' + event + ' received:', 'background: #222; color: #bada55', sdata);
+          if (callback) callback(sdata);
+        }, socket);
+      });
     });
-    socket.on('disconnect', function () {
-        dfd.reject();
-        console.log("disconnected");
-    });
+  }
 
-    var applicationEvents = [
-     'words', 'tiles', 'rules'
-    ], customEvents = {
-        "server:login": function (data, callback) {
-            socket.emit("login", data, callback);
-        }
-    };
-
-    for (var index = 0; index < applicationEvents.length; index++) {
-        var event = applicationEvents[index];
-        addEvent("server:" + event, function (data, callback) {
-            socket.emit(event, data, callback);
-        });
-    }
-    for (var event in customEvents) {
-        addEvent(event, customEvents[event]);
-    }
-
-    function addEvent(event, func) {
-        app.on(event).then(function (data, callback) {
-            dfd.promise().then(function () {
-                console.log('%c' + event + ' sent:', 'background: #222; color: #bada55', data);
-                func(data, function (sdata) {
-                    console.log('%c' + event + ' received:', 'background: #222; color: #bada55', sdata);
-                    if (callback) callback(sdata);
-                });
-            });
-        });
-    }
 });
