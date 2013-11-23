@@ -15,7 +15,7 @@ define(['api/datacontext', './form', 'durandal/app', './versionForm', './checkFo
       self.query = ko.observable();
       self.ByName = ko.observable(true);
       self.pageIndex = ko.observable(0);
-      self.pageSize = ko.observable(5);
+      self.pageSize = ko.observable(20);
       self.pageNumberInput = ko.observable(self.pageIndex() + 1);
 
       var sortMethods = {

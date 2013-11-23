@@ -77,8 +77,8 @@
                 <li data-bind="css: { disabled: pageIndex() === 0 }"><a href="#" data-bind="click: pageIndex.bind(null, 0)">&laquo;</a></li>
                 <li data-bind="css: { disabled: pageIndex() === 0 }"><a href="#" data-bind="click: previousPage"><</a></li>
                 <!-- ko foreach: allPages -->
-                 <li data-bind="css: { active: $data.pageNumber === $root.pageIndex() + 1} "><a href="#" data-bind="text: $data.pageNumber, click: function() { $root.moveToPage($data.pageNumber-1);},
--                visible: (($root.pageIndex() - 2) <= $data.pageNumber  &&  $data.pageNumber <= ($root.pageIndex() + 2)) "></a></li>
+                 <li data-bind="css: { active: $data.pageNumber === $root.pageIndex() + 1},visible: (($root.pageIndex() - 2) <= $data.pageNumber  &&  $data.pageNumber <= ($root.pageIndex() + 2)) ">
+                 <a href="#" data-bind="text: $data.pageNumber, click: function() { $root.moveToPage($data.pageNumber-1);}"></a></li>
                 <!--/ko-->
                 <li data-bind="css: { disabled: pageIndex() === maxPageIndex() }"><a href="#" data-bind="click: nextPage">></a></li>
                <li data-bind="css: { disabled: pageIndex() === maxPageIndex() }"><a href="#" data-bind="click: function (){pageIndex(maxPageIndex())}, text:maxPageIndex()+1"></a></li>

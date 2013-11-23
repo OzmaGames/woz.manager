@@ -34,6 +34,11 @@ define(['api/datacontext', 'plugins/dialog', 'knockout', 'durandal/app', 'bootst
         this.close = function () {
             dialog.close(this);
         }
+        
+        this.ifOther = ko.computed(function(){
+            return self.classes().indexOf('other')> -1 ? true : false;
+       });
+        
 
         this.removeCategory = function (item, e) {
             e.preventDefault();
