@@ -58,9 +58,9 @@
                     <a href="#" data-bind="click: $root.versions, text:lemma" style="cursor:pointer"></a><span>,</span>
                     <!--/ko-->
                 </td>
-                <td data-bind="text: classes"></td>
-                <td data-bind="text: categories"></td>
-                <td data-bind="text: collections"></td> 
+                <td data-bind="text: classes.join(', ')"></td>
+                <td data-bind="text: categories.join(', ')"></td>
+                <td data-bind="text: collections.join(', ')"></td> 
                 <td>
                     <div class="text-center">
                     <span data-bind="click: $parent.edit" class="glyphicon glyphicon-edit" href="#" style="cursor:pointer"></span> |   

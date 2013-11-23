@@ -1,69 +1,70 @@
 
 <div class="messageBox">
-    <!-- ko ifnot: isEdit -->
-    <div class="modal-header"><b>New Word</b></div>
-    <!-- /ko -->
-    <!-- ko if: isEdit -->
-    <div class="modal-header"><b>Edit</b></div>
-    <!-- /ko -->
-    <form role="form" data-bind="submit: save">
-    <div class="modal-body" style="overflow-x: hidden">
-        <table style="width: 700px;" class="table table-hover">
+   <!-- ko ifnot: isEdit -->
+   <div class="modal-header"><b>New Word</b></div>
+   <!-- /ko -->
+   <!-- ko if: isEdit -->
+   <div class="modal-header"><b>Edit</b></div>
+   <!-- /ko -->
+   <form role="form" data-bind="submit: save">
+      <div class="modal-body" style="overflow-x: hidden">
+         <table style="width: 700px;" class="table table-hover">
             <tr>
-                <td style="border-top: none;" class="form-inline">
-                    <label>Word:</label>
-                    <input  type="text" class="form-control input-small autofocus" placeholder="Type in the word.." data-bind="value: input" style="width:20em; margin-left:40px" required/>
-                </td>
+               <td style="border-top: none;" class="form-inline">
+                  <label>Word:</label>
+                  <input type="text" class="form-control input-small autofocus" placeholder="Type in the word.." data-bind="value: input" style="width:20em; margin-left:40px" required />
+               </td>
             </tr>
             <tr>
-                <td class="form-inline">
-                    <label>Classes:</label>
-                    <div class="btn-group" data-bind="foreach: classList" style="margin-left:20px;">
-                        <button type="button" class="btn btn-default" 
-                            data-bind="classCheckbox: {value: $data, pool: $parent.classes}"></button>
-                    </div>
-                    <div  class="form-group" data-bind="visible:ifOther" style="margin-left: 80px; margin-top:20px">
-                        <label for="other" class="control-label normal">Other: </label>
-                        <input type="text" class="form-control input-sm" id="other" placeholder="Specify the word class.." style="width:15em"/>
-                    </div>
-                </td>
+               <td class="form-inline">
+                  <label>Classes:</label>
+                  <div class="btn-group" data-bind="foreach: classList" style="margin-left:20px;">
+                     <button type="button" class="btn btn-default"
+                             data-bind="checkbox: {value: $data, pool: $parent.classes}"></button>
+                  </div>
+                  <div class="form-group" data-bind="visible:ifOther" style="margin-left: 80px; margin-top:20px">
+                     <label for="other" class="control-label normal">Other: </label>
+                     <input type="text" class="form-control input-sm" id="other" placeholder="Specify the word class.." style="width:15em"
+                            data-bind="value: otherClass" />
+                  </div>
+               </td>
             </tr>
             <tr>
-                <td class="form-inline">
-                    <label>Categories:</label>
-                    <div class="form-group">
-                        <select data-bind="options:categoryList, value:selectedCategory"></select>
-                        <button class="label label-danger" data-bind="click:addCategory">Add</button>
-                    </div>
-                    <!-- ko foreach:categories -->
-                    <div class="form-group" style="margin-left:20px;">
-                        <a href="#" data-bind="click: $parent.removeCategory">x</a>
-                        <span data-bind="text:$data"></span>
-                    </div>
-                    <!-- /ko-->
-                </td>
+               <td class="form-inline">
+                  <label>Categories:</label>
+                  <div class="form-group">
+                     <select data-bind="options:categoryList, value:selectedCategory"></select>
+                     <button class="label label-danger" data-bind="click:addCategory">Add</button>
+                  </div>
+                  <!-- ko foreach:categories -->
+                  <div class="form-group" style="margin-left:20px;">
+                     <a href="#" data-bind="click: $parent.removeCategory">x</a>
+                     <span data-bind="text:$data"></span>
+                  </div>
+                  <!-- /ko-->
+               </td>
             </tr>
             <tr>
-                <td class="form-inline">
-                    <label>Collections:</label>
-                    <div class="form-group">
-                        <select data-bind="options:collectionList, value:selectedCollection"></select>
-                        <button class="label label-danger" data-bind="click:addCollection">Add</button>
-                    </div>
-                    <!-- ko foreach:collections -->
-                    <div class="form-group" style="margin-left:20px;">
-                        <a href="#" data-bind="click: $parent.removeCollection">x</a>
-                        <span data-bind="text:$data"></span>
-                    </div>
-                    <!-- /ko -->
-                </td>
+               <td class="form-inline">
+                  <label>Collections:</label>
+                  <div class="form-group">
+                     <select data-bind="options:collectionList, value:selectedCollection"></select>
+                     <button class="label label-danger" data-bind="click:addCollection">Add</button>
+                  </div>
+                  <!-- ko foreach:collections -->
+                  <div class="form-group" style="margin-left:20px;">
+                     <a href="#" data-bind="click: $parent.removeCollection">x</a>
+                     <span data-bind="text:$data"></span>
+                  </div>
+                  <!-- /ko -->
+               </td>
             </tr>
-        </table>
-    </div>
-    <div class="modal-footer">
-        <button class="btn btn-default" data-bind="click: close">Cancel</button>
-        <button type="submit" class="btn btn-primary">Save</button>
-    </div>
-    </form>
+         </table>
+      </div>
+      <div class="modal-footer">
+         <span data-bind="text: validationMessage" style="color: red"></span>
+         <button class="btn btn-default" data-bind="click: close">Cancel</button>
+         <button type="submit" class="btn btn-primary">Save</button>
+      </div>
+   </form>
 </div><!-- /.modal-content -->
-    
