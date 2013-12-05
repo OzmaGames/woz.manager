@@ -11,7 +11,7 @@ define(['api/datacontext', './form', 'durandal/app', './versionForm', './checkFo
       self.words = ko.observableArray();
       self.classes = ko.observableArray();
       self.categories = ko.observableArray();
-      self.sets = ko.observableArray();
+      self.collections = ko.observableArray();
 
       self.query = ko.observable();
       self.ByName = ko.observable(true);
@@ -183,10 +183,10 @@ define(['api/datacontext', './form', 'durandal/app', './versionForm', './checkFo
          base.selectedCategory(categories[0]);
       });
 
-      ctx.load("sets").then(function (sets) {
-         sets = $.merge(["All"], sets);
-         base.sets(sets);
-         base.selectedSet(sets[0]);
+      ctx.load("sets").then(function (collections) {
+         collections = $.merge(["All"], collections);
+         base.collections(collections);
+         base.selectedSet(collections[0]);
       });
    }
 

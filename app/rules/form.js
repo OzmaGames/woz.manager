@@ -26,7 +26,7 @@ define(['api/datacontext', 'plugins/dialog', 'knockout', 'durandal/app', 'jquery
 	this.validationMessage = ko.observable('');
 	this.id = ko.observable("-1");
        
-
+        this.condit = ko.observableArray();
 	this.save = function () {
               
               var newRule = {
@@ -140,34 +140,38 @@ define(['api/datacontext', 'plugins/dialog', 'knockout', 'durandal/app', 'jquery
 
 	if (id !== null) {
           socket.emit("manager:instructions", {command: 'get', id:id }, function(data){
+            console.log(data);
             
-		 base.shortDes(data.drule.shortDescription);
-		 base.longDes(data.rule.longDescription);
-		 base.collections(data.drule.collections);
-		 base.id(data.rule.id);
+		 base.shortDes(data.instructions.shortDescription);
+		 base.longDes(data.instructions.longDescription);
+		 base.collections(data.instructions.collections);
+		 base.id(data.instructions.id);
+                 var condit = [data.instructions.condition];
+                 
+                 
 		 
-		  for (var i=0; i < data.rule.conditions.length ; i++) {
-		  var d = data.drule.conditions[i].split(" ");
+		  for (var i=0; i < condit.length ; i++) {
+		  var d = condit[i].split(" ");
 		  var dd = {
 		  type : d[0],
 		  amount : d[1],
 		  letter : d[2],
 		  editMode: false
 		  }
-		  base.conditions.push(dd);
+		  base.condition.push(dd);
 		 }
 	       
 		
-		 base.selectedLevel(data.rule.level);
-		 if (data.rule.bonus !== 0 ) {
-		  base.number(data.rule.bonus);
+		 base.selectedLevel(data.instructions.level);
+		 if (data.instructions.bonus !== 0 ) {
+		  base.number(data.instructions.bonus);
 		  base.enableBonus('bonus');
-		 }if (data.rule.bonus == 0) {
-		  base.number(data.rule.mult);
+		 }if (data.instructions.bonus == 0) {
+		  base.number(data.instructions.mult);
 		  base.enableBonus('mult');
 		 }
 		
-		 console.log(data.rule);
+		 console.log(data.instructions);
 	      
 	   });
 	}

@@ -22,8 +22,8 @@ define(['api/datacontext', 'knockout','plugins/router', 'api/server'], function 
             return false;
         }
         
-        self.editRule = function(rule){
-            var id = rule.id;
+        self.editRule = function(instruction){
+            var id = instruction.id;
             router.navigate("#edit-rule/" + id);
         }
         
@@ -36,7 +36,8 @@ define(['api/datacontext', 'knockout','plugins/router', 'api/server'], function 
     ctor.prototype.activate = function () {
         var base = this;
         socket.emit("manager:instructions", {command:'getAll'}, function(data) {
-         base.rules(data.rules);
+         base.rules(data.instructions);
+         console.log(data.instructions["shortDescription"]);
         });
 
         ctx.load("sets").then(function (sets) {
