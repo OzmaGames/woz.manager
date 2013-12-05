@@ -1,4 +1,4 @@
-define(['api/datacontext', 'knockout','plugins/router'], function (ctx, ko, router) {
+define(['api/datacontext', 'knockout','plugins/router', 'api/server'], function (ctx, ko, router, socket) {
 
     var ctor = function () {
         var self = this;
