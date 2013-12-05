@@ -1,4 +1,4 @@
-define(['api/datacontext', './form', 'durandal/app', './versionForm', './checkForm', 'knockout', 'jquery','socket'],
+define(['api/datacontext', './form', 'durandal/app', './versionForm', './checkForm', 'knockout', 'jquery','api/server'],
        function (ctx, form, app, versionForm, checkForm, ko, $, socket) {
 
    var ctor = function () {

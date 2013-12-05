@@ -63,5 +63,5 @@ define(['durandal/system', 'durandal/app', 'socket'], function (system, app, soc
       });
     });
   }
-
+ return socket;
 });

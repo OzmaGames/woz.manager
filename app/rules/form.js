@@ -1,4 +1,4 @@
-define(['api/datacontext', 'plugins/dialog', 'knockout', 'durandal/app', 'jquery', 'plugins/router', './conditions/class', './conditions/category', './conditions/startwith', './conditions/endwith', './conditions/length', 'socket'],
+define(['api/datacontext', 'plugins/dialog', 'knockout', 'durandal/app', 'jquery', 'plugins/router', './conditions/class', './conditions/category', './conditions/startwith', './conditions/endwith', './conditions/length', 'api/server'],
   function (ctx, dialog, ko, app, $, router, Class, Category, StartWith, EndWith, Length, socket) {
 
      //only for local storage purpose
