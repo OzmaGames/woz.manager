@@ -1,3 +1,3 @@
 define(function () {
-    return ['noun', 'verb', 'adjective','adverb','preposition', 'pronoun', 'conjunction','other'];
+    return ['noun', 'verb', 'adjective','adverb','preposition', 'pronoun', 'conjunction','important'];
 });

@@ -26,13 +26,17 @@ define(['api/datacontext', 'knockout','plugins/router'], function (ctx, ko, rout
             var id = rule.id;
             router.navigate("#edit-rule/" + id);
         }
+        
+        self.removeRule = function (rule) {
+            //self.rules.remove(rule);
+            socket.emit("manager: instructions", {command: "delete", instruction: rule});
+        }
     }
 
     ctor.prototype.activate = function () {
         var base = this;
-
-        ctx.load("rules").then(function (rules) {
-            base.rules(rules);
+        socket.emit("manager:instructions", {command:'getAll'}, function(data) {
+         base.rules(data.rules);
         });
 
         ctx.load("sets").then(function (sets) {

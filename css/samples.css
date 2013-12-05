@@ -27,10 +27,6 @@
     vertical-align: middle!important;
 }
 
-.required:after {
-    color:red;
-    content: "*";
-}
 
 label.normal{
     font-weight:normal;

@@ -5,71 +5,20 @@ define(function () {
       shortDescription: "The phrase must contain two adjectives",
       longDescription: "The phrase must contain two adjectivesThe phrase must contain two adjectives",
       collections: ["words of oz"],
-      bonus: 15,
-      mult: 0,
+      bonus: 0,
+      mult: 5,
       level: 1,
-      details: [
-          {
-             amount: 2,
-             css: "verb",
-             type: "class"
-          },
-          {
-             amount: 1,
-             category: "body part",
-             type: "category"
-          },
-          {
-             amount: 1,
-             letter: "L",
-             type: "startWith"
-          },
-          {
-             amount: 1,
-             letter: "B",
-             type: "endWith"
-          },
-          {
-             amount: 2,
-             letter: 3,
-             type: "length"
-          }
-      ]
-   }, {
+      conditions: [ 'class 2 verb','category 1 body part','startWith 1 L','endWith 1 B','length 2 3']
+          
+      }, {
       id: 1,
       shortDescription: "The phrase must contain no adjectives",
       longDescription: "",
       collections: ["gothic-horror", "words of oz"],
-      bonus: 15,
+      bonus: 6,
       mult: 0,
       level: 1,
-      details: [
-          {
-             amount: 2,
-             css: "verb",
-             type: "class"
-          },
-          {
-             amount: 1,
-             category: "body part",
-             type: "category"
-          },
-          {
-             amount: 1,
-             letter: "L",
-             type: "startWith"
-          },
-          {
-             amount: 1,
-             letter: "B",
-             type: "endWith"
-          },
-          {
-             amount: 2,
-             letter: 3,
-             type: "length"
-          }
-      ]
+      conditions: [ 'class 2 verb','category 1 body part','startWith 1 L','endWith 1 B','length 2 3']
    },
 
    {
@@ -80,33 +29,7 @@ define(function () {
       bonus: 15,
       mult: 0,
       level: 1,
-      details: [
-          {
-             amount: 2,
-             css: "verb",
-             type: "class"
-          },
-          {
-             amount: 1,
-             category: "body part",
-             type: "category"
-          },
-          {
-             amount: 1,
-             letter: "L",
-             type: "startWith"
-          },
-          {
-             amount: 1,
-             letter: "B",
-             type: "endWith"
-          },
-          {
-             amount: 2,
-             letter: 3,
-             type: "length"
-          }
-      ]
+      conditions: [ 'class 2 verb','category 1 body part','startWith 1 L','end 1 B','length 2 3']
    }
    ];
 })

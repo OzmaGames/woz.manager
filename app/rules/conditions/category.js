@@ -1,16 +1,16 @@
 define(['knockout', 'api/datacontext', './_Condition'], function (ko, ctx, Condition) {
 
-  function Category(category) {
+  function Category(letter) {
     var self = this;
 
-    this.category = ko.observable(category);
+    this.letter = ko.observable(letter);
     this.categoryList = ko.observableArray();
 
 
     //return a new object that represent the condition
     this.getCondition = function () {      
       return {
-        category: self.category(),
+        letter: self.letter(),
         amount: self.amount(),
         type: self.type,
         editMode: false
