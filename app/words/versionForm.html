@@ -1,62 +1,62 @@
 <div>
-    <div class="messageBox">
-        <div class="modal-header">Versions of <b data-bind="text: word.lemma"></b></div>
-        <div class="modal-body" style="overflow-x: hidden">
-            <table style="width: 500px;" class="table table-hover">
-                <thead>
-                <tr>
-                    <th>Lemma</th>
-                    <th>Classes</th>
-                    <th></th>
-                </tr>
-                </thead>
-                <tbody data-bind="foreach:versions">
-                <!-- ko if:!editMode() -->
-                <tr>
-                    <td><a data-bind="click: $root.edit, text: lemma"></a></td>
-                    <td data-bind="text: classes"></td>
-                    <td>
-                        <span data-bind="click: $root.edit" class="glyphicon glyphicon-edit" href="#" style="cursor:pointer"> </span>  | 
-                        <span data-bind="click: $root.remove" class="glyphicon glyphicon-trash" href="#" style="cursor:pointer">  </span>
-                    </td>
-                </tr>
-                <!-- /ko --><!-- ko if:editMode() -->
-                <tr class="active">
-                    <td>
-                        <input type="text" class="form-control input-small autofocus" placeholder="Lemma" data-bind="value: lemma" />
-                    </td>
-                    <td>
-                        <div class="btn-group" data-bind="foreach: $root.classList">
-                            <button type="button" class="btn btn-default btn-sm" data-bind="checkbox: {value: $data, pool: $parent.classes}"></button>
-                        </div>
-                    </td>
-                    <td>
-                        <a data-bind="click: $root.update" href="#">Update</a> |
-                        <a data-bind="click: $root.cancel" href="#">Cancel</a>
-                    </td>
-                </tr>
-                <!-- /ko -->
-                </tbody>
-                <tfoot>
-                <tr>
-                    <td>
-                        <input type="text" class="input-small autofocus" placeholder="Lemma" data-bind="value: input" />
-                    </td>
-                    <td>
-                        <div class="btn-group" data-bind="foreach: classList">
-                            <button type="button" class="btn btn-default btn-sm" data-bind="checkbox: {value: $data, pool: $root.classes}"></button>
-                        </div>
-                    </td>
-                    <td>
-                        <button type="button" class="btn btn-warning btn-sm" data-bind="click:add"><span class="glyphicon glyphicon-plus-sign"></span></button>
-                    </td>
-                </tr>
-                </tfoot>
-            </table>
-        </div>
-        <div class="modal-footer">
-            <button class="btn btn-default" data-bind="click:close">Cancel</button>
-            <button class="btn btn-primary" data-bind="click:save">Save</button>
-        </div>
-    </div>
+   <div class="messageBox">
+      <div class="modal-header">Versions of <b data-bind="text: word.lemma"></b></div>
+      <div class="modal-body" style="overflow-x: hidden">
+         <table style="width: 500px;" class="table table-hover">
+            <thead>
+               <tr>
+                  <th>Lemma</th>
+                  <th>Classes</th>
+                  <th></th>
+               </tr>
+            </thead>
+            <tbody data-bind="foreach:versions">
+               <!-- ko if:!editMode() -->
+               <tr>
+                  <td><a data-bind="click: $root.edit, text: lemma"></a></td>
+                  <td data-bind="text: classes"></td>
+                  <td>
+                     <span data-bind="click: $root.edit" class="glyphicon glyphicon-edit" style="cursor:pointer"> </span>  |
+                     <span data-bind="click: $root.remove" class="glyphicon glyphicon-trash" style="cursor:pointer">  </span>
+                  </td>
+               </tr>
+               <!-- /ko --><!-- ko if:editMode() -->
+               <tr class="active">
+                  <td>
+                     <input type="text" class="form-control input-small autofocus" placeholder="Lemma" data-bind="value: lemma" />
+                  </td>
+                  <td>
+                     <div class="btn-group" data-bind="foreach: $root.classList">
+                        <button type="button" class="btn btn-default btn-sm" data-bind="checkbox: {value: $data, pool: $parent.classes}"></button>
+                     </div>
+                  </td>
+                  <td>
+                     <a data-bind="click: $root.update" href="#">Update</a> |
+                     <a data-bind="click: $root.cancel" href="#">Cancel</a>
+                  </td>
+               </tr>
+               <!-- /ko -->
+            </tbody>
+            <tfoot>
+               <tr>
+                  <td>
+                     <input type="text" class="input-small autofocus" placeholder="Lemma" data-bind="value: input" />
+                  </td>
+                  <td>
+                     <div class="btn-group" data-bind="foreach: classList">
+                        <button type="button" class="btn btn-default btn-sm" data-bind="checkbox: {value: $data, pool: $root.classes}"></button>
+                     </div>
+                  </td>
+                  <td>
+                     <button type="button" class="btn btn-warning btn-sm" data-bind="click:add"><span class="glyphicon glyphicon-plus-sign"></span></button>
+                  </td>
+               </tr>
+            </tfoot>
+         </table>
+      </div>
+      <div class="modal-footer">
+         <button class="btn btn-default" data-bind="click:close">Cancel</button>
+         <button class="btn btn-primary" data-bind="click:save">Save</button>
+      </div>
+   </div>
 </div>

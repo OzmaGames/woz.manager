@@ -1,26 +1,26 @@
-define(['api/datacontext' ,'knockout','jquery'], function(ctx,ko, $){
-    var ctor = function(){
-        var self=this;
-        
-        self.setList= ko.observableArray([]);
-        self.tileList= ko.observableArray([]);
-        
-        self.selectedSet= ko.observable();
-        
+define(['api/datacontext', 'knockout', 'jquery'], function (ctx, ko, $) {
+   var ctor = function () {
+      var self = this;
 
-    }
-    ctor.prototype.activate = function () {
-        var base = this;
+      self.setList = ko.observableArray([]);
+      self.tileList = ko.observableArray([]);
 
-        ctx.load("tiles").then(function (tiles) {
-            base.tileList(tiles);
-        });
+      self.selectedSet = ko.observable();
 
-        ctx.load("sets").then(function (sets) {
-            sets = $.merge(['All'], sets);            
-            base.setList(sets);
-            base.selectedSet(sets[0]);
-        });
-    }
-    return ctor;
-    })
+
+   }
+   ctor.prototype.activate = function () {
+      var base = this;
+
+      ctx.load("tiles").then(function (tiles) {
+         base.tileList(tiles);
+      });
+
+      ctx.load("sets").then(function (sets) {
+         sets = $.merge(['All'], sets);
+         base.setList(sets);
+         base.selectedSet(sets[0]);
+      });
+   }
+   return ctor;
+})

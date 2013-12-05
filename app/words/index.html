@@ -1,108 +1,109 @@
 <div>
-    <div class="container">
-        <table class="table">
-            <thead>
+   <div class="container">
+      <table class="table">
+         <thead>
             <tr class="text-center">
-                <th>Class</th>
-                <th>Category</th>
-                <th>Collection</th>
-                <td style="border-bottom:none; text-align: right">
-                    <div class="form-inline">
-                        <div class="btn-group">
-                            <button type="button" class="btn btn-info btn-sm dropdown-toggle" data-toggle="dropdown">
-                                Arrange
-                                <span class="caret"></span>
-                            </button>
-                            <ul  class="dropdown-menu" role="menu" style="text-align: left">
-                                <li><a href="#" data-bind="click: sortByName, css:{'btn-info':ByName}">Name</a></li>
-                                <li><a href="#" data-bind="click: sortByDate, css:{'btn-info':!ByName()}">Date Modified</a></li>
-                            </ul>
-                        </div>
-                        <div class="form-group form-inline">
-                            <input type="search" class="form-control input-sm" 
-                                data-bind="value: query, valueUpdate:'afterkeydown'" placeholder="Search word...">
-                        </div>
-                    </div>
-                </td>
+               <th>Class</th>
+               <th>Category</th>
+               <th>Collection</th>
+               <td style="border-bottom:none; text-align: right">
+                  <div class="form-inline">
+                     <div class="btn-group">
+                        <button type="button" class="btn btn-info btn-sm dropdown-toggle" data-toggle="dropdown">
+                           Arrange
+                           <span class="caret"></span>
+                        </button>
+                        <ul class="dropdown-menu" role="menu" style="text-align: left">
+                           <li><a href="#" data-bind="click: sortByName, css:{'btn-info':ByName}">Name</a></li>
+                           <li><a href="#" data-bind="click: sortByDate, css:{'btn-info':!ByName()}">Date Modified</a></li>
+                        </ul>
+                     </div>
+                     <div class="form-group form-inline">
+                        <input type="search" class="form-control input-sm"
+                               data-bind="value: query, valueUpdate:'afterkeydown'" placeholder="Search word...">
+                     </div>
+                  </div>
+               </td>
             </tr>
-            </thead>
-            <tbody>
+         </thead>
+         <tbody>
             <tr>
-                <td><select class="form-control" data-bind="options:classes, value:selectedClass"></select></td>
-                <td><select class="form-control" data-bind="options:categories, value:selectedCategory"></select></td>
-                <td><select class="form-control" data-bind="options:collections, value:selectedSet"></select></td>
+               <td><select class="form-control" data-bind="options:classes, value:selectedClass"></select></td>
+               <td><select class="form-control" data-bind="options:categories, value:selectedCategory"></select></td>
+               <td><select class="form-control" data-bind="options:collections, value:selectedSet"></select></td>
             </tr>
-            </tbody>
-        </table>
+         </tbody>
+      </table>
 
-        <table class="table table-bordered">
-            <thead>
+      <table class="table table-bordered">
+         <thead>
             <tr>
-                <th>Word</th>
-                <th>Versions</th>
-                <th>Classes</th>
-                <th>Categories</th>
-                <th>Collections</th>
-                <th class="text-center">
-                    <button type="button" class="btn btn-warning btn-block" data-bind="click:addWord">Add Word</button>
-                </th>
+               <th>Word</th>
+               <th>Versions</th>
+               <th>Classes</th>
+               <th>Categories</th>
+               <th>Collections</th>
+               <th class="text-center">
+                  <button type="button" class="btn btn-warning btn-block" data-bind="click:addWord">Add Word</button>
+               </th>
             </tr>
-            </thead>
-            
-            <tbody data-bind="foreach:pagedWords">
+         </thead>
+
+         <tbody data-bind="foreach:pagedWords">
             <tr>
-                <td><a href="#" data-bind="text: lemma, click:$parent.edit" style="cursor:pointer"</a></td>
-                <td> 
-                    <button type="button" class="btn btn-default btn-sm" data-bind="click: $root.versions, text: versions.length"></button>
-                    <!-- ko foreach:versions -->
-                    <a href="#" data-bind="click: $root.versions, text:lemma" style="cursor:pointer"></a><span>,</span>
-                    <!--/ko-->
-                </td>
-                <td data-bind="text: classes.join(', ')"></td>
-                <td data-bind="text: categories.join(', ')"></td>
-                <td data-bind="text: collections.join(', ')"></td>
-                 
-                <td>
-                    <div class="text-center">
-                    <span data-bind="click: $parent.edit" class="glyphicon glyphicon-edit" href="#" style="cursor:pointer"></span> |   
-                    <span data-bind="click: $parent.remove" class="glyphicon glyphicon-trash"  href="#" style="cursor:pointer"></span>
-                    </div>
-                </td>
+               <td><a href="#" data-bind="text: lemma, click:$parent.edit" style="cursor:pointer"></a></td>
+               <td>
+                  <button type="button" class="btn btn-default btn-sm" data-bind="click: $root.versions, text: versions.length"></button>
+                  <!-- ko foreach:versions -->
+                  <a href="#" data-bind="click: $root.versions, text:lemma" style="cursor:pointer"></a><span>,</span>
+                  <!--/ko-->
+               </td>
+               <td data-bind="text: classes.join(', ')"></td>
+               <td data-bind="text: categories.join(', ')"></td>
+               <td data-bind="text: collections.join(', ')"></td>
+
+               <td>
+                  <div class="text-center">
+                     <span data-bind="click: $parent.edit" class="glyphicon glyphicon-edit" style="cursor:pointer"></span> |
+                     <span data-bind="click: $parent.remove" class="glyphicon glyphicon-trash" style="cursor:pointer"></span>
+                  </div>
+               </td>
             </tr>
 
-        </tbody>
-        </table>
-        <div class="text-center">
+         </tbody>
+      </table>
+      <div class="text-center">
 
-            <ul class="pagination">
-                <li data-bind="css: { disabled: pageIndex() === 0 }"><a href="#" data-bind="click: pageIndex.bind(null, 0)">&laquo;</a></li>
-                <li data-bind="css: { disabled: pageIndex() === 0 }"><a href="#" data-bind="click: previousPage"><</a></li>
-                <!-- ko foreach: allPages -->
-                 <li data-bind="css: { active: $data.pageNumber === $root.pageIndex() + 1},visible: (($root.pageIndex() - 2) <= $data.pageNumber  &&  $data.pageNumber <= ($root.pageIndex() + 2)) ">
-                 <a href="#" data-bind="text: $data.pageNumber, click: function() { $root.moveToPage($data.pageNumber-1);}"></a></li>
-                <!--/ko-->
-                <li data-bind="css: { disabled: pageIndex() === maxPageIndex() }"><a href="#" data-bind="click: nextPage">></a></li>
-               <li data-bind="css: { disabled: pageIndex() === maxPageIndex() }"><a href="#" data-bind="click: function (){pageIndex(maxPageIndex())}, text:maxPageIndex()+1"></a></li>
-            </ul>
+         <ul class="pagination">
+            <li data-bind="css: { disabled: pageIndex() === 0 }"><a href="#" data-bind="click: pageIndex.bind(null, 0)">&laquo;</a></li>
+            <li data-bind="css: { disabled: pageIndex() === 0 }"><a href="#" data-bind="click: previousPage"><</a></li>
+            <!-- ko foreach: allPages -->
+            <li data-bind="css: { active: $data.pageNumber === $root.pageIndex() + 1},visible: (($root.pageIndex() - 2) <= $data.pageNumber  &&  $data.pageNumber <= ($root.pageIndex() + 2)) ">
+               <a href="#" data-bind="text: $data.pageNumber, click: function() { $root.moveToPage($data.pageNumber-1);}"></a>
+            </li>
+            <!--/ko-->
+            <li data-bind="css: { disabled: pageIndex() === maxPageIndex() }"><a href="#" data-bind="click: nextPage">></a></li>
+            <li data-bind="css: { disabled: pageIndex() === maxPageIndex() }"><a href="#" data-bind="click: function (){pageIndex(maxPageIndex())}, text:maxPageIndex()+1"></a></li>
+         </ul>
 
-            <div class="form-group form-inline">
-                <div class="btn-group">
-                    <button type="button" class="btn btn-info btn-sm dropdown-toggle" data-toggle="dropdown">
-                        Word per page
-                        <span class="caret"></span>
-                        <span class="sr-only">Toggle Dropdown</span>
-                    </button>
-                    <ul class="dropdown-menu" role="menu" style="text-align: left">
-                        <li><a href="#" data-bind="click: function(){pageSize(20)}">20</a></li>
-                        <li><a href="#" data-bind="click: function(){pageSize(50)}">50</a></li>
-                        <li><a href="#" data-bind="click: function(){pageSize(70)}">70</a></li>
-                    </ul>
-                </div>
-
-                <button type="button" class="btn btn-info btn-sm" data-bind="click: function() {moveToPage(pageNumberInput() - 1)}">Go to page: </button>
-                <input type="text" class="form-control input-sm" style="width:3em" data-bind="value:pageNumberInput">
+         <div class="form-group form-inline">
+            <div class="btn-group">
+               <button type="button" class="btn btn-info btn-sm dropdown-toggle" data-toggle="dropdown">
+                  Word per page
+                  <span class="caret"></span>
+                  <span class="sr-only">Toggle Dropdown</span>
+               </button>
+               <ul class="dropdown-menu" role="menu" style="text-align: left">
+                  <li><a href="#" data-bind="click: function(){pageSize(20)}">20</a></li>
+                  <li><a href="#" data-bind="click: function(){pageSize(50)}">50</a></li>
+                  <li><a href="#" data-bind="click: function(){pageSize(70)}">70</a></li>
+               </ul>
             </div>
-        </div>
 
-    </div>
+            <button type="button" class="btn btn-info btn-sm" data-bind="click: function() {moveToPage(pageNumberInput() - 1)}">Go to page: </button>
+            <input type="text" class="form-control input-sm" style="width:3em" data-bind="value:pageNumberInput">
+         </div>
+      </div>
+
+   </div>
 </div>

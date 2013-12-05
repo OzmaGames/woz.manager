@@ -32,7 +32,7 @@ define(['api/datacontext', 'plugins/dialog', 'knockout', 'durandal/app', 'bootst
             this.validationMessage('You need to select one class at least');
             return false;
          }
-         
+
          if (word.collections.length == 0) {
             this.validationMessage('You need to select one collection at least');
             return false;
@@ -91,13 +91,13 @@ define(['api/datacontext', 'plugins/dialog', 'knockout', 'durandal/app', 'bootst
       ctx.load("classes").then(function (items) {
          base.classList(items);
       });
-      
+
       ctx.load("categories").then(function (items) {
          items = $.merge(["All"], items);
          base.categoryList(items);
          base.selectedCategory(items[0]);
       });
-      
+
       ctx.load("sets").then(function (items) {
          items = $.merge(["All"], items);
          base.collectionList(items);

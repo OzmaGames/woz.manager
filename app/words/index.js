@@ -150,7 +150,6 @@ define(['api/datacontext', './form', 'durandal/app', './versionForm', './checkFo
          });
       }
 
-
       self.searchWord = ko.computed(function () {
          var search = self.query();
          return ko.utils.arrayFilter(self.words, function (word) {
@@ -166,6 +165,7 @@ define(['api/datacontext', './form', 'durandal/app', './versionForm', './checkFo
       socket.emit("manager:words", {command:'getAll'}, function (data){
          ko.utils.arrayForEach(data.words, function (word) {
             if (!word.versions) word.versions = [];
+            if (!word.collections) word.collections = [];            
             word.date = new Date().getTime();
          });
          base.words(data.words);
@@ -183,7 +183,7 @@ define(['api/datacontext', './form', 'durandal/app', './versionForm', './checkFo
          base.selectedCategory(categories[0]);
       });
 
-      ctx.load("sets").then(function (collections) {
+      ctx.load("sets").then(function (collections) {         
          collections = $.merge(["All"], collections);
          base.collections(collections);
          base.selectedSet(collections[0]);

@@ -1,23 +1,23 @@
 <div class="messageBox">
-    <div class="modal-body">
-        <form data-bind="submit: save">
-             <fieldset>
-                <legend>Add New Tiles</legend>
-                <label>Set</label>
-                <select data-bind="options:sets, value:selectedSet"></select>
-                
-                <label>Tile Name:</label>
-                <input type='text' data-binde="value: tile" class="autofocus"/>
-                
-                <div class="form-group">
-                  <label>Image</label>
-                  <input type="file"/>
-                </div>
-              </fieldset> 
-        </form>
-    </div>
-    <div class="modal-footer">
-        <button class="btn btn-default" data-bind="click: cancel">Cancel</button>
-        <button class="btn btn-primary" data-bind="click: save">Save</button>
-    </div>
+   <div class="modal-body">
+      <form data-bind="submit: save">
+         <fieldset>
+            <legend>Add New Tiles</legend>
+            <label>Set</label>
+            <select data-bind="options:sets, value:selectedSet"></select>
+
+            <label>Tile Name:</label>
+            <input type='text' data-binde="value: tile" class="autofocus" />
+
+            <div class="form-group">
+               <label>Image</label>
+               <input type="file" />
+            </div>
+         </fieldset>
+      </form>
+   </div>
+   <div class="modal-footer">
+      <button class="btn btn-default" data-bind="click: cancel">Cancel</button>
+      <button class="btn btn-primary" data-bind="click: save">Save</button>
+   </div>
 </div>
