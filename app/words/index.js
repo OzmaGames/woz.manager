@@ -113,7 +113,7 @@ define(['api/datacontext', './form', 'durandal/app', './versionForm', './checkFo
             if (newWord.lemma && null == ko.utils.arrayFirst(self.words(), function (word) { return word.lemma == newWord.lemma })) {
                newWord.ignoreFilter = true;
                //self.words.push(newWord);
-               socket.emit("manager:words", {command: "replace", word: newWord, oldLemma: newWord.lemma});
+               socket.emit("manager:words", {command: "set", word: newWord, oldLemma: newWord.lemma});
                var wordPos = self.filteredWords().indexOf(newWord) + 1;
                var newPage = Math.ceil(wordPos / self.pageSize()) - 1;
                self.pageIndex(newPage);
@@ -128,7 +128,7 @@ define(['api/datacontext', './form', 'durandal/app', './versionForm', './checkFo
             if (newWord) {
                //var wordPos = self.words.indexOf(word);
                //self.words.splice(wordPos, 1, newWord);
-               socket.emit("manager:words", {command: 'replace', word:newWord, oldLemma:word.lemma});
+               socket.emit("manager:words", {command: 'set', word:newWord, oldLemma:word.lemma});
             }
          });
       }
@@ -146,7 +146,7 @@ define(['api/datacontext', './form', 'durandal/app', './versionForm', './checkFo
             var wordPos = self.words.indexOf(word);
             self.words.splice(wordPos, 1);
             self.words.splice(wordPos, 0, word);
-            socket.emit("manager:words", {command: "replace", word:word, oldLemma:word.lemma});
+            socket.emit("manager:words", {command: "set", word:word, oldLemma:word.lemma});
          });
       }
 
