@@ -13,13 +13,24 @@
          </tbody>
       </table>
    </div>
+     
    <ul id="og-grid" class="og-grid" data-bind="foreach: tileList">
 	<li>
 	    <a href="#" data-bind="attr: {'data-title': words}">
-	    <img data-bind="attr:{'src':src}" alt="img01"/>
+            
+	      <div class="circle">
+                <div class="tile top" data-bind="style: { 'backgroundPosition': ((100 / 29) * id).toFixed(2) + '% 0' }"></div>
+                <div class="tile bottom" data-bind="style: { 'backgroundPosition': ((100 / 29) * id).toFixed(2) + '% -.5em'}"></div>
+                <div class="words">
+                 something <br />
+                  line 2
+                <div>line 3</div>
+                </div>
+              </div>
 	    </a>
 	</li>
    </ul>
+     
     
 </div>
 

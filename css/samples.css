@@ -32,3 +32,64 @@ label.normal{
     font-weight:normal;
 }
 
+
+
+.circle {
+    position: relative;
+    float: left;
+    background-color: #eee;
+    margin: 0 35px 50px 0;
+    border-radius: 50%;
+    border: 5px solid white;    /*the box will be 170px by 170px*/
+    box-shadow: 1px 1px 5px black;
+    -moz-box-sizing: content-box;
+    -webkit-box-sizing: content-box;
+    box-sizing: content-box;    /*the content of the box will be 160x160*/
+    font-size: 160px;           /*define 1em = 160px*/
+    height: 1em;
+    width: 1em;
+    overflow: hidden;           /*wipe the excess*/
+    cursor: pointer;
+}
+
+    .circle .tile {
+        background-image: url('http://woz.arafati.com/images/tiles/woz.jpg');
+        background-repeat: no-repeat;
+        -moz-background-size: auto 200%;
+        -o-background-size: auto 200%;
+        -webkit-background-size: auto 200%;
+        background-size: auto 200%; /*scale the image twice in height - keeping the aspect ratio*/
+        position: absolute; /*for positioning the bottom half-tile*/
+        width: 1em;     /* each em in this context is the size of font-size which is 160px: (160)px */
+        height: .5em;   /* each em in this context is the size of font-size which is 160px: (160/2)px */
+        -moz-transition: top .3s ease-in-out, bottom .3s ease-in-out;
+        -o-transition: top .3s ease-in-out, bottom .3s ease-in-out;
+        -webkit-transition: top .3s ease-in-out, bottom .3s ease-in-out;
+        transition: top .3s ease-in-out, bottom .3s ease-in-out;
+    }
+
+        .circle .tile.top {
+            top: 0;
+        }
+
+        .circle .tile.bottom {
+            bottom: 0;
+            background-position: 0 -.5em;   /*draw (160/2)px from the bottom of the woz.jpg*/
+        }
+
+    .circle:hover .tile.top {
+        top: -.5em;     /*move up (160/2)px*/
+    }
+
+    .circle:hover .tile.bottom {
+        bottom: -.5em;  /*move down (160/2)px*/
+    }
+
+    .circle .words {
+        font-size: 13px; /*restore the font size that is inherited from circel*/    
+        width: 100%;
+        height: 100%;
+        text-align: center;
+        line-height: 18px;
+        padding: 1em;
+}

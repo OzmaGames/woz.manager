@@ -1,13 +1,22 @@
-define(['api/datacontext', 'knockout', 'jquery', 'grid'], function (ctx, ko, $, grid) {
-   
-   var ctor = function () {
+define(['api/datacontext', 'knockout', 'jquery', 'grid'], function (ctx, ko, $) {
+    
+    console.log(grid());
+    
+    var ctor = function () {
       var self = this;
 
       self.setList = ko.observableArray([]);
       self.selectedSet = ko.observable();
-      self.tileList = ko.observableArray([]);
+       self.tileList = ko.observableArray([]);;
+        
+       
       
     }
+    
+    ctor.prototype.compositionComplete = function () {
+      grid().init();
+   }
+   
    ctor.prototype.activate = function () {
       var base = this;
 
