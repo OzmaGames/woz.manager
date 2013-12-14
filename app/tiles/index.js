@@ -5,9 +5,10 @@ define(['api/datacontext', 'knockout', 'jquery', 'grid'], function (ctx, ko, $) 
     var ctor = function () {
       var self = this;
 
-      self.setList = ko.observableArray([]);
+      self.setList = ko.observableArray();
       self.selectedSet = ko.observable();
-       self.tileList = ko.observableArray([]);;
+      self.tileList = ko.observableArray();
+     
         
        
       
