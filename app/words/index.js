@@ -163,9 +163,9 @@ define(['api/datacontext', './form', 'durandal/app', './versionForm', './checkFo
       var base = this;
       
       socket.emit("manager:words", {command:'getAll'}, function (data){
+        console.log(data);
          ko.utils.arrayForEach(data.words, function (word) {
-            if (!word.versions) word.versions = [];
-            if (!word.collections) word.collections = [];            
+                        
             word.date = new Date().getTime();
          });
          base.words(data.words);

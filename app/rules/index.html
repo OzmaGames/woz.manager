@@ -15,16 +15,16 @@
    </div>
    <div class="panel panel-info">
       <div class="panel-heading">
-         <label class="panel-title" style="font-size:18px; font-weight:normal">Rules</label>
+         <label class="panel-title" style="font-size:18px; font-weight:normal">Instructions</label>
          <div class="pull-right">
-            <a href="#create-rule" class="btn btn-primary btn-sm" style="width:150px">Add Rule</a>
+            <a href="#create-rule" class="btn btn-primary btn-sm" style="width:150px">Add Instruction</a>
          </div>
       </div>
       <table class="table table-striped table-bordered">
          <tbody data-bind="foreach: filteredTable">
             <tr>
                <td><a data-bind="text: shortDescription, click: $parent.editRule" style="cursor:pointer"></a></td>
-               <td>
+               <td style="width:180px">
                   <div class="text-center">
                      <span data-bind="click: $parent.editRule" class="glyphicon glyphicon-edit" style="cursor:pointer"></span> |
                      <span data-bind="click: $parent.removeRule" class="glyphicon glyphicon-trash" style="cursor:pointer"></span>

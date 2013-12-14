@@ -7,7 +7,8 @@
       'knockout': '../lib/knockout/knockout-2.3.0',
       'bootstrap': '../lib/bootstrap/js/bootstrap',
       'jquery': '../lib/jquery/jquery-1.9.1',
-      'socket': '../lib/socket.io'
+      'socket': '../lib/socket.io',
+      'grid':'../lib/grid'
    },
    urlArgs: 't' + (new Date).getTime(),
    shim: {

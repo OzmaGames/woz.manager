@@ -1,6 +1,6 @@
 define(['knockout', 'api/datacontext', './_Condition'], function (ko, ctx, Condition) {
 
-  function StartWith(letter) {
+  function Begin (letter) {
     var self = this;
 
     this.letter = ko.observable(letter);
@@ -15,7 +15,7 @@ define(['knockout', 'api/datacontext', './_Condition'], function (ko, ctx, Condi
     }
     }
 
-  Condition.Inherit(StartWith);
+  Condition.Inherit(Begin);
 
-  return StartWith;
+  return Begin;
 })

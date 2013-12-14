@@ -1,5 +1,5 @@
-define(['api/datacontext', 'plugins/dialog', 'knockout', 'durandal/app', 'jquery', 'plugins/router', './conditions/class', './conditions/category', './conditions/startwith', './conditions/endwith', './conditions/length', 'api/server'],
-  function (ctx, dialog, ko, app, $, router, Class, Category, StartWith, EndWith, Length, socket) {
+define(['api/datacontext', 'plugins/dialog', 'knockout', 'durandal/app', 'jquery', 'plugins/router', './conditions/class', './conditions/category', './conditions/begin', './conditions/endwith', './conditions/length', 'api/server'],
+  function (ctx, dialog, ko, app, $, router, Class, Category, Begin, EndWith, Length, socket) {
 
      //only for local storage purpose
      //var lastId = 100;
@@ -30,20 +30,22 @@ define(['api/datacontext', 'plugins/dialog', 'knockout', 'durandal/app', 'jquery
         this.save = function () {
 
            var newRule = {
-              id: self.id(),
+              id: self.id()*1,
               shortDescription: self.shortDes(),
               longDescription: self.longDes(),
               collections: self.collections(),
               level: self.selectedLevel(),
-              bonus: self.bonus(),
-              mult: self.mult(),
+              bonus: self.bonus()*1,
+              mult: self.mult()*1,
            }
 
            newRule.conditions = [];
            for (var i = 0; i < self.conditions().length; i++) {
               var S = self.conditions()[i];
               newRule.conditions.push(S.type + " " + S.amount + " " + S.letter);
+              
            }
+          
 
            if (newRule.collections.length == 0) {
               self.validationMessage('You need to add at least one collection');
@@ -124,33 +126,34 @@ define(['api/datacontext', 'plugins/dialog', 'knockout', 'durandal/app', 'jquery
         //    else if (add == "words that end with the letter: ") { line.selected = self.endWithValue() }
         //    else { line.selected = self.numberOfLettersValue() }
         //  })
-        //})
-
-
-        //this.addToInclude = function () {
+          //})
+  
+  
+          //this.addToInclude = function () {
         //  self.listToInclude.push(self.lineToInclude());
         //}
      }
 
      RuleForm.prototype.activate = function (id) {
+      console.log(id);
         var base = this;
 
         //Add new type of conditions here:
         base.newConditions.push(new Class());
         base.newConditions.push(new Category());
-        base.newConditions.push(new StartWith());
+        base.newConditions.push(new Begin());
         base.newConditions.push(new EndWith());
         base.newConditions.push(new Length());
 
-        if (id !== null) {
+        if (id != -1) {
            socket.emit("manager:instructions", { command: 'get', id: id }, function (data) {
               console.log(data);
 
-              base.shortDes(data.instructions.shortDescription);
-              base.longDes(data.instructions.longDescription);
-              base.collections(data.instructions.collections);
-              base.id(data.instructions.id);
-              var condit = [data.instructions.condition];
+              base.shortDes(data.instruction.shortDescription);
+              base.longDes(data.instruction.longDescription);
+              base.collections(data.instruction.collections || []);
+              base.id(data.instruction.id);
+              var condit = [data.instruction.condition];
 
 
 
@@ -162,20 +165,20 @@ define(['api/datacontext', 'plugins/dialog', 'knockout', 'durandal/app', 'jquery
                     letter: d[2],
                     editMode: false
                  }
-                 base.condition.push(dd);
+                 base.conditions.push(dd);
               }
 
 
-              base.selectedLevel(data.instructions.level);
-              if (data.instructions.bonus !== 0) {
-                 base.number(data.instructions.bonus);
+              base.selectedLevel(data.instruction.level);
+              if (data.instruction.bonus !== 0) {
+                 base.number(data.instruction.bonus);
                  base.enableBonus('bonus');
-              } if (data.instructions.bonus == 0) {
-                 base.number(data.instructions.mult);
+              } if (data.instruction.bonus == 0) {
+                 base.number(data.instruction.mult);
                  base.enableBonus('mult');
               }
 
-              console.log(data.instructions);
+              console.log(data.instruction);
 
            });
         }

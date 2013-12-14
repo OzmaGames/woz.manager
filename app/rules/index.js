@@ -37,7 +37,8 @@ define(['api/datacontext', 'knockout', 'plugins/router', 'api/server'], function
       var base = this;
       socket.emit("manager:instructions", { command: 'getAll' }, function (data) {
          base.rules(data.instructions);
-         console.log(data.instructions["shortDescription"]);
+         console.log(data);
+        
       });
 
       ctx.load("sets").then(function (sets) {
