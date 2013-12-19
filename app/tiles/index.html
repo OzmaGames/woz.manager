@@ -16,15 +16,25 @@
      
    <ul id="og-grid" class="og-grid" data-bind="foreach: tileList">
 	<li>
-	    <a href="#" data-bind="attr: {'data-title': words, 'data-largesrc':'images/woz/' + id +'.jpg'}">
+	    <a href="#" data-bind="attr: {'data-title': name, 'data-largesrc':'images/woz/' + id +'.jpg'}">
+                <div class="description">
+                    <table class="table table-bordered" data-bind="foreach: related">
+                        <tbody>
+                           <tr >
+                            <td>
+                                <a href="#">x</a>
+                                <span data-bind="text:$data"></span>
+                            </td>
+                           </tr>
+                           </tbody>
+                    </table>
+                </div>
             
 	      <div class="circle">
                 <div class="tile top" data-bind="style: { 'backgroundPosition': ((100 / 29) * id).toFixed(2) + '% 0' }"></div>
                 <div class="tile bottom" data-bind="style: { 'backgroundPosition': ((100 / 29) * id).toFixed(2) + '% -.5em'}"></div>
-                <div class="words">
-                 something <br />
-                  line 2
-                <div>line 3</div>
+                <div class="related">
+                 <span data-bind="text:name"></span>
                 </div>
               </div>
 	    </a>

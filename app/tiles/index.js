@@ -8,11 +8,13 @@ define(['api/datacontext', 'knockout', 'jquery', 'grid'], function (ctx, ko, $) 
       self.setList = ko.observableArray();
       self.selectedSet = ko.observable();
       self.tileList = ko.observableArray();
-     
-        
-       
+      self.related = ko.observableArray();
+      console.log(self.related());
+      
+    
       
     }
+      
     
     ctor.prototype.compositionComplete = function () {
       grid().init();
@@ -22,6 +24,7 @@ define(['api/datacontext', 'knockout', 'jquery', 'grid'], function (ctx, ko, $) 
       var base = this;
 
       ctx.load("tiles").then(function (tiles) {
+        console.log(tiles);
          base.tileList(tiles);
       });
 
