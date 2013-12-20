@@ -18,15 +18,14 @@
 	<li>
 	    <a href="#" data-bind="attr: {'data-title': name, 'data-largesrc':'images/woz/' + id +'.jpg'}">
                 <div class="description">
-                    <table class="table table-bordered" data-bind="foreach: related">
-                        <tbody>
-                           <tr >
+                    <table class="table table-bordered" data-bind="foreach: $root.rows">
+                          <tr>
                             <td>
                                 <a href="#">x</a>
                                 <span data-bind="text:$data"></span>
                             </td>
                            </tr>
-                           </tbody>
+                         
                     </table>
                 </div>
             

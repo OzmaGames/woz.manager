@@ -1,16 +1,33 @@
 define(['api/datacontext', 'knockout', 'jquery', 'grid'], function (ctx, ko, $) {
     
-    console.log(grid());
-    
     var ctor = function () {
       var self = this;
 
       self.setList = ko.observableArray();
       self.selectedSet = ko.observable();
       self.tileList = ko.observableArray();
-      self.related = ko.observableArray();
-      console.log(self.related());
+      console.log(self.tileList());
       
+      self.rows = ko.computed(function () {
+        var rows = [],
+        currentRow,
+        colLength = 5;
+        console.log(self.tileList());
+        
+        for (var i = 0, j = self.tileList().related.length; i < j; i++) {
+          if (i % colLength === 0) {
+            if (currentRow) {
+                rows.push(currentRow);
+            }
+            currentRow = [];
+           }
+            currentRow.push(self.tileList().related[i]);
+           }
+          if (currentRow) {
+          rows.push(currentRow);
+           }
+          return rows;
+           });
     
       
     }
@@ -24,7 +41,6 @@ define(['api/datacontext', 'knockout', 'jquery', 'grid'], function (ctx, ko, $) 
       var base = this;
 
       ctx.load("tiles").then(function (tiles) {
-        console.log(tiles);
          base.tileList(tiles);
       });
 
