@@ -16,20 +16,37 @@
      
    <ul id="og-grid" class="og-grid" data-bind="foreach: tileList">
 	<li>
-	    <a href="#" data-bind="attr: {'data-title': name, 'data-largesrc':'images/woz/' + id +'.jpg'}">
+	    <a href="#" data-bind="click: $root.chooseTile, attr: {'data-title': name, 'data-largesrc':'images/woz/' + id +'.jpg'}">
                 <div class="description">
-                    <table class="table table-bordered" data-bind="foreach: $root.rows">
-                          <tr>
+                    <h4 data-bind="text:name"></h4>
+                    <hr />
+                    <table class="table" data-bind="foreach: $root.rows">
+                        <tbody>
+                          <tr data-bind="foreach: $data">
                             <td>
-                                <a href="#">x</a>
+                                <a href="#" data-bind="click: $root.remove">x</a>
                                 <span data-bind="text:$data"></span>
                             </td>
                            </tr>
-                         
+                          </tbody>
                     </table>
-                </div>
-            
-	      <div class="circle">
+                    <hr />
+                    <div class="row">
+                        <div class="col-sm-5 col-sm-offset-2">
+                            <div class="input-group">
+                               <input type="text" class="form-control" placeholder="Search all words">
+                               <span class="input-group-btn">
+                                  <button class="btn btn-info" type="button">Add</button>
+                               </span>
+                            </div>
+                        </div>
+                        <button type="button" class="col-sm-3 btn btn-warning" data-bind="click:$root.home">
+                           <span class="glyphicon glyphicon-home"></span> Add New Word
+                        </button>
+                    </div>
+                    </div>
+                
+              <div class="circle">
                 <div class="tile top" data-bind="style: { 'backgroundPosition': ((100 / 29) * id).toFixed(2) + '% 0' }"></div>
                 <div class="tile bottom" data-bind="style: { 'backgroundPosition': ((100 / 29) * id).toFixed(2) + '% -.5em'}"></div>
                 <div class="related">

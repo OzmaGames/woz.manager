@@ -113,9 +113,10 @@
 .og-details h4 {
 	font-weight: 300;
 	font-size: 32px;
-	padding: 0 0 45px;
+	padding: 0 0 20px;
 	margin-bottom: 10px;
 	color: #999;
+	text-align: center;
 }
 
 /*.og-details p {
@@ -128,7 +129,7 @@
 .description {
 	display:none;
 	border-style:solid;
-border-width:5px;
+        border-width:5px;
 	
 }
 
@@ -149,7 +150,7 @@ border-width:5px;
 */
 
 .og-details a::before {
-	content: '\2192';
+	content: ' ';
 	display: inline-block;
 	margin-right: 10px;
 }

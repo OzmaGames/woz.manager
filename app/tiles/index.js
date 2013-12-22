@@ -1,4 +1,4 @@
-define(['api/datacontext', 'knockout', 'jquery', 'grid'], function (ctx, ko, $) {
+define(['api/datacontext', 'knockout', 'jquery', 'grid', 'plugins/router'], function (ctx, ko, $, router) {
     
     var ctor = function () {
       var self = this;
@@ -6,29 +6,49 @@ define(['api/datacontext', 'knockout', 'jquery', 'grid'], function (ctx, ko, $) 
       self.setList = ko.observableArray();
       self.selectedSet = ko.observable();
       self.tileList = ko.observableArray();
-      console.log(self.tileList());
+      self.selectedTile = ko.observable();
       
+      self.chooseTile = function(tile){
+        console.log("b");
+        self.selectedTile(tile);
+      }
+      
+      
+      console.log("out");
       self.rows = ko.computed(function () {
         var rows = [],
         currentRow,
-        colLength = 5;
-        console.log(self.tileList());
+        colLength = 6;
         
-        for (var i = 0, j = self.tileList().related.length; i < j; i++) {
-          if (i % colLength === 0) {
-            if (currentRow) {
-                rows.push(currentRow);
+        if (self.selectedTile()) {
+            for (var i = 0, j = self.selectedTile().related.length; i < j; i++) {
+                if (i % colLength === 0) {
+                   if (currentRow) {
+                     rows.push(currentRow);
+                    }
+                    currentRow = [];
             }
-            currentRow = [];
-           }
-            currentRow.push(self.tileList().related[i]);
+            currentRow.push(self.selectedTile().related[i]);
            }
           if (currentRow) {
-          rows.push(currentRow);
+              rows.push(currentRow);
            }
+           console.log("in");
           return rows;
-           });
-    
+        }
+    });
+      
+      self.home = function() {
+         console.log("home");
+        router.navigate("#words");
+      }
+     
+     self.remove = function (e, word) {
+        console.log("a");
+        e.preventDefault();
+        self.rows.remove(word);
+        
+    }
       
     }
       
