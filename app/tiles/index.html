@@ -13,50 +13,57 @@
          </tbody>
       </table>
    </div>
-     
-   <ul id="og-grid" class="og-grid" data-bind="foreach: tileList">
-	<li>
-	    <a href="#" data-bind="click: $root.chooseTile, attr: {'data-title': name, 'data-largesrc':'images/woz/' + id +'.jpg'}">
-                <div class="description">
-                    <h4 data-bind="text:name"></h4>
-                    <hr />
-                    <table class="table" data-bind="foreach: $root.rows">
-                        <tbody>
-                          <tr data-bind="foreach: $data">
-                            <td>
-                                <a href="#" data-bind="click: $root.remove">x</a>
-                                <span data-bind="text:$data"></span>
-                            </td>
-                           </tr>
-                          </tbody>
-                    </table>
-                    <hr />
-                    <div class="row">
-                        <div class="col-sm-5 col-sm-offset-2">
-                            <div class="input-group">
-                               <input type="text" class="form-control" placeholder="Search all words">
-                               <span class="input-group-btn">
-                                  <button class="btn btn-info" type="button">Add</button>
-                               </span>
-                            </div>
-                        </div>
-                        <button type="button" class="col-sm-3 btn btn-warning" data-bind="click:$root.home">
-                           <span class="glyphicon glyphicon-home"></span> Add New Word
-                        </button>
-                    </div>
-                    </div>
-                
-              <div class="circle">
-                <div class="tile top" data-bind="style: { 'backgroundPosition': ((100 / 29) * id).toFixed(2) + '% 0' }"></div>
-                <div class="tile bottom" data-bind="style: { 'backgroundPosition': ((100 / 29) * id).toFixed(2) + '% -.5em'}"></div>
-                <div class="related">
-                 <span data-bind="text:name"></span>
-                </div>
-              </div>
-	    </a>
-	</li>
-   </ul>
-     
-    
+
+   <div id="og-grid">
+      <ul class="og-grid" data-bind="foreach: tileList">
+         <li>
+            <div class="og-item" data-bind="click: $root.chooseTile, attr: {'data-title': name, 'data-largesrc':'images/woz/' + id +'.jpg'}">
+               <div class="circle">
+                  <div class="tile top" data-bind="style: { 'backgroundPosition': ((100 / 29) * id).toFixed(2) + '% 0' }"></div>
+                  <div class="tile bottom" data-bind="style: { 'backgroundPosition': ((100 / 29) * id).toFixed(2) + '% -.5em'}"></div>
+                  <div class="related">
+                     <span data-bind="text:name"></span>
+                  </div>
+               </div>
+            </div>
+         </li>
+      </ul>
+
+      <!--
+         script tag prevents knockout to bind the data to the elements
+         
+         this way we can program and make sure that the binding occurs once the user click on an image,
+      -->
+      <script type="text/html" class="og-description">
+         <div data-bind="with: selectedTile">
+            <h4 data-bind="text: name"></h4>
+            <hr />
+            <table class="table" data-bind="foreach: $root.rows">
+               <tbody>
+                  <tr data-bind="foreach: $data">
+                     <td>
+                        <a href=# data-bind="click: $root.remove">x</a>
+                        <span data-bind="text: $data"></span>
+                     </td>
+                  </tr>
+               </tbody>
+            </table>
+            <hr />
+            <div class="row">
+               <div class="col-sm-5 col-sm-offset-2">
+                  <div class="input-group">
+                     <input type="text" class="form-control" placeholder="Search all words">
+                     <span class="input-group-btn">
+                        <button class="btn btn-info" type="button">Add</button>
+                     </span>
+                  </div>
+               </div>
+               <button type="button" class="col-sm-3 btn btn-warning" data-bind="click:$root.home">
+                  <span class="glyphicon glyphicon-home"></span> Add New Word
+               </button>
+            </div>
+         </div>
+      </script>
+   </div>
 </div>
 
