@@ -150,12 +150,13 @@ define(['api/datacontext', './form', 'durandal/app', './versionForm', './checkFo
          });
       }
 
-      self.searchWord = ko.computed(function () {
-         var search = self.query();
+      /*self.searchWord = ko.computed(function () {
+        var search = self.query();
          return ko.utils.arrayFilter(self.words, function (word) {
+        
             return word.indexOf(search) >= 0;
          })
-      })
+      })*/
 
    };
 

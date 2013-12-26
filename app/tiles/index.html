@@ -8,7 +8,7 @@
          </thead>
          <tbody>
             <tr>
-               <td><select data-bind="options:setList, value:selectedSet"></select></td>
+               <td><select class="form-control" data-bind="options:setList, value:selectedSet" style="width:200px"></select></td>
             </tr>
          </tbody>
       </table>
@@ -27,8 +27,7 @@
                </div>
             </div>
          </li>
-      </ul>
-
+      </ul>                         
       <!--
          script tag prevents knockout to bind the data to the elements
          
@@ -36,8 +35,25 @@
       -->
       <script type="text/html" class="og-description">
          <div data-bind="with: selectedTile">
-            <h4 data-bind="text: name"></h4>
-            <hr />
+            <div class="row">
+                <h4  class="col-sm-7" data-bind="text: name"></h4>
+                <div class="col-sm-5" style="margin-top:17px">
+                  <div class="input-group">
+                     <input type="search" class="form-control" data-bind="value: $root.query, valueUpdate:'afterkeydown'" placeholder="Search all words">
+                     <span class="input-group-btn">
+                        <button class="btn btn-info" type="button" data-bind="enable: $root.add, click:$root.addToRelated">Add</button>
+                     </span>
+                  </div>
+                  <div data-bind="visible : $root.displayResult">
+                  <div class="searchResult">
+                    <div data-bind="foreach: $root.searchResult">
+                        <div style="cursor:pointer" data-bind="text:lemma, click: $root.hitResult"></div>
+                    </div>
+                  </div>
+                </div>
+               </div>
+            </div>
+            <hr/>
             <table class="table" data-bind="foreach: $root.rows">
                <tbody>
                   <tr data-bind="foreach: $data">
@@ -49,20 +65,10 @@
                </tbody>
             </table>
             <hr />
-            <div class="row">
-               <div class="col-sm-5 col-sm-offset-2">
-                  <div class="input-group">
-                     <input type="text" class="form-control" placeholder="Search all words">
-                     <span class="input-group-btn">
-                        <button class="btn btn-info" type="button">Add</button>
-                     </span>
-                  </div>
-               </div>
-               <button type="button" class="col-sm-3 btn btn-warning" data-bind="click:$root.home">
+               <button type="button" class="col-sm-3 btn btn-warning" data-bind="click:$root.home" style="margin-left:250px">
                   <span class="glyphicon glyphicon-home"></span> Add New Word
                </button>
             </div>
-         </div>
       </script>
    </div>
 </div>
