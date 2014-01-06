@@ -75,6 +75,10 @@ define(['api/datacontext', 'knockout', 'jquery', 'plugins/router', 'api/server',
         }
     });
     
+    $('#searchResult').on('blur', function(){
+        self.displayResult(false);
+        });
+    
     self.hitResult = function(result){
         if (self.query()) {
             self.query(result.lemma);

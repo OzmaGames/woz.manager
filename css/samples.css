@@ -100,6 +100,9 @@ label.normal{
         border-radius: 3%;
         overflow-y: auto;
         max-height: 200px;
+        position: absolute;
+        z-index:1;
+        width:26    0px;
     }
     
    

@@ -39,12 +39,12 @@
                 <h4  class="col-sm-7" data-bind="text: name"></h4>
                 <div class="col-sm-5" style="margin-top:17px">
                   <div class="input-group">
-                     <input type="search" class="form-control" data-bind="value: $root.query, valueUpdate:'afterkeydown'" placeholder="Search all words">
+                     <input id="searchResult" type="search" class="form-control" data-bind="value: $root.query, valueUpdate:'afterkeydown'" placeholder="Search all words">
                      <span class="input-group-btn">
                         <button class="btn btn-info" type="button" data-bind="enable: $root.add, click:$root.addToRelated">Add</button>
                      </span>
                   </div>
-                  <div data-bind="visible : $root.displayResult">
+                  <div  data-bind="visible : $root.displayResult">
                   <div class="searchResult">
                     <div data-bind="foreach: $root.searchResult">
                         <div style="cursor:pointer" data-bind="text:lemma, click: $root.hitResult"></div>
