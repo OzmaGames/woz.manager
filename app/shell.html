@@ -10,16 +10,16 @@
             </button>
             <a class="navbar-brand" href="#words">Words Of Oz<small> | Manager</small></a>
         </div>
-
-      
         <div class="collapse navbar-collapse navbar-ex1-collapse">
             <ul class="nav navbar-nav" data-bind="foreach: router.navigationModel">
                 <li data-bind="css: { active: isActive }">
                     <a data-bind="attr: { href: hash }, text: title"></a>
-                </li>                
+                </li>
             </ul>            
+            <div class="navbar-form navbar-right">
+                <button class="btn btn-info" data-bind="click:addCatCal, text: 'Add Category/Collection'"></button>
+            </div>
         </div>
     </nav>
-    
     <div class="container-fluid" data-bind="router: { transition:'entrance', cacheViews:true }"></div>
 </div>
