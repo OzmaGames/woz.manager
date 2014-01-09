@@ -30,22 +30,22 @@ define(['api/datacontext', 'plugins/dialog', 'knockout', 'durandal/app', 'jquery
         this.save = function () {
 
            var newRule = {
-              id: self.id()*1,
+              id: self.id() * 1,
               shortDescription: self.shortDes(),
               longDescription: self.longDes(),
               collections: self.collections(),
               level: self.selectedLevel(),
-              bonus: self.bonus()*1,
-              mult: self.mult()*1,
+              bonus: self.bonus() * 1,
+              mult: self.mult() * 1,
            }
 
            newRule.conditions = [];
            for (var i = 0; i < self.conditions().length; i++) {
               var S = self.conditions()[i];
               newRule.conditions.push(S.type + " " + S.amount + " " + S.letter);
-              
+
            }
-          
+
 
            if (newRule.collections.length == 0) {
               self.validationMessage('You need to add at least one collection');
@@ -126,16 +126,16 @@ define(['api/datacontext', 'plugins/dialog', 'knockout', 'durandal/app', 'jquery
         //    else if (add == "words that end with the letter: ") { line.selected = self.endWithValue() }
         //    else { line.selected = self.numberOfLettersValue() }
         //  })
-          //})
-  
-  
-          //this.addToInclude = function () {
+        //})
+
+
+        //this.addToInclude = function () {
         //  self.listToInclude.push(self.lineToInclude());
         //}
      }
 
      RuleForm.prototype.activate = function (id) {
-      console.log(id);
+        console.log(id);
         var base = this;
 
         //Add new type of conditions here:

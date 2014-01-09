@@ -30,7 +30,7 @@
             <tr>
                <td><select class="form-control" data-bind="options:classes, value:selectedClass"></select></td>
                <td><select class="form-control" data-bind="options:categories, value:selectedCategory"></select></td>
-               <td><select class="form-control" data-bind="options:collections, optionsText: longName, value:selectedSet"></select></td>
+               <td><select class="form-control" data-bind="options:collections, optionsText: 'longName', value:selectedSet"></select></td>
             </tr>
          </tbody>
       </table>
@@ -60,7 +60,7 @@
                </td>
                <td data-bind="text: classes.join(', ')"></td>
                <td data-bind="text: categories.join(', ')"></td>
-               <td data-bind="text: collections.join(', ')"></td>
+               <td data-bind="text: displayCollections.join(', ')"></td>
 
                <td>
                   <div class="text-center">
