@@ -116,6 +116,7 @@ define(['api/datacontext', './form', 'durandal/app', './versionForm', './checkFo
                //self.words.push(newWord);
                socket.emit("manager:words", { command: "set", lemma: newWord.lemma, oldLemma: "" }, function (data) {
                   if (data.success) {
+                    newWord.displayCollections = [];
                      self.words.push(newWord);
                      self.pagedWords.valueHasMutated();
                      var wordPos = self.filteredWords().indexOf(newWord) + 1;
