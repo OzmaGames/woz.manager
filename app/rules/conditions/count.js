@@ -1,6 +1,6 @@
 define(['knockout', 'api/datacontext', './_Condition'], function (ko, ctx, Condition) {
 
-  function Length(letter) {
+  function Count(letter) {
     var self = this;
 
     this.letter = ko.observable(letter);
@@ -15,7 +15,7 @@ define(['knockout', 'api/datacontext', './_Condition'], function (ko, ctx, Condi
     }
     }
 
-  Condition.Inherit(Length);
+  Condition.Inherit(Count);
 
-  return Length;
+  return Count;
 })

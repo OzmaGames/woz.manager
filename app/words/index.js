@@ -61,6 +61,7 @@ define(['api/datacontext', './form', 'durandal/app', './versionForm', './checkFo
 
       function genericFilter(item, filter) {
          if (filter === 'All') return true;
+         if (filter === 'No category' && item === '""') return true;
          if (typeof item === 'string' && item === filter) {
             return true;
          } else if (typeof item === 'object') {
@@ -113,10 +114,13 @@ define(['api/datacontext', './form', 'durandal/app', './versionForm', './checkFo
             if (newWord.lemma && null == ko.utils.arrayFirst(self.words(), function (word) { return word.lemma == newWord.lemma })) {
                newWord.ignoreFilter = true;
                //self.words.push(newWord);
-               socket.emit("manager:words", {command: "set", word: newWord, oldLemma: newWord.lemma});
-               var wordPos = self.filteredWords().indexOf(newWord) + 1;
+               socket.emit("manager:words", {command: "set", lemma: newWord.lemma, oldLemma: ""}, function(data){
+               if (data.success) {
+                self.words.push(newWord);
+                self.pagedWords.valueHasMutated();
+            var wordPos = self.filteredWords().indexOf(newWord) + 1;
                var newPage = Math.ceil(wordPos / self.pageSize()) - 1;
-               self.pageIndex(newPage);
+               self.pageIndex(newPage);} });
             } else if (!newWord.lemma) {
                app.showMessage('Please enter a word.', 'Oops');
             } else { app.showMessage('This word already exists.', 'Oops'); };
@@ -128,7 +132,7 @@ define(['api/datacontext', './form', 'durandal/app', './versionForm', './checkFo
             if (newWord) {
                //var wordPos = self.words.indexOf(word);
                //self.words.splice(wordPos, 1, newWord);
-               socket.emit("manager:words", {command: 'set', word:newWord, oldLemma:word.lemma});
+               socket.emit("manager:words", {command: 'set', lemma:newWord.lemma, oldLemma:word.lemma});
             }
          });
       }
@@ -137,7 +141,13 @@ define(['api/datacontext', './form', 'durandal/app', './versionForm', './checkFo
          checkForm.show(word).then(function (response) {
             if (response)
             //self.words.remove(response);
-            socket.emit("manager:word", {command: "delete", word:word});
+            socket.emit("manager:words", {command: "delete", lemma:response.lemma}, function(data){
+                if (data.success) {
+                var wordPos = self.words.indexOf(response);
+                self.words.splice(wordPos, 1);
+                }
+            });
+            
          })
       }
 
@@ -146,7 +156,7 @@ define(['api/datacontext', './form', 'durandal/app', './versionForm', './checkFo
             var wordPos = self.words.indexOf(word);
             self.words.splice(wordPos, 1);
             self.words.splice(wordPos, 0, word);
-            socket.emit("manager:words", {command: "set", word:word, oldLemma:word.lemma});
+            socket.emit("manager:words", {command: "set", lemma:word, oldLemma:word.lemma});
          });
       }
 
@@ -177,18 +187,32 @@ define(['api/datacontext', './form', 'durandal/app', './versionForm', './checkFo
          base.classes(classes);
          base.selectedClass(classes[0]);
       });
-
-      ctx.load("categories").then(function (categories) {
+        
+        socket.emit("manager:categories", {command:'getAll'}, function (data){
+            categories = $.merge(["All"], data.categories);
+            categoryPos = categories.indexOf("");
+            categories.splice(categoryPos, 1);
+            categories.splice(categoryPos, 0, 'No category');
+            base.categories(categories);
+            base.selectedCategory(categories[0]);
+            });
+      /*ctx.load("categories").then(function (categories) {
          categories = $.merge(["All"], categories);
          base.categories(categories);
          base.selectedCategory(categories[0]);
-      });
+      });*/
+      
+        socket.emit('manager:collections', {command: 'getAll'}, function(data){
+            //collections = $.merge(["All"], data.collections);
+            base.collections(data.collections);
+            base.selectedSet(data.collections[0]);
+        });
 
-      ctx.load("sets").then(function (collections) {         
+      /* ctx.load("sets").then(function (collections) {         
          collections = $.merge(["All"], collections);
          base.collections(collections);
          base.selectedSet(collections[0]);
-      });
+      });*/
    }
 
    return ctor;

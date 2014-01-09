@@ -1,5 +1,5 @@
-define(['api/datacontext', 'plugins/dialog', 'knockout', 'durandal/app', 'jquery', 'plugins/router', './conditions/class', './conditions/category', './conditions/begin', './conditions/endwith', './conditions/length', 'api/server'],
-  function (ctx, dialog, ko, app, $, router, Class, Category, Begin, EndWith, Length, socket) {
+define(['api/datacontext', 'plugins/dialog', 'knockout', 'durandal/app', 'jquery', 'plugins/router', './conditions/class', './conditions/category', './conditions/begin', './conditions/end', './conditions/count', 'api/server'],
+  function (ctx, dialog, ko, app, $, router, Class, Category, Begin, End, Count, socket) {
 
      //only for local storage purpose
      //var lastId = 100;
@@ -142,8 +142,8 @@ define(['api/datacontext', 'plugins/dialog', 'knockout', 'durandal/app', 'jquery
         base.newConditions.push(new Class());
         base.newConditions.push(new Category());
         base.newConditions.push(new Begin());
-        base.newConditions.push(new EndWith());
-        base.newConditions.push(new Length());
+        base.newConditions.push(new End());
+        base.newConditions.push(new Count());
 
         if (id != -1) {
            socket.emit("manager:instructions", { command: 'get', id: id }, function (data) {

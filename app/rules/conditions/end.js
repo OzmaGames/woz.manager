@@ -1,6 +1,6 @@
 define(['knockout', 'api/datacontext', './_Condition'], function (ko, ctx, Condition) {
 
-  function EndWith(letter) {
+  function End(letter) {
     var self = this;
 
     this.letter = ko.observable(letter);
@@ -15,7 +15,7 @@ define(['knockout', 'api/datacontext', './_Condition'], function (ko, ctx, Condi
     }
     }
 
-  Condition.Inherit(EndWith);
+  Condition.Inherit(End);
 
-  return EndWith;
+  return End;
 })
