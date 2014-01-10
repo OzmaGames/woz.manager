@@ -114,14 +114,18 @@ define(['api/datacontext', './form', 'durandal/app', './versionForm', './checkFo
             if (newWord.lemma && null == ko.utils.arrayFirst(self.words(), function (word) { return word.lemma == newWord.lemma })) {
                newWord.ignoreFilter = true;
                //self.words.push(newWord);
+               console.log(newWord);
                socket.emit("manager:words", { command: "set", lemma: newWord.lemma, oldLemma: "" }, function (data) {
+                console.log(data);
                   if (data.success) {
                     newWord.displayCollections = [];
                      self.words.push(newWord);
-                     self.pagedWords.valueHasMutated();
+                     self.words.valueHasMutated();
+                     console.log(self.words());
                      var wordPos = self.filteredWords().indexOf(newWord) + 1;
                      var newPage = Math.ceil(wordPos / self.pageSize()) - 1;
                      self.pageIndex(newPage);
+                     self.pagedWords.valueHasMutated();
                   }
                });
             } else if (!newWord.lemma) {
@@ -227,6 +231,7 @@ define(['api/datacontext', './form', 'durandal/app', './versionForm', './checkFo
                
                ko.utils.arrayForEach(words, function (word) {
                   word.displayCollections = []; //remove previous collections, so that they wont appear again if the user has removed them
+                  if(!word.collections) return;
                   ko.utils.arrayForEach(word.collections, function (col) {
                      word.displayCollections.push(dic[col]);
                   });                  
