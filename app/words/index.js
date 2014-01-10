@@ -112,20 +112,22 @@ define(['api/datacontext', './form', 'durandal/app', './versionForm', './checkFo
       self.addWord = function () {
          form.show().then(function (newWord) {
             if (newWord.lemma && null == ko.utils.arrayFirst(self.words(), function (word) { return word.lemma == newWord.lemma })) {
-               newWord.ignoreFilter = true;
-               //self.words.push(newWord);
                console.log(newWord);
-               socket.emit("manager:words", { command: "set", lemma: newWord.lemma, oldLemma: "" }, function (data) {
-                console.log(data);
+               newWord.command = "set";
+               //newWord.oldLemma = ""; // not necessary, you can remove it, since we are adding
+               socket.emit("manager:words", newWord, function (data) {                  
                   if (data.success) {
-                    newWord.displayCollections = [];
+                     newWord.ignoreFilter = true;
+                     newWord.displayCollections = ko.observableArray();
                      self.words.push(newWord);
-                     self.words.valueHasMutated();
-                     console.log(self.words());
+                     //self.words.valueHasMutated(); no need for this, since the words knows it has been changed
+                     /*
+                     self.words.push -> notify changes / because "words" is observable
+                     slef.words().push -> does not notify changes / because "words()" is a simple array
+                     */
                      var wordPos = self.filteredWords().indexOf(newWord) + 1;
                      var newPage = Math.ceil(wordPos / self.pageSize()) - 1;
                      self.pageIndex(newPage);
-                     self.pagedWords.valueHasMutated();
                   }
                });
             } else if (!newWord.lemma) {
@@ -139,7 +141,18 @@ define(['api/datacontext', './form', 'durandal/app', './versionForm', './checkFo
             if (newWord) {
                //var wordPos = self.words.indexOf(word);
                //self.words.splice(wordPos, 1, newWord);
-               socket.emit("manager:words", { command: 'set', lemma: newWord.lemma, oldLemma: word.lemma });
+               newWord.command = 'set';
+               newWord.oldLemma = word.lemma;
+               socket.emit("manager:words", newWord, function (data) {
+                  if (data.success) {
+                     //update client
+                     newWord.ignoreFilter = true;
+                     newWord.displayCollections = ko.observableArray();                     
+
+                     var pos = self.words.indexOf(word);
+                     self.words.splice(pos, 1, newWord); //using "self.words" and not "self.words()" notify chanegs                     
+                  }
+               });
             }
          });
       }
@@ -147,11 +160,11 @@ define(['api/datacontext', './form', 'durandal/app', './versionForm', './checkFo
       self.remove = function (word) {
          checkForm.show(word).then(function (response) {
             if (response)
-               //self.words.remove(response);
-               socket.emit("manager:words", { command: "delete", lemma: response.lemma }, function (data) {
+               //self.words.remove(response);              
+               socket.emit("manager:words", {command: "delete", lemma: response.lemma}, function (data) {
                   if (data.success) {
-                     var wordPos = self.words.indexOf(response);
-                     self.words.splice(wordPos, 1);
+                     var pos = self.words.indexOf(word);
+                     self.words.splice(pos, 1);
                   }
                });
 
@@ -163,7 +176,17 @@ define(['api/datacontext', './form', 'durandal/app', './versionForm', './checkFo
             var wordPos = self.words.indexOf(word);
             self.words.splice(wordPos, 1);
             self.words.splice(wordPos, 0, word);
-            socket.emit("manager:words", { command: "set", lemma: word, oldLemma: word.lemma });
+
+            word.command = 'set';
+            word.oldLemma = word.lemma; // Important for updates
+
+            socket.emit("manager:words", word, function (data) {
+               if (data.success) {                  
+                  var pos = self.words.indexOf(word);
+                  self.words().splice(pos, 1); //using "self.words()" to not cause chain notification yet
+                  self.words.splice(pos, word);
+               }
+            });
          });
       }
 
@@ -183,7 +206,7 @@ define(['api/datacontext', './form', 'durandal/app', './versionForm', './checkFo
       socket.emit("manager:words", { command: 'getAll' }, function (data) {
          console.log(data);
          ko.utils.arrayForEach(data.words, function (word) {
-            word.displayCollections = [];
+            word.displayCollections = ko.observableArray();
             word.date = new Date().getTime();
          });
          base.words(data.words);
@@ -230,15 +253,16 @@ define(['api/datacontext', './form', 'durandal/app', './versionForm', './checkFo
             if (words.length) {
                
                ko.utils.arrayForEach(words, function (word) {
-                  word.displayCollections = []; //remove previous collections, so that they wont appear again if the user has removed them
-                  if(!word.collections) return;
+                  //remove previous collections, so that they wont appear again if the user has removed them
+                  word.displayCollections.splice(0, word.displayCollections().length);
+                                    
                   ko.utils.arrayForEach(word.collections, function (col) {
+                     if (!dic[col]) dic[col] = 'unknown';
                      word.displayCollections.push(dic[col]);
                   });                  
                });
                
-               //sub.dispose(); //kill the computed func, so it wont run again
-               base.words.valueHasMutated();
+               //sub.dispose(); //kill the computed func, so it wont run again               
             }
          });
       });
