@@ -9,12 +9,12 @@
             </label>
             <div class="col-sm-10">
                <div class="form-inline">
-                  <select class="form-control" style="width:240px" id="collections" data-bind="options:collectionList, value:selectedCollection"></select>
+                  <select class="form-control" style="width:240px" id="collections" data-bind="options:collectionList, optionsText:'longName', value:selectedCollection"></select>
                   <button type="button" class="btn btn-info" data-bind="click:addSet">Add</button>
                   <!-- ko foreach: collections-->
                   <div class="form-group" style="margin-left:30px;">
                      <a href="#" data-bind="click:$parent.removeSet">x</a>
-                     <span data-bind="text:$data"></span>
+                     <span data-bind="text:longName"></span>
                   </div>
                   <!-- /ko -->
                </div>

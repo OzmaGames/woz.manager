@@ -14,6 +14,7 @@ define(['api/datacontext', 'plugins/dialog', 'knockout', 'durandal/app', 'jquery
         this.enableBonus = ko.observable();
         this.shortDes = ko.observable();
         this.longDes = ko.observable();
+        this.id = ko.observable(-1);
 
         this.collectionList = ko.observableArray();
         this.collections = ko.observableArray();
@@ -24,16 +25,19 @@ define(['api/datacontext', 'plugins/dialog', 'knockout', 'durandal/app', 'jquery
         this.convertedCondition = ko.observableArray();
 
         this.validationMessage = ko.observable('');
-        this.id = ko.observable("-1");
+        
 
         this.condit = ko.observableArray();
         this.save = function () {
-
+          var shortCollections = [];
+          for (var i=0; i< self.collections().length; i++) {
+            shortCollections.push(self.collections()[i].shortName); 
+          }
            var newRule = {
               id: self.id() * 1,
               shortDescription: self.shortDes(),
               longDescription: self.longDes(),
-              collections: self.collections(),
+              collections: shortCollections,
               level: self.selectedLevel(),
               bonus: self.bonus() * 1,
               mult: self.mult() * 1,
@@ -42,10 +46,10 @@ define(['api/datacontext', 'plugins/dialog', 'knockout', 'durandal/app', 'jquery
            newRule.conditions = [];
            for (var i = 0; i < self.conditions().length; i++) {
               var S = self.conditions()[i];
-              newRule.conditions.push(S.type + " " + S.amount + " " + S.letter);
+               newRule.conditions.push(S.type + " " + S.amount + " " + S.letter);
 
            }
-
+            console.log(newRule);
 
            if (newRule.collections.length == 0) {
               self.validationMessage('You need to add at least one collection');
@@ -59,9 +63,12 @@ define(['api/datacontext', 'plugins/dialog', 'knockout', 'durandal/app', 'jquery
               self.validationMessage('You need to add at least one condition');
               return false;
            }
-           socket.emit("manager:instructions", { command: 'set', instruction: newRule });
-           router.navigate('#rules');
-           console.log(newRule);
+           socket.emit("manager:instructions", { command: 'set', instruction: newRule, id:newRule.id },
+                       function(data){
+            console.log(data);
+            router.navigate('#rules');
+          });
+          
            //if (self.id() == null) {
            //newRule["id"] = lastId++;
            //rules.push(newRule);
@@ -133,9 +140,10 @@ define(['api/datacontext', 'plugins/dialog', 'knockout', 'durandal/app', 'jquery
         //  self.listToInclude.push(self.lineToInclude());
         //}
      }
+     
+
 
      RuleForm.prototype.activate = function (id) {
-        console.log(id);
         var base = this;
 
         //Add new type of conditions here:
@@ -145,7 +153,7 @@ define(['api/datacontext', 'plugins/dialog', 'knockout', 'durandal/app', 'jquery
         base.newConditions.push(new End());
         base.newConditions.push(new Count());
 
-        if (id != -1) {
+        if (id) {
            socket.emit("manager:instructions", { command: 'get', id: id }, function (data) {
               console.log(data);
 
@@ -153,10 +161,14 @@ define(['api/datacontext', 'plugins/dialog', 'knockout', 'durandal/app', 'jquery
               base.longDes(data.instruction.longDescription);
               base.collections(data.instruction.collections || []);
               base.id(data.instruction.id);
+
+              //ko.utils.arrayFirst(base.collections(), function(collection){ return collection = base.collection().shortName}
+                
+               // }
+                //})
+             
+              
               var condit = [data.instruction.condition];
-
-
-
               for (var i = 0; i < condit.length ; i++) {
                  var d = condit[i].split(" ");
                  var dd = {
@@ -182,12 +194,19 @@ define(['api/datacontext', 'plugins/dialog', 'knockout', 'durandal/app', 'jquery
 
            });
         }
+        
+        socket.emit('manager:collections', {command: 'getAll'}, function(data){
+          console.log(data);
+          sets = $.merge([{longName:'select at least one collection', shortName: 'select at least one collection'}], data.collections );
+          base.collectionList(sets);
+          base.selectedCollection(sets[0]);
+          });
 
-        ctx.load("sets").then(function (sets) {
+        /*ctx.load("sets").then(function (sets) {
            sets = $.merge(['select at least one collection'], sets);
            base.collectionList(sets);
            base.selectedCollection(sets[0]);
-        });
+        });*/
      }
 
      return RuleForm;

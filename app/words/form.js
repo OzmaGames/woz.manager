@@ -1,4 +1,4 @@
-define(['api/datacontext', 'plugins/dialog', 'knockout', 'durandal/app', 'bootstrap', 'jquery'], function (ctx, dialog, ko, app, $) {
+define(['api/server','api/datacontext', 'plugins/dialog', 'knockout', 'durandal/app', 'bootstrap', 'jquery'], function (socket, ctx, dialog, ko, app, $) {
 
    var WordForm = function (word) {
       var self = this;
@@ -8,6 +8,7 @@ define(['api/datacontext', 'plugins/dialog', 'knockout', 'durandal/app', 'bootst
 
       this.classList = ko.observableArray([]);
       this.categoryList = ko.observableArray([]);
+      this.newCategory = ko.observableArray([]);
       this.collectionList = ko.observableArray([]);
 
       this.input = ko.observable(word.lemma || '');
@@ -60,7 +61,17 @@ define(['api/datacontext', 'plugins/dialog', 'knockout', 'durandal/app', 'bootst
       }
 
       this.addCollection = function () {
-         addToList(this.collections, this.selectedCollection(), this.collectionList);
+        if (this.selectedCollection().longName === 'All') {
+            var forAll = this.collectionList.slice(1);
+            var longNames = []
+            for (var i=0; i<forAll.length; i++) {
+                longNames.push(forAll[i].longName);
+            }
+            this.collections(longNames);
+            
+        } else if (self.collections.indexOf(this.selectedCollection().longName) < 0){
+          this.collections.push(this.selectedCollection().longName);
+          } else {app.showMessage('This item already exists.', 'Oops');}
       }
 
       function addToList(list, item, collection) {
@@ -80,6 +91,10 @@ define(['api/datacontext', 'plugins/dialog', 'knockout', 'durandal/app', 'bootst
          return false;
       }
    }
+   
+   this.addNewCategory = function (){
+       this.categoryList.push(this.newCategory());
+    }
 
    WordForm.show = function (word) {
       return dialog.show(new WordForm(word || {}));
@@ -91,18 +106,33 @@ define(['api/datacontext', 'plugins/dialog', 'knockout', 'durandal/app', 'bootst
       ctx.load("classes").then(function (items) {
          base.classList(items);
       });
+      
+      socket.emit("manager:categories", { command: 'getAll' }, function (data) {
+         categories = $.merge(["All"], data.categories);
+         categoryPos = categories.indexOf("");
+         categories.splice(categoryPos, 1);
+         base.categoryList(categories);
+         base.selectedCategory(categories[0]);
+      });
+      
+      socket.emit('manager:collections', { command: 'getAll' }, function (data) {
+        console.log(data);
+         collections = $.merge([{longName: "All"}], data.collections);           
+         base.collectionList(collections);
+         base.selectedCollection(collections[0]);
+      })
 
-      ctx.load("categories").then(function (items) {
+      /*ctx.load("categories").then(function (items) {
          items = $.merge(["All"], items);
          base.categoryList(items);
          base.selectedCategory(items[0]);
-      });
+      });*/
 
-      ctx.load("sets").then(function (items) {
+      /*ctx.load("sets").then(function (items) {
          items = $.merge(["All"], items);
          base.collectionList(items);
          base.selectedCollection(items[0]);
-      });
+      });*/
    }
 
    WordForm.prototype.bindingComplete = function (el) {

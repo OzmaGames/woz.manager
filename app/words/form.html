@@ -12,7 +12,7 @@
             <tr>
                <td style="border-top: none;" class="form-inline">
                   <label>Word:</label>
-                  <input type="text" class="form-control input-small autofocus" placeholder="Type in the word.." data-bind="value: input" style="width:20em; margin-left:40px" required />
+                  <input type="text" class="form-control input-small autofocus" placeholder="Type in the word.." data-bind="value: input" style="width:18em; margin-left:40px" required />
                </td>
             </tr>
             <tr>
@@ -28,8 +28,10 @@
                <td class="form-inline">
                   <label>Collections:</label>
                   <div class="form-group">
-                     <select data-bind="options:collectionList, value:selectedCollection"></select>
-                     <button class="label label-danger" data-bind="click:addCollection">Add</button>
+                     <select class="form-control" data-bind="options:collectionList, optionsText:'longName', value:selectedCollection"></select>
+                  </div>
+                  <div class="form-group">
+                     <button class="btn btn-danger" data-bind="click:addCollection">Add</button>
                   </div>
                   <!-- ko foreach:collections -->
                   <div class="form-group" style="margin-left:20px;">
@@ -43,10 +45,26 @@
                <td class="form-inline">
                   <label>Categories:</label>
                   <div class="form-group">
-                     <select data-bind="options:categoryList, value:selectedCategory"></select>
-                     <button class="label label-danger" data-bind="click:addCategory">Add</button>
+                     <select class="form-control" data-bind="options:categoryList, value:selectedCategory"></select>
                   </div>
-                  <!-- ko foreach:categories -->
+                     <div class="form-group">
+                     <button class="btn btn-danger" data-bind="click:addCategory">Add</button>
+                  </div>
+                 
+                  <div class="form-group" style="margin-left:68px">
+                    <div class="form-inline">
+                      <div class="form-group">
+                        <div class="input-group">
+                          <input class="form-control" type="text" placeholder="New category neme" data-bind="value: newCategory">
+                          <span class="input-group-btn">
+                            <button class="btn btn-info" type="button" data-bind="click:addNewCategory">Add</button>
+                          </span>
+                       </div>
+                     </div>
+                  </div>
+                  </div>
+                  <br>
+                   <!-- ko foreach:categories -->
                   <div class="form-group" style="margin-left:20px;">
                      <a href="#" data-bind="click: $parent.removeCategory">x</a>
                      <span data-bind="text:$data"></span>
@@ -60,6 +78,9 @@
          <span data-bind="text: validationMessage" style="color: red"></span>
          <button class="btn btn-default" data-bind="click: close">Cancel</button>
          <button type="submit" class="btn btn-primary">Save</button>
+         <div class="pull-left">
+            
+         </div>
       </div>
    </form>
 </div><!-- /.modal-content -->

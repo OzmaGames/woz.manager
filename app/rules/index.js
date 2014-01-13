@@ -6,11 +6,14 @@ define(['api/datacontext', 'knockout', 'plugins/router', 'api/server'], function
       self.sets = ko.observableArray([]);
       self.rules = ko.observableArray([]);
 
-      self.selectedSet = ko.observable();
+      self.selectedSet = ko.observable(self.sets([0]));
 
       self.filteredTable = ko.computed(function () {
          return ko.utils.arrayFilter(self.rules(), function (item) {
-            return filter(item['collections'], self.selectedSet());
+            if (!item.collections) {
+                item.collections = ['basic'];
+            }
+            return filter(item['collections'], self.selectedSet().shortName);
          });
       });
 
@@ -40,12 +43,18 @@ define(['api/datacontext', 'knockout', 'plugins/router', 'api/server'], function
          console.log(data);
 
       });
+      
+      socket.emit('manager:collections', {command:'getAll'}, function(data){
+         sets = $.merge([{longName:"All", shortName:"All"}], data.collections);
+         base.sets(sets);
+         base.selectedSet(sets[0]);
+        })
 
-      ctx.load("sets").then(function (sets) {
+      /*ctx.load("sets").then(function (sets) {
          sets = $.merge(["All"], sets);
          base.sets(sets);
          base.selectedSet(sets[0]);
-      });
+      });*/
    }
 
    return ctor;
