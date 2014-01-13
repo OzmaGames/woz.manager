@@ -25,14 +25,14 @@ define(['api/datacontext', 'plugins/dialog', 'knockout', 'durandal/app', 'jquery
         this.convertedCondition = ko.observableArray();
 
         this.validationMessage = ko.observable('');
-        
+
 
         this.condit = ko.observableArray();
         this.save = function () {
-          var shortCollections = [];
-          for (var i=0; i< self.collections().length; i++) {
-            shortCollections.push(self.collections()[i].shortName); 
-          }
+           var shortCollections = [];
+           for (var i = 0; i < self.collections().length; i++) {
+              shortCollections.push(self.collections()[i].shortName);
+           }
            var newRule = {
               id: self.id() * 1,
               shortDescription: self.shortDes(),
@@ -46,10 +46,9 @@ define(['api/datacontext', 'plugins/dialog', 'knockout', 'durandal/app', 'jquery
            newRule.conditions = [];
            for (var i = 0; i < self.conditions().length; i++) {
               var S = self.conditions()[i];
-               newRule.conditions.push(S.type + " " + S.amount + " " + S.letter);
-
+              newRule.conditions.push(S.type + " " + S.amount + " " + S.letter);
            }
-            console.log(newRule);
+           console.log(newRule);
 
            if (newRule.collections.length == 0) {
               self.validationMessage('You need to add at least one collection');
@@ -63,12 +62,12 @@ define(['api/datacontext', 'plugins/dialog', 'knockout', 'durandal/app', 'jquery
               self.validationMessage('You need to add at least one condition');
               return false;
            }
-           socket.emit("manager:instructions", { command: 'set', instruction: newRule, id:newRule.id },
-                       function(data){
-            console.log(data);
-            router.navigate('#rules');
-          });
-          
+                      
+           socket.emit("manager:instructions", { command: 'set', instruction: newRule, id: newRule.id }, function (data) {
+              console.log(data);
+              router.navigate('#rules');
+           });
+
            //if (self.id() == null) {
            //newRule["id"] = lastId++;
            //rules.push(newRule);
@@ -140,7 +139,7 @@ define(['api/datacontext', 'plugins/dialog', 'knockout', 'durandal/app', 'jquery
         //  self.listToInclude.push(self.lineToInclude());
         //}
      }
-     
+
 
 
      RuleForm.prototype.activate = function (id) {
@@ -153,21 +152,25 @@ define(['api/datacontext', 'plugins/dialog', 'knockout', 'durandal/app', 'jquery
         base.newConditions.push(new End());
         base.newConditions.push(new Count());
 
+        //A deferred object
+        base.collectionReady = $.Deferred();
+
         if (id) {
            socket.emit("manager:instructions", { command: 'get', id: id }, function (data) {
               console.log(data);
 
               base.shortDes(data.instruction.shortDescription);
               base.longDes(data.instruction.longDescription);
-              base.collections(data.instruction.collections || []);
               base.id(data.instruction.id);
 
-              //ko.utils.arrayFirst(base.collections(), function(collection){ return collection = base.collection().shortName}
-                
-               // }
-                //})
-             
-              
+              base.collectionReady.then(function (dic) {
+                 //receiving instructions and collections from the server are async events, so here we make sure that collection is loaded first,
+                 //and only then replace shortnames with the collection object
+                 ko.utils.arrayForEach(data.instruction.collections, function (shortName) {
+                    base.collections.push(dic[shortName]);
+                 });
+              });
+
               var condit = [data.instruction.condition];
               for (var i = 0; i < condit.length ; i++) {
                  var d = condit[i].split(" ");
@@ -194,13 +197,22 @@ define(['api/datacontext', 'plugins/dialog', 'knockout', 'durandal/app', 'jquery
 
            });
         }
-        
-        socket.emit('manager:collections', {command: 'getAll'}, function(data){
-          console.log(data);
-          sets = $.merge([{longName:'select at least one collection', shortName: 'select at least one collection'}], data.collections );
-          base.collectionList(sets);
-          base.selectedCollection(sets[0]);
-          });
+
+        socket.emit('manager:collections', { command: 'getAll' }, function (data) {
+           console.log(data);
+           sets = $.merge([{ longName: 'select at least one collection', shortName: 'select at least one collection' }], data.collections);
+           base.collectionList(sets);
+           base.selectedCollection(sets[0]);
+
+           //create a dictionary short name -> collection object
+           var collectionDic = {};
+           ko.utils.arrayForEach(sets, function (colObj) {
+              collectionDic[colObj.shortName] = colObj;
+           });
+
+           //tell subscribers that the collections are loaded, and send them the dictionary of (short->obj)
+           base.collectionReady.resolve(collectionDic);
+        });
 
         /*ctx.load("sets").then(function (sets) {
            sets = $.merge(['select at least one collection'], sets);
