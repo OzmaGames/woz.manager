@@ -33,7 +33,7 @@
                   <div class="form-group">
                      <button class="btn btn-danger" data-bind="click:addCollection">Add</button>
                   </div>
-                  <!-- ko foreach:collections -->
+                  <!-- ko foreach:displayCollections -->
                   <div class="form-group" style="margin-left:20px;">
                      <a href="#" data-bind="click: $parent.removeCollection">x</a>
                      <span data-bind="text:$data"></span>

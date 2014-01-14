@@ -15,11 +15,21 @@ define(['api/server','api/datacontext', 'plugins/dialog', 'knockout', 'durandal/
       this.classes = ko.observableArray(word.classes || []);
       this.categories = ko.observableArray(word.categories || []);
       this.collections = ko.observableArray(word.collections || []);
+      this.displayCollections = ko.observableArray();
       this.isEdit = word.lemma ? true : null;
       this.validationMessage = ko.observable('');
+
       console.log(word, this.isEdit);
 
       this.save = function () {
+        
+        console.log(self.displayCollections());
+        console.log(self.collections());
+        
+        /*var shortCollections = [];
+           for (var i = 0; i < self.collections().length; i++) {
+              shortCollections.push(self.collections()[i].shortName);
+           }*/
          var word = {
             lemma: self.input(),
             versions: [],
@@ -53,7 +63,7 @@ define(['api/server','api/datacontext', 'plugins/dialog', 'knockout', 'durandal/
 
       this.removeCollection = function (item, e) {
          e.preventDefault();
-         self.collections.remove(item);
+         self.displayCollections.remove(item);
       }
 
       this.addCategory = function () {
@@ -63,14 +73,19 @@ define(['api/server','api/datacontext', 'plugins/dialog', 'knockout', 'durandal/
       this.addCollection = function () {
         if (this.selectedCollection().longName === 'All') {
             var forAll = this.collectionList.slice(1);
-            var longNames = []
+            var longNames = [],
+                shortNames=[];
             for (var i=0; i<forAll.length; i++) {
                 longNames.push(forAll[i].longName);
+                shortNames.push(forAll[i].shortName);
             }
-            this.collections(longNames);
+            this.displayCollections(longNames);
+            this.collections(shortNames);
             
-        } else if (self.collections.indexOf(this.selectedCollection().longName) < 0){
-          this.collections.push(this.selectedCollection().longName);
+        } else if (self.displayCollections.indexOf(this.selectedCollection().longName) < 0){
+          this.displayCollections.push(this.selectedCollection().longName);
+          this.collections.push(this.selectedCollection().shortName);
+          
           } else {app.showMessage('This item already exists.', 'Oops');}
       }
 
@@ -117,9 +132,33 @@ define(['api/server','api/datacontext', 'plugins/dialog', 'knockout', 'durandal/
       
       socket.emit('manager:collections', { command: 'getAll' }, function (data) {
         console.log(data);
-         collections = $.merge([{longName: "All"}], data.collections);           
+         collections = $.merge([{longName: "All", shortName : 'All'}], data.collections);           
          base.collectionList(collections);
          base.selectedCollection(collections[0]);
+         
+          var dic = {};
+         for (var i = 0; i < collections.length; i++) {
+            dic[collections[i].shortName] = collections[i].longName;
+         }
+          var sub = ko.computed(function () {
+            var receivedCollections = base.collections();
+            if (receivedCollections.length) {
+               
+               //ko.utils.arrayForEach(words, function (word) {
+                  //remove previous collections, so that they wont appear again if the user has removed them
+                  //word.displayCollections.splice(0, word.displayCollections().length);
+                    console.log(base.collections());                
+                  ko.utils.arrayForEach(receivedCollections, function (col) {
+                     if (!dic[col]) dic[col] = 'unknown';
+                     base.displayCollections().push(dic[col]);
+                     base.displayCollections.valueHasMutated();
+                     
+                  });
+               //});
+               
+               //sub.dispose(); //kill the computed func, so it wont run again               
+            }
+         });
       })
 
       /*ctx.load("categories").then(function (items) {
