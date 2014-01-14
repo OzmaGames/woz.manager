@@ -64,6 +64,9 @@ define(['api/server','api/datacontext', 'plugins/dialog', 'knockout', 'durandal/
       this.removeCollection = function (item, e) {
          e.preventDefault();
          self.displayCollections.remove(item);
+         var itemPos = self.displayCollections.indexOf(item);
+         self.collections.splice(itemPos, 1);
+         
       }
 
       this.addCategory = function () {
@@ -141,6 +144,7 @@ define(['api/server','api/datacontext', 'plugins/dialog', 'knockout', 'durandal/
             dic[collections[i].shortName] = collections[i].longName;
          }
           var sub = ko.computed(function () {
+            base.displayCollections([]);
             var receivedCollections = base.collections();
             if (receivedCollections.length) {
                
