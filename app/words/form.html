@@ -65,7 +65,7 @@
                   </div>
                   <br>
                    <!-- ko foreach:categories -->
-                  <div class="form-group" style="margin-left:20px;">
+                  <div class="form-group" style="margin-left:20px;" data-bind1="if:$data">
                      <a href="#" data-bind="click: $parent.removeCategory">x</a>
                      <span data-bind="text:$data"></span>
                   </div>

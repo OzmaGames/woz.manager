@@ -1,4 +1,4 @@
-define(['knockout', 'api/datacontext', './_Condition'], function (ko, ctx, Condition) {
+define(['knockout', 'api/datacontext', './_Condition', 'api/server'], function (ko, ctx, Condition, socket) {
 
   function Category(letter) {
     var self = this;
@@ -16,10 +16,16 @@ define(['knockout', 'api/datacontext', './_Condition'], function (ko, ctx, Condi
         editMode: false
       };
     }
+    
+    socket.emit("manager:categories", {command:'getAll'}, function(items){
+      self.categoryList(items.categories);
+      categoryPos = self.categoryList.indexOf("");
+      self.categoryList.splice(categoryPos, 1);
+      });
 
-    ctx.load("categories").then(function (items) {
+    /*ctx.load("categories").then(function (items) {
       self.categoryList(items);
-    });
+    });*/
   }
 
   //Class inherits from Condition
