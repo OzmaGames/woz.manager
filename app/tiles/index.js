@@ -96,11 +96,18 @@ define(['api/datacontext', 'knockout', 'jquery', 'plugins/router', 'api/server',
       });
 
       self.addToRelated = function () {
+        console.log(self.selectedTile().name);
+        console.log([self.query()]);
+        console.log(self.selectedTile().id );
          if (self.selectedTile().related.indexOf(self.query()) == -1) {
-            self.selectedTile().related.push(self.query());
-            self.selectedTile.valueHasMutated();
-            self.query("");
-            self.add(false);
+            socket.emit('manager:images', {command: 'setRelated', name:self.selectedTile().name, id:self.selectedTile().id,related:[self.query()]}, function(data){
+                console.log(data);
+                self.selectedTile().related.push(self.query());
+                self.selectedTile.valueHasMutated();
+                self.query("");
+                self.add(false);
+                });
+            
          } else {
             app.showMessage('This word already exist', 'Oops').then(function () {
                self.query('');
@@ -111,9 +118,9 @@ define(['api/datacontext', 'knockout', 'jquery', 'plugins/router', 'api/server',
    }
 
 
-   ctor.prototype.compositionComplete = function () {
-      grid().init();
-   }
+   //ctor.prototype.compositionComplete = function () {
+      //grid().init();
+   //}
 
    ctor.prototype.activate = function () {
       var base = this;
@@ -121,8 +128,9 @@ define(['api/datacontext', 'knockout', 'jquery', 'plugins/router', 'api/server',
       socket.emit('manager:images', {command: 'getAll'}, function(data){
         console.log(data);
         base.tileList(data.images);
-        
+        grid().init();
         });
+     
       //ctx.load("tiles").then(function (tiles) {
          //base.tileList(tiles);
       //});
