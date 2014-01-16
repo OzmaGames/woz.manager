@@ -118,9 +118,14 @@ define(['api/datacontext', 'knockout', 'jquery', 'plugins/router', 'api/server',
    ctor.prototype.activate = function () {
       var base = this;
 
-      ctx.load("tiles").then(function (tiles) {
-         base.tileList(tiles);
-      });
+      socket.emit('manager:images', {command: 'getAll'}, function(data){
+        console.log(data);
+        base.tileList(data.images);
+        
+        });
+      //ctx.load("tiles").then(function (tiles) {
+         //base.tileList(tiles);
+      //});
 
       socket.emit("manager:words", { command: 'getAll' }, function (data) {
          base.words(data.words);
