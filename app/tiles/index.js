@@ -6,7 +6,7 @@ define(['api/datacontext', 'knockout', 'jquery', 'plugins/router', 'api/server',
       var self = this;
 
       self.setList = ko.observableArray();
-      self.selectedSet = ko.observable();
+      self.selectedSet = ko.observable(self.setList([0]));
       self.tileList = ko.observableArray();
       self.selectedTile = ko.observable();
       self.words = ko.observableArray();
@@ -16,7 +16,17 @@ define(['api/datacontext', 'knockout', 'jquery', 'plugins/router', 'api/server',
       self.chooseTile = function (tile) {
          self.selectedTile(tile);
       }
-
+      console.log(self.selectedSet().shortName);
+      console.log('a')
+      self.filteredTiles = ko.computed(function(){
+        return ko.utils.arrayForEach(self.tileList(), function(item){
+            
+               return item.collection === self.selectedSet().shortName;
+                
+            
+            });
+        });
+      
       self.rows = ko.computed(function () {
          var rows = [],
          currentRow,
@@ -47,8 +57,16 @@ define(['api/datacontext', 'knockout', 'jquery', 'plugins/router', 'api/server',
          var relatedWords = self.selectedTile().related;
          var pos = relatedWords.indexOf(word);
          relatedWords.splice(pos, 1);
-
-         self.selectedTile.valueHasMutated();
+         var data = {
+                  command: 'setRelated',
+                  name: self.selectedTile().name,
+                  related: relatedWords
+               };
+               console.log(data);
+               socket.emit('manager:images', data , function(data){
+                console.log(data);
+                 self.selectedTile.valueHasMutated();
+                });
       }
 
 
@@ -96,11 +114,15 @@ define(['api/datacontext', 'knockout', 'jquery', 'plugins/router', 'api/server',
       });
 
       self.addToRelated = function () {
-        console.log(self.selectedTile().name);
-        console.log([self.query()]);
-        console.log(self.selectedTile().id );
+        var data = {
+                  command: 'setRelated',
+                  name: self.selectedTile().name,
+                  related: [self.query()]
+               };
+               console.log(data);
+
          if (self.selectedTile().related.indexOf(self.query()) == -1) {
-            socket.emit('manager:images', {command: 'setRelated', name:self.selectedTile().name, id:self.selectedTile().id,related:[self.query()]}, function(data){
+           socket.emit('manager:images', data, function (data) {
                 console.log(data);
                 self.selectedTile().related.push(self.query());
                 self.selectedTile.valueHasMutated();
@@ -138,12 +160,18 @@ define(['api/datacontext', 'knockout', 'jquery', 'plugins/router', 'api/server',
       socket.emit("manager:words", { command: 'getAll' }, function (data) {
          base.words(data.words);
       });
-
-      ctx.load("sets").then(function (sets) {
-         sets = $.merge(['All'], sets);
-         base.setList(sets);
-         base.selectedSet(sets[0]);
-      });
+       
+      socket.emit('manager:collections', {command: 'getAll'}, function(data){
+        console.log(data);
+        base.setList(data.collections);
+        base.selectedSet(base.setList([0]));
+        
+         });
+      //ctx.load("sets").then(function (sets) {
+         //sets = $.merge(['All'], sets);
+         //base.setList(sets);
+         //base.selectedSet(sets[0]);
+      //});
    }
    return ctor;
 })

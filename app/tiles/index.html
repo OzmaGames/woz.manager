@@ -8,14 +8,14 @@
          </thead>
          <tbody>
             <tr>
-               <td><select class="form-control" data-bind="options:setList, value:selectedSet" style="width:200px"></select></td>
+               <td><select class="form-control" data-bind="options:setList, optionsText:'longName' ,value:selectedSet" style="width:200px"></select></td>
             </tr>
          </tbody>
       </table>
    </div>
 
    <div id="og-grid">
-      <ul class="og-grid" data-bind="foreach: tileList">
+      <ul class="og-grid" data-bind="foreach: filteredTiles">
          <li>
             <div class="og-item" data-bind="click: $root.chooseTile, attr: {'data-title': name, 'data-largesrc':'images/woz/' + id +'.jpg'}">
                <div class="circle">

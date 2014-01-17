@@ -8,7 +8,7 @@ define(['api/server','api/datacontext', 'plugins/dialog', 'knockout', 'durandal/
 
       this.classList = ko.observableArray([]);
       this.categoryList = ko.observableArray([]);
-      this.newCategory = ko.observableArray([]);
+      this.newCategory = ko.observable();
       this.collectionList = ko.observableArray([]);
 
       this.input = ko.observable(word.lemma || '');
@@ -71,10 +71,22 @@ define(['api/server','api/datacontext', 'plugins/dialog', 'knockout', 'durandal/
 
       this.addCategory = function () {
          addToList(this.categories, this.selectedCategory(), this.categoryList);
+         
       }
 
       this.addCollection = function () {
-        if (this.selectedCollection().longName === 'All') {
+        if (!(this.selectedCollection().longName === 'Select a collection')) {
+            if (self.displayCollections.indexOf(this.selectedCollection().longName) < 0){
+            this.displayCollections.push(this.selectedCollection().longName);
+            this.collections.push(this.selectedCollection().shortName);
+          
+          } else {app.showMessage('This item already exists.', 'Oops');}
+        }
+        
+      }
+        
+        
+        /*if (this.selectedCollection().longName === 'All') {
             var forAll = this.collectionList.slice(1);
             var longNames = [],
                 shortNames=[];
@@ -89,12 +101,13 @@ define(['api/server','api/datacontext', 'plugins/dialog', 'knockout', 'durandal/
           this.displayCollections.push(this.selectedCollection().longName);
           this.collections.push(this.selectedCollection().shortName);
           
-          } else {app.showMessage('This item already exists.', 'Oops');}
-      }
+          } else {app.showMessage('This item already exists.', 'Oops');}*/
+      
 
       function addToList(list, item, collection) {
-         if (item == "All") {
-            list(collection.slice(1));
+         if (item == "Select a category") {
+            return true;
+            //list(collection.slice(1));
          } else if (!addIfNotExist(list, item)) {
             app.showMessage('This item already exists.', 'Oops');
          }
@@ -112,6 +125,10 @@ define(['api/server','api/datacontext', 'plugins/dialog', 'knockout', 'durandal/
    
    this.addNewCategory = function (){
        this.categoryList.push(this.newCategory());
+       this.categoryList().sort();
+       this.categoryList.valueHasMutated();
+       this.newCategory("");
+       console.log(this.categoryList());
     }
 
    WordForm.show = function (word) {
@@ -126,16 +143,17 @@ define(['api/server','api/datacontext', 'plugins/dialog', 'knockout', 'durandal/
       });
       
       socket.emit("manager:categories", { command: 'getAll' }, function (data) {
-         categories = $.merge(["All"], data.categories);
+         categories = $.merge(["Select a category"], data.categories);
          categoryPos = categories.indexOf("");
          categories.splice(categoryPos, 1);
-         base.categoryList(categories);
+         base.categoryList(categories.sort());
          base.selectedCategory(categories[0]);
       });
       
       socket.emit('manager:collections', { command: 'getAll' }, function (data) {
         console.log(data);
-         collections = $.merge([{longName: "All", shortName : 'All'}], data.collections);           
+         collections = $.merge([{longName: "Select a collection", shortName : 'Select a collection'}], data.collections); 
+         //collections = $.merge([{longName: "All", shortName : 'All'}], data.collections);           
          base.collectionList(collections);
          base.selectedCollection(collections[0]);
          

@@ -7,7 +7,7 @@ define(['api/datacontext', './form', 'durandal/app', './versionForm', './checkFo
       self.selectedClass = ko.observable();
       self.selectedCategory = ko.observable();
       self.selectedSet = ko.observable();
-
+      
       self.words = ko.observableArray();
       self.classes = ko.observableArray();
       self.categories = ko.observableArray();
@@ -23,6 +23,8 @@ define(['api/datacontext', './form', 'durandal/app', './versionForm', './checkFo
          lemma: function (a, b) { return a.lemma.localeCompare(b.lemma); },
          dateAdded: function (a, b) { return b.date - a.date }
       }
+      
+      
       self.sortMethod = ko.observable(sortMethods.lemma);
       self.sortByName = function () {
          self.sortMethod(sortMethods.lemma);
@@ -35,9 +37,12 @@ define(['api/datacontext', './form', 'durandal/app', './versionForm', './checkFo
          self.words.valueHasMutated();
          self.ByName(false);
       }
-
+      var lastNumber = 0;
       ko.computed(function () {
          self.words().sort(self.sortMethod());
+         ko.utils.arrayForEach(self.words(), function(word) {
+             word.number = lastNumber++;
+             });
 
       })
 
@@ -207,8 +212,10 @@ define(['api/datacontext', './form', 'durandal/app', './versionForm', './checkFo
          ko.utils.arrayForEach(data.words, function (word) {
             word.displayCollections = ko.observableArray();
             word.date = new Date().getTime();
+            word.number = ko.observable();
          });
          base.words(data.words);
+
       });
 
       ctx.load("classes").then(function (classes) {
@@ -222,6 +229,7 @@ define(['api/datacontext', './form', 'durandal/app', './versionForm', './checkFo
          categoryPos = categories.indexOf("");
          categories.splice(categoryPos, 1);
          base.categories(categories);
+         base.categories.sort();
          base.selectedCategory(categories[0]);
       });
       /*ctx.load("categories").then(function (categories) {
