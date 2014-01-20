@@ -134,28 +134,29 @@ define(['api/datacontext', 'knockout', 'jquery', 'plugins/router', 'api/server',
          });
 
          self.addToRelated = function () {
+            self.selectedTile().related.push(self.query());
             var data = {
                command: 'setRelated',
                name: self.selectedTile().name,
-               related: [self.query()]
+               related: self.selectedTile().related
             };
             console.log(data);
 
-            if (self.selectedTile().related.indexOf(self.query()) == -1) {
+            //if (self.selectedTile().related.indexOf(self.query()) == -1) {
                socket.emit('manager:images', data, function (data) {
                   console.log(data);
-                  self.selectedTile().related.push(self.query());
+                  //self.selectedTile().related.push(self.query());
                   self.selectedTile.valueHasMutated();
                   self.query("");
                   self.add(false);
-               });
+                });
 
-            } else {
-               app.showMessage('This word already exist', 'Oops').then(function () {
-                  self.query('');
-                  self.add(false);
-               });
-            }
+           // } else {
+              // app.showMessage('This word already exist', 'Oops').then(function () {
+                 // self.query('');
+                 // self.add(false);
+               //});
+            //}
          }
       }
 
