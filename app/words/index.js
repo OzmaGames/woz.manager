@@ -226,8 +226,8 @@ define(['api/datacontext', './form', 'durandal/app', './versionForm', './checkFo
 
       socket.emit("manager:categories", { command: 'getAll' }, function (data) {
          categories = $.merge(["All"], data.categories);
-         categoryPos = categories.indexOf("");
-         categories.splice(categoryPos, 1);
+         //categoryPos = categories.indexOf("");
+         //categories.splice(categoryPos, 1);
          base.categories(categories);
          base.categories.sort();
          base.selectedCategory(categories[0]);
