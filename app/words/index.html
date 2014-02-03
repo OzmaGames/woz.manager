@@ -52,7 +52,7 @@
 
          <tbody data-bind="foreach:pagedWords">
             <tr>
-               <td class="text-center" data-bind="text:number"></td>
+               <td class="text-center" data-bind="text:$index() + 1"></td>
                <td><a href="#" data-bind="text: lemma, click:$parent.edit" style="cursor:pointer"></a></td>
                <td>
                   <button type="button" class="btn btn-default btn-sm" data-bind="click: $root.versions, text: versions.length"></button>

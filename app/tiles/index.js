@@ -184,6 +184,7 @@ define(['api/datacontext', 'knockout', 'jquery', 'plugins/router', 'api/server',
          socket.emit('manager:collections', { command: 'getAll' }, function (data) {
             console.log(data);
             base.setList(data.collections);
+            base.setList.splice(0,1);
             base.selectedSet(base.setList()[0]);
 
          });

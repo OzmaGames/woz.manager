@@ -37,11 +37,11 @@ define(['api/datacontext', './form', 'durandal/app', './versionForm', './checkFo
          self.words.valueHasMutated();
          self.ByName(false);
       }
-      var lastNumber = 0;
+      //var lastNumber = 0;
       ko.computed(function () {
          self.words().sort(self.sortMethod());
          ko.utils.arrayForEach(self.words(), function(word) {
-             word.number = lastNumber++;
+             //word.number = lastNumber++;
              });
 
       })
@@ -53,10 +53,13 @@ define(['api/datacontext', './form', 'durandal/app', './versionForm', './checkFo
          var query = self.query();
          return ko.utils.arrayFilter(self.words(), function (item) {
             if (item.ignoreFilter) { delete item.ignoreFilter; return true; }
+            if (query)  {return contains(item["lemma"], query); return true;}
+            else {
             return genericFilter(item["classes"], classKey) &&
                    genericFilter(item["categories"], categoryKey) &&
-                   genericFilter(item["collections"], setKey.shortName) &&
-                   contains(item["lemma"], query);
+                   genericFilter(item["collections"], setKey.shortName);
+            }
+                   
          });
       });
 
@@ -196,9 +199,10 @@ define(['api/datacontext', './form', 'durandal/app', './versionForm', './checkFo
 
       /*self.searchWord = ko.computed(function () {
         var search = self.query();
-         return ko.utils.arrayFilter(self.words, function (word) {
+         return ko.utils.arrayFilter(self.words(), function (word) {
+            console.log(word);
         
-            return word.indexOf(search) >= 0;
+            return word.lemma == search;
          })
       })*/
 
@@ -212,7 +216,7 @@ define(['api/datacontext', './form', 'durandal/app', './versionForm', './checkFo
          ko.utils.arrayForEach(data.words, function (word) {
             word.displayCollections = ko.observableArray();
             word.date = new Date().getTime();
-            word.number = ko.observable();
+            //word.number = ko.observable();
          });
          base.words(data.words);
 
