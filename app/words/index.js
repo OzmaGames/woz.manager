@@ -12,6 +12,7 @@ define(['api/datacontext', './form', 'durandal/app', './versionForm', './checkFo
       self.classes = ko.observableArray();
       self.categories = ko.observableArray();
       self.collections = ko.observableArray();
+     
 
       self.query = ko.observable();
       self.ByName = ko.observable(true);
@@ -79,7 +80,7 @@ define(['api/datacontext', './form', 'durandal/app', './versionForm', './checkFo
          }
          return false;
       }
-
+      
       self.pagedWords = ko.computed(function () {
          var size = self.pageSize();
          var start = self.pageIndex() * size;
@@ -178,16 +179,20 @@ define(['api/datacontext', './form', 'durandal/app', './versionForm', './checkFo
          })
       }
 
-      self.versions = function (word) {
-         versionForm.show(word).then(function () {
-            var wordPos = self.words.indexOf(word);
-            self.words.splice(wordPos, 1);
-            self.words.splice(wordPos, 0, word);
+      self.toVersions = function (word) {
+         versionForm.show(word).then(function (response) {
+            //var wordPos = self.words.indexOf(word);
+            //self.words.splice(wordPos, 1);
+            //self.words.splice(wordPos, 0, word);
+            var toSend = {};
+            toSend.command = 'setVersions';
+            toSend.versions = response;
+            toSend.lemma = word.lemma;
+            //response.oldLemma = word.lemma; // Important for updates
 
-            word.command = 'set';
-            word.oldLemma = word.lemma; // Important for updates
-
-            socket.emit("manager:words", word, function (data) {
+            socket.emit("manager:words", toSend, function (data) {
+                console.log(data);
+                console.log(toSend);
                if (data.success) {                  
                   var pos = self.words.indexOf(word);
                   self.words().splice(pos, 1); //using "self.words()" to not cause chain notification yet

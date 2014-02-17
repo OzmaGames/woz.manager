@@ -21,7 +21,10 @@ define(['api/datacontext', 'plugins/dialog', 'knockout', 'durandal/app', 'bootst
             self.versions.push({
                lemma: self.input(),
                classes: self.classes(),
-               editMode: ko.observable(false)
+               editMode: ko.observable(false),
+               categories: [],
+               collections:[],
+               oldlemma:self.input()
             });
          } else if (!self.input()) {
             app.showMessage('Please enter a version.', 'Oops');

@@ -23,10 +23,6 @@
                                data-bind="value: query, valueUpdate:'afterkeydown'" placeholder="Search word...">
                      </div>
                   </div>
-               </td>
-            </tr>
-         </thead>
-         <tbody>
             <tr>
                <td><select class="form-control" data-bind="options:classes, value:selectedClass"></select></td>
                <td><select class="form-control" data-bind="options:categories, value:selectedCategory"></select></td>
@@ -52,12 +48,12 @@
 
          <tbody data-bind="foreach:pagedWords">
             <tr>
-               <td class="text-center" data-bind="text:$index() + 1"></td>
+               <td class="text-center" data-bind="text:$index() + 1 + ($root.pageIndex()* $root.pageSize())"></td>
                <td><a href="#" data-bind="text: lemma, click:$parent.edit" style="cursor:pointer"></a></td>
                <td>
-                  <button type="button" class="btn btn-default btn-sm" data-bind="click: $root.versions, text: versions.length"></button>
+                  <button type="button" class="btn btn-default btn-sm" data-bind="click: $root.toVersions, text: versions.length"></button>
                   <!-- ko foreach:versions -->
-                  <a href="#" data-bind="click: $root.versions, text:lemma" style="cursor:pointer"></a><span>,</span>
+                  <a href="#" data-bind="click: $root.toVersions" style="cursor:pointer"></a><span>,</span>
                   <!--/ko-->
                </td>
                <td data-bind="text: classes.join(', ')"></td>

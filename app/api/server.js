@@ -34,7 +34,6 @@ define(['durandal/system', 'durandal/app', 'socket'], function (system, app, soc
     }).promise()
   }
 
-  //add custom events, accessible via: app.trigger("server:manager:???", function(data){ ... })
   var applicationEvents = [
    'manager:words', 'tiles', 'manager:instructions'
   ], customEvents = {
