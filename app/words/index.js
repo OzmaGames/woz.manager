@@ -182,7 +182,7 @@ define(['api/datacontext', './form', 'durandal/app', './versionForm', './checkFo
       self.toVersions = function (word) {
          versionForm.show(word).then(function (response) {
             //var wordPos = self.words.indexOf(word);
-            //self.words.splice(wordPos, 1);
+            //self.words.splice(wordPos, 1, word);
             //self.words.splice(wordPos, 0, word);
             var toSend = {};
             toSend.command = 'setVersions';
@@ -196,7 +196,9 @@ define(['api/datacontext', './form', 'durandal/app', './versionForm', './checkFo
                if (data.success) {                  
                   var pos = self.words.indexOf(word);
                   self.words().splice(pos, 1); //using "self.words()" to not cause chain notification yet
-                  self.words.splice(pos, word);
+                  self.words.splice(pos,0, word);
+                 
+                  
                }
             });
          });
