@@ -194,9 +194,10 @@ define(['api/datacontext', './form', 'durandal/app', './versionForm', './checkFo
                 console.log(data);
                 console.log(toSend);
                if (data.success) {
-                
+                  word.versions = response;
+
                   var pos = self.words.indexOf(word);
-                  self.words().splice(pos, 1); //using "self.words()" to not cause chain notification yet
+                  self.words.splice(pos, 1); //using "self.words()" to not cause chain notification yet
                   self.words.splice(pos,0, word);
                  
                   
