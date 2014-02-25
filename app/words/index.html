@@ -53,9 +53,7 @@
                <td>
                   <button type="button" class="btn btn-default btn-sm" data-bind="click: $root.toVersions, text: versions.length"></button>
                   <!-- ko foreach:versions -->
-                  
-                  <a href="#" data-bind="click: $root.toVersions, text:lemma" style="cursor:pointer"></a><span>,</span>
-                 
+                     <a href="#" data-bind="click: $root.toVersions, text:lemma" style="cursor:pointer"></a><span>,</span>
                   <!--/ko-->
                </td>
                <td data-bind="text: classes.join(', ')"></td>

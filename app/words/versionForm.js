@@ -1,4 +1,4 @@
-define(['api/datacontext', 'plugins/dialog', 'knockout', 'durandal/app', 'bootstrap', './checkForm'], function (ctx, dialog, ko, app, checkForm) {
+define(['api/datacontext', 'plugins/dialog', 'knockout', 'durandal/app', './checkForm', 'bootstrap'], function (ctx, dialog, ko, app, checkForm) {
    var VersionForm = function (word) {
       var self = this;
 
@@ -13,7 +13,9 @@ define(['api/datacontext', 'plugins/dialog', 'knockout', 'durandal/app', 'bootst
       });
 
       this.save = function () {
+        console.log(self.versions());
          dialog.close(this, self.versions());
+         
       }
 
       this.add = function () {
