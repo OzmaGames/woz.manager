@@ -151,6 +151,7 @@ define(['api/datacontext', './form', 'durandal/app', './versionForm', './checkFo
                //self.words.splice(wordPos, 1, newWord);
                newWord.command = 'set';
                newWord.oldLemma = word.lemma;
+               newWord.versions = word.versions;
                socket.emit("manager:words", newWord, function (data) {
                   if (data.success) {
                      //update client

@@ -171,7 +171,7 @@ define(['api/datacontext', 'plugins/dialog', 'knockout', 'durandal/app', 'jquery
                  });
               });
 
-              var condit = [data.instruction.condition];
+              var condit = data.instruction.condition;
               for (var i = 0; i < condit.length ; i++) {
                  var d = condit[i].split(" ");
                  var dd = {

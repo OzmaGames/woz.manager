@@ -45,7 +45,9 @@ define(['api/datacontext', 'knockout', 'jquery', 'plugins/router', 'api/server',
 
          // End My changes
 
-
+         self.collectionName = ko.computed(function(){
+            
+            });
 
          self.rows = ko.computed(function () {
             var rows = [],

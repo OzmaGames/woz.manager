@@ -32,7 +32,6 @@ define(['api/server','api/datacontext', 'plugins/dialog', 'knockout', 'durandal/
            }*/
          var word = {
             lemma: self.input(),
-            versions: [],
             classes: self.classes(),
             categories: self.categories(),
             collections: self.collections(),
