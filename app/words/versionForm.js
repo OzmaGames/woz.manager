@@ -61,6 +61,7 @@
               }
               
               this.edit = function (version) {
+                version.aactive = ko.observable(true);
                 console.log(version);
                 self.editMode(true);
                 //version.lemma = ko.observable(version.lemma);
@@ -106,6 +107,9 @@
                 
                 self.versions.replace(oldold, newnew);
                 self.editMode(false);
+                self.modClass([]);
+                self.input("");
+                self.categories([]);
                 
                  //version.classes = self.modClass();
                  //version.editMode(false);

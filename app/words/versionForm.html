@@ -12,7 +12,7 @@
                </tr>
             </thead>
             <tbody data-bind="foreach:versions">
-               <tr>
+               <tr data-bind="css:{warning : $data.lemma == $root.oldVersion()}">
                   <td><a data-bind="click: $root.edit, text: lemma"></a></td>
                   <td data-bind="text: classes.join(', ')"></td>
                   <td data-bind="text:categories.join(', ')"></td>
