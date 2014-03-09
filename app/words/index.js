@@ -185,7 +185,7 @@ define(['api/datacontext', './form', 'durandal/app', './versionForm', './checkFo
             //var wordPos = self.words.indexOf(word);
             //self.words.splice(wordPos, 1, word);
             //self.words.splice(wordPos, 0, word);
-            var toSend = {};
+            if(response){var toSend = {};
             toSend.command = 'setVersions';
             toSend.versions = response;
             toSend.lemma = word.lemma;
@@ -208,6 +208,7 @@ define(['api/datacontext', './form', 'durandal/app', './versionForm', './checkFo
                   
                }
             });
+         }
          });
       }
 
@@ -257,6 +258,7 @@ define(['api/datacontext', './form', 'durandal/app', './versionForm', './checkFo
       });*/
 
       socket.emit('manager:collections', { command: 'getAll' }, function (data) {
+         console.log(data);
          collections = $.merge([{longName: "All", shortName: 'All'}], data.collections);           
          base.collections(collections);
          base.selectedSet(collections[0]);

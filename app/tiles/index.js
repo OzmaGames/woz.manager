@@ -15,6 +15,7 @@ define(['api/datacontext', 'knockout', 'jquery', 'plugins/router', 'api/server',
 
          self.chooseTile = function (tile) {
             self.selectedTile(tile);
+            console.log(self.selectedTile());
          }         
 
 

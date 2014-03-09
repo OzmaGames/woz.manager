@@ -19,13 +19,13 @@
          <li>
             <div class="og-item" data-bind="click: $root.chooseTile, attr: {'data-title': name, 'data-largesrc':'images/'+  $root.selectedSet().shortName +'/' + id +'.jpg'}">
                
-                  <div class="circle" data-bind="text:'url(\'http://woz.arafati.com/images/tiles/'+ $root.selectedSet().shortName +'.jpg\''">
-                  <div class="tile top" data-bind="style: { 'backgroundPosition': ((100 / 29) * id).toFixed(2) + '% 0' }"></div>
-                  <div class="tile bottom" data-bind="style: { 'backgroundPosition': ((100 / 29) * id).toFixed(2) + '% -.5em'}"></div>
+               <div class="circle">
+                  <div class="tile top" data-bind="style:{ backgroundImage: 'url(\'http://woz.arafati.com/images/tiles/'+ $root.selectedSet().shortName +'.jpg\')', 'backgroundPosition': ((100 / 29) * id).toFixed(2) + '% 0'}"></div>
+                  <div class="tile bottom" data-bind="style:{ backgroundImage: 'url(\'http://woz.arafati.com/images/tiles/'+ $root.selectedSet().shortName +'.jpg\')', 'backgroundPosition': ((100 / 29) * id).toFixed(2) + '% -.5em'}"></div>
                   <div class="related">
                      <span data-bind="text:name"></span>
                  
-               </div>
+                   </div>
                </div>
             </div>
          </li>

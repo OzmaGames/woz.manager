@@ -2,67 +2,62 @@
    <div class="messageBox">
       <div class="modal-header">Versions of <b data-bind="text: word.lemma"></b></div>
       <div class="modal-body" style="overflow-x: hidden">
-         <table style="width: 800px;" class="table table-hover">
+         <table style="width: 1000px;" class="table table-hover">
             <thead>
                <tr>
                   <th>Lemma</th>
                   <th>Classes</th>
+                  <th>Categories</th>
                   <th></th>
                </tr>
             </thead>
             <tbody data-bind="foreach:versions">
-               <!-- ko if:!editMode() -->
                <tr>
                   <td><a data-bind="click: $root.edit, text: lemma"></a></td>
                   <td data-bind="text: classes"></td>
+                  <td data-bind="text:categories"></td>
                   <td>
                      <span data-bind="click: $root.edit" class="glyphicon glyphicon-edit" style="cursor:pointer"> </span>  |
                      <span data-bind="click: $root.remove" class="glyphicon glyphicon-trash" style="cursor:pointer">  </span>
                   </td>
                </tr>
-               <!-- /ko --><!-- ko if:editMode() -->
-               <tr class="active">
-                  <td>
-                     <input type="text" class="form-control input-sm autofocus" placeholder="Lemma" data-bind="value: lemma" />
-                  </td>
-                  <td>
-                     <div class="btn-group" data-bind="foreach: $root.classList">
-                        <button type="button" class="btn btn-default btn-sm" data-bind="checkbox: {value: $data, pool: $parent.classes}"></button>
-                     </div>
-                  </td>
-                  <td>
-                     <a data-bind="click: $root.update" href="#">Update</a> |
-                     <a data-bind="click: $root.cancel" href="#">Cancel</a>
-                  </td>
-               </tr>
-               <!-- /ko -->
             </tbody>
             <tfoot>
-               <tr>
                   <td>
-                     <input type="text" class="input-small autofocus" placeholder="Lemma" data-bind="value: input" />
+                     <input type="text" class="form-control input-small autofocus" style="width:180px" placeholder="Lemma" data-bind="value: input" />
                   </td>
                   <td>
-                     <div class="btn-group" data-bind="foreach: classList">
-                        <button type="button" class="btn btn-default btn-sm" data-bind="checkbox: {value: $data, pool: $root.classes}"></button>
-                     </div>
-                  </td>
+                     <div class="btn-group custom-group" style="width:200px" data-bind="foreach: classList">
+                     <button type="button" class="btn btn-default btn-sm fixed-width" data-bind="checkbox: {value: $data.abv, pool: $root.modClass}"></button>
+                 </div>
+                 </td>
                   <td>
-                     <button type="button" class="btn btn-warning btn-sm" data-bind="click:add"><span class="glyphicon glyphicon-plus-sign"></span></button>
-                  </td>
-               </tr>
-               
-                <div class="form-inline">
-                      <div class="form-group">
-                        <div class="input-group">
-                          <input class="form-control" type="text" placeholder="New category name">
-                          <span class="input-group-btn">
-                            <button class="btn btn-info" type="button" >Add</button>
-                          </span>
-                       </div>
-                     </div>
+                    <div class="form-inline">
+                       <div class="form-group">
+                       <select class="form-control" data-bind="options:categoryList, value:selectedCategory"></select>
                   </div>
-                </tr>
+                     <div class="form-group">
+                     <button class="btn btn-danger btn-xs" data-bind="click:addCategory">Add</button>
+                  </div>
+                     <br>
+                  <table data-bind="foreach:rows">
+                      <tr data-bind="foreach: $data">
+                     <td>
+                        <a href=# data-bind="click: $root.removeCategory">x</a>
+                        <span data-bind="text: $data"></span>
+                     </td>
+                     </tr>
+                </table>
+               </div>
+                  </td>
+                  <td>
+                    <!-- ko if:!editMode() -->
+                     <button type="button" class="btn btn-warning btn-sm" data-bind="click:add"><span class="glyphicon glyphicon-plus-sign"></span></button>
+                    <!-- /ko --><!-- ko if:editMode() -->
+                    <button type="button" class="btn btn-danger btn-sm" data-bind="click:update"><span>Update</span></button>
+                    <button type="button" class="btn btn-info btn-sm" data-bind="click:cancel"><span>Cancel</span></button>
+                   <!-- /ko -->
+                  </td>
          </table>
       </div>
       <div class="modal-footer">

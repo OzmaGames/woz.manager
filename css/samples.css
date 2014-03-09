@@ -102,7 +102,14 @@ label.normal{
         max-height: 200px;
         position: absolute;
         z-index:1;
-        width:26    0px;
+        width:260px;
     }
-    
+.fixed-width {
+    width:50px; 
+}
+
+.custom-group > .btn{
+    border-radius: 0;
+}
+
    

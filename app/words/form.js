@@ -83,6 +83,24 @@ define(['api/server','api/datacontext', 'plugins/dialog', 'knockout', 'durandal/
         }
         
       }
+      
+      function addToList(list, item, collection) {
+         if (item == "Select a category") {
+            return true;
+            //list(collection.slice(1));
+         } else if (!addIfNotExist(list, item)) {
+            app.showMessage('This item already exists.', 'Oops');
+         }
+      }
+
+      function addIfNotExist(list, item) {
+         if (list.indexOf(item) < 0) {
+            list.push(item);
+
+            return true;
+         }
+         return false;
+      }
         
         
         /*if (this.selectedCollection().longName === 'All') {
@@ -101,25 +119,6 @@ define(['api/server','api/datacontext', 'plugins/dialog', 'knockout', 'durandal/
           this.collections.push(this.selectedCollection().shortName);
           
           } else {app.showMessage('This item already exists.', 'Oops');}*/
-      
-
-      function addToList(list, item, collection) {
-         if (item == "Select a category") {
-            return true;
-            //list(collection.slice(1));
-         } else if (!addIfNotExist(list, item)) {
-            app.showMessage('This item already exists.', 'Oops');
-         }
-      }
-
-      function addIfNotExist(list, item) {
-         if (list.indexOf(item) < 0) {
-            list.push(item);
-
-            return true;
-         }
-         return false;
-      }
    }
    
    this.addNewCategory = function (){
