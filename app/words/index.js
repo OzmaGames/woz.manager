@@ -146,6 +146,7 @@ define(['api/datacontext', './form', 'durandal/app', './versionForm', './checkFo
 
       self.edit = function (word) {
          form.show(word).then(function (newWord) {
+            
             if (newWord) {
                //var wordPos = self.words.indexOf(word);
                //self.words.splice(wordPos, 1, newWord);

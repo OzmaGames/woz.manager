@@ -14,8 +14,8 @@
             <tbody data-bind="foreach:versions">
                <tr>
                   <td><a data-bind="click: $root.edit, text: lemma"></a></td>
-                  <td data-bind="text: classes"></td>
-                  <td data-bind="text:categories"></td>
+                  <td data-bind="text: classes.join(', ')"></td>
+                  <td data-bind="text:categories.join(', ')"></td>
                   <td>
                      <span data-bind="click: $root.edit" class="glyphicon glyphicon-edit" style="cursor:pointer"> </span>  |
                      <span data-bind="click: $root.remove" class="glyphicon glyphicon-trash" style="cursor:pointer">  </span>

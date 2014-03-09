@@ -10,7 +10,6 @@
               self.selectedCategory = ko.observable();
               self.classes = ko.observableArray($.merge([], word.classes) || []);
               self.modClass = ko.observableArray();
-              self.j = ko.observableArray();
               self.versions = ko.observableArray(word.versions || []);
               self.oldVersion = ko.observable();
               self.editMode = ko.observable(false);
@@ -30,7 +29,6 @@
               for (var i=0; i<self.classList.length; i++) {
                dic[self.classList[i].full]= self.classList[i].abv;
               }
-              console.log(dic);
               
               var dic1= {};
               for (var i=0; i<self.classList.length; i++) {
@@ -44,12 +42,13 @@
               
               this.add = function () {
                  if (null == ko.utils.arrayFirst(self.versions(), function (v) { return v.lemma.toLowerCase() === self.input() }) && self.input()) {
-                     ko.utils.arrayForEach(self.modClass(), function(classes){
-                     self.j.push(dic1[classes]);
-                     })
+                      var chosenClasses = [];
+                     ko.utils.arrayForEach(self.modClass(), function (classes) {
+                     chosenClasses.push(dic1[classes]);
+                })
                     self.versions.push({
                        lemma: self.input(),
-                       classes: self.j(),
+                       classes: chosenClasses,
                        //editMode: ko.observable(false),
                        categories: $.merge([], self.categories()),
                        collections:[],
@@ -62,6 +61,7 @@
               }
               
               this.edit = function (version) {
+                console.log(version);
                 self.editMode(true);
                 //version.lemma = ko.observable(version.lemma);
                 self.input(version.lemma);
@@ -83,21 +83,24 @@
               
               this.update = function () {
                 
-                var oldold = ko.utils.arrayFirst(word.versions, function(version){
-                    return version.lemma = self.oldVersion();
+                var oldold = ko.utils.arrayFirst(self.versions(), function(version){
+                    return version.lemma == self.oldVersion();
                     });
                
-                ko.utils.arrayForEach(self.modClass(), function(classes){
-                     self.j.push(dic1[classes]);
-                     })
+                var chosenClasses = [];
+                ko.utils.arrayForEach(self.modClass(), function (classes) {
+                chosenClasses.push(dic1[classes]);
+                })
+
                 var newnew = {
                     lemma: self.input(),
-                    classes: self.j(),
+                    classes: chosenClasses,
                     categories: self.categories()
                 }
                 
                 console.log(self.oldVersion());
                 console.log(oldold);
+                console.log(newnew);
                 
                 self.versions.replace(oldold, newnew);
                 self.editMode(false);
