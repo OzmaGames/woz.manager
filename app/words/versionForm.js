@@ -117,6 +117,7 @@
         
               this.cancel = function (version) {
                  self.editMode(false);
+                 self.oldVersion("");
               }
         
               this.remove = function (word) {

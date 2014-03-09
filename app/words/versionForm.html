@@ -2,7 +2,7 @@
    <div class="messageBox">
       <div class="modal-header">Versions of <b data-bind="text: word.lemma"></b></div>
       <div class="modal-body" style="overflow-x: hidden">
-         <table style="width: 1000px;" class="table table-hover">
+         <table style="width: 800px;" class="table table-hover">
             <thead>
                <tr>
                   <th>Lemma</th>
@@ -24,7 +24,7 @@
             </tbody>
             <tfoot>
                   <td>
-                     <input type="text" class="form-control input-small autofocus" style="width:180px" placeholder="Lemma" data-bind="value: input" />
+                     <input type="text" class="form-control input-small autofocus" style="width:140px" placeholder="Lemma" data-bind="value: input" />
                   </td>
                   <td>
                      <div class="btn-group custom-group" style="width:200px" data-bind="foreach: classList">
@@ -34,7 +34,7 @@
                   <td>
                     <div class="form-inline">
                        <div class="form-group">
-                       <select class="form-control" data-bind="options:categoryList, value:selectedCategory"></select>
+                       <select class="form-control" data-bind="options:categoryList, value:selectedCategory" style="width:180px"></select>
                   </div>
                      <div class="form-group">
                      <button class="btn btn-danger btn-xs" data-bind="click:addCategory">Add</button>
