@@ -16,7 +16,7 @@
                   <td><a data-bind="click: $root.edit, text: lemma"></a></td>
                   <td data-bind="text: classes.join(', ')"></td>
                   <td data-bind="text:categories.join(', ')"></td>
-                  <td>
+                  <td style="text-align:right">
                      <span data-bind="click: $root.edit" class="glyphicon glyphicon-edit" style="cursor:pointer"> </span>  |
                      <span data-bind="click: $root.remove" class="glyphicon glyphicon-trash" style="cursor:pointer">  </span>
                   </td>
@@ -50,7 +50,7 @@
                 </table>
                </div>
                   </td>
-                  <td>
+                  <td style="text-align:right">
                     <!-- ko if:!editMode() -->
                      <button type="button" class="btn btn-warning btn-sm" data-bind="click:add"><span class="glyphicon glyphicon-plus-sign"></span></button>
                     <!-- /ko --><!-- ko if:editMode() -->

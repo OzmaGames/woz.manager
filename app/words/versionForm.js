@@ -95,7 +95,9 @@
                 var newnew = {
                     lemma: self.input(),
                     classes: chosenClasses,
-                    categories: self.categories()
+                    categories: self.categories(),
+                    collections:[],
+                    oldlemma:self.oldVersion()
                 }
                 
                 console.log(self.oldVersion());
