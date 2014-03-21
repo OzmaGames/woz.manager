@@ -1,7 +1,7 @@
         define(['api/datacontext', 'plugins/dialog', 'knockout', 'durandal/app', './checkForm','api/server', 'bootstrap'], function (ctx, dialog, ko, app, checkForm,socket) {
            var VersionForm = function (word) {
               var self = this;
-        
+              
               self.word = word;
               self.input = ko.observable();
               self.classList =[{abv:"non", full:"noun"},{abv:"vrb", full:"verb"},{abv:"adj",full:"adjective"},{abv:"adv", full:"adverb"},{abv:"prep", full:"preposition"},{abv:"pron", full:"pronoun"},{abv:"conj", full:"conjuction"},{abv:"impt", full:"important"}];
@@ -13,11 +13,14 @@
               self.versions = ko.observableArray(word.versions || []);
               self.oldVersion = ko.observable();
               self.editMode = ko.observable(false);
+              
+              //self.classes.remove("related");
+              console.log(self.classes());
         
-              console.log($.merge([], word.classes));
               //ko.utils.arrayForEach(word.versions, function (v) {
                 // v.editMode = ko.observable(false);
               //});
+              console.log(self.categories());
         
               this.save = function () {
                 console.log(self.versions());
@@ -29,11 +32,13 @@
               for (var i=0; i<self.classList.length; i++) {
                dic[self.classList[i].full]= self.classList[i].abv;
               }
+              dic.related = "related";
               
               var dic1= {};
               for (var i=0; i<self.classList.length; i++) {
                dic1[self.classList[i].abv]= self.classList[i].full;
               }
+              dic1.related = "related";
               
               ko.utils.arrayForEach(self.classes(), function(classes){
                 self.modClass.push(dic[classes]);
@@ -50,8 +55,8 @@
                        lemma: self.input(),
                        classes: chosenClasses,
                        //editMode: ko.observable(false),
-                       categories: $.merge([], self.categories()),
-                       collections:[],
+                       categories: self.categories(),
+                       collections:$.merge([], word.categories),
                        oldlemma:self.input()
                     });
                  } else if (!self.input()) {
@@ -71,8 +76,7 @@
                 for(var i=0; i< version.classes.length; i++){
                    self.modClass.push(dic[version.classes[i]]);
                 };
-                self.categories().length = 0;
-                self.categories.push(version.categories);
+                self.categories(version.categories);
                 console.log(self.oldVersion());
                  
                 //
@@ -97,7 +101,7 @@
                     lemma: self.input(),
                     classes: chosenClasses,
                     categories: self.categories(),
-                    collections:[],
+                    collections:word.collections,
                     oldlemma:self.oldVersion()
                 }
                 
