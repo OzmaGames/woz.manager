@@ -32,14 +32,17 @@
               for (var i=0; i<self.classList.length; i++) {
                dic[self.classList[i].full]= self.classList[i].abv;
               }
-              dic.related = "related";
               
               var dic1= {};
               for (var i=0; i<self.classList.length; i++) {
                dic1[self.classList[i].abv]= self.classList[i].full;
               }
-              dic1.related = "related";
               
+              
+              if(self.classes.indexOf("related") > -1) {
+               var pos = self.classes.indexOf("related");
+               self.classes.splice(pos, 1);
+              }
               ko.utils.arrayForEach(self.classes(), function(classes){
                 self.modClass.push(dic[classes]);
              })
