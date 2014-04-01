@@ -1,6 +1,8 @@
 define(['durandal/system', 'durandal/app', 'socket'], function (system, app, socket) {
 
-  socket = io.connect("http://wordsdevel.herokuapp.com:80");
+  var isDevil = localStorage.getItem("foo") == '1';
+  var url = isDevil ? "http://wordsdevel.herokuapp.com:80" : "http://wordstesting.herokuapp.com:80";
+  socket = io.connect(url);
 
   var state;
 
