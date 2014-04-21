@@ -1,55 +1,61 @@
 <div>
     <div class="container">
-      <h4>Add Category/Collection</h4>
-      <hr />
-      <form class="form-horizontal" role="form">
-        <div class="form-group">
-            <label for="Name" class="col-sm-2 control-label">
-               Name
-            </label>
-             <div class="col-sm-3">
-               <div class="form-inline">
-                <input type="text" class="form-control" id="Name" data-bind="value:name">
-               </div>
-             </div>
-             </div>
-           <div class="alert alert-info" >
-                  <div class="row col-sm-offset-2">
-                    <div class="radio">
-                     <label class="col-sm-2">
-                        <input type="radio" name="optionsRadios" id="optionsRadios1">
-                        Category
-                     </label>
-                  </div>
-                  </div>
-                  </div>
-            <div class="alert alert-info">
-                    <div class="row col-sm-offset-2">
-                  <div class="radio">
-                     <label class="col-sm-2 ">
-                        <input type="radio" name="optionsRadios" id="optionsRadios2">
-                        Collection
-                     </label>
-                  </div>
-                 </div>
-            </div>
-            <div class="alert alert-info">
-                    <div class="row col-sm-offset-2">
-                  <div class="radio">
-                     <label class="col-sm-2 ">
-                        <input type="radio" name="optionsRadios" id="optionsRadios2">
-                        Booster
-                     </label>
-                  </div>
-                 </div>
-            </div>
-                    <div class="form-group">
-            <div class="col-sm-offset-2 col-sm-10">
-               <button class="btn btn-default" >Cancel</button>
-               <button type="submit" class="btn btn-primary">Save</button>
-               <span style="color:red"></span>
-            </div>
-         </div>
-        </form>
+      <ul class="nav nav-tabs">
+        <li ><a href="#" data-toggle="tab" data-bind="click: function(){tabIndex(1);}, css:{active: tabIndex() == 1}">Collection</a></li>
+        <li><a href="#" data-toggle="tab" data-bind="click: function(){tabIndex(2);},css:{active: tabIndex() == 2}">Booster</a></li>
+        <li><a href="#" data-toggle="tab" data-bind="click: function(){tabIndex(3);}, css:{active: tabIndex() == 3}">Tile</a></li>
+      </ul>
+        <div>
+            <form class="form-horizontal" data-bind="visible:tabIndex()==1">
+                <div class="alert alert-info">
+                <div class="form-group">
+                <label class="col-sm-2 control-label" for="collections">
+                        New Collection
+                </label>
+               <div class="col-sm-3">
+                    <input type="text" class="form-control" data-bind="value:longName" id="collections" placeholder="Long Name">
+                </div>
+                <div class="col-sm-2">
+                    <input type="text" class="form-control" data-bind="value:shortName" id="collections" placeholder="Short Name">
+                </div>
+                <div class="col-sm-offset-2 col-sm-3" >
+                    <button type="submit" class="btn btn-primary" data-bind="click:saveCollection">Save</button>
+                </div>
+                </div>
+                </div>
+                <div class="alert alert-info">
+                <div class="form-group">
+                <label class="col-sm-2 control-label" for="collections">
+                        New Booster
+                </label>
+               <div class="col-sm-3">
+                    <input type="text" class="form-control" data-bind="value:newBooster" id="collections">
+                </div>
+                <div class="col-sm-2">
+                    <select class="form-control" data-bind="options:collectionList , optionsText:'longName', value:selectedCollection"></select>
+                </div>
+                <div class="col-sm-offset-2 col-sm-3" >
+                    <button type="submit" class="btn btn-primary" data-bind="click:saveBooster">Save</button>
+                </div>
+                </div>
+                </div>
+                <div class="alert alert-info">
+                <div class="form-group">
+                <label class="col-sm-2 control-label" for="collections">
+                        New Tile
+                </label>
+               <div class="col-sm-3">
+                    <input type="text" class="form-control" data-bind="value:tileName" id="collections" placeholder="Tile Name">
+                </div>
+                <div class="col-sm-1">
+                    <input class="form-control" type="number" data-bind="value: tileId" placeholder="Num"/>
+                </div>
+                <div class="col-sm-offset-3 col-sm-2" >
+                    <button type="submit" class="btn btn-primary" data-bind="click:saveTile">Save</button>
+                </div>
+                </div>
+                </div>
+            </form>
+        </div>
     </div>
 </div>

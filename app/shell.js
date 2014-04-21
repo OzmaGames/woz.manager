@@ -35,7 +35,9 @@
                 { route: 'rules',                       moduleId: 'rules/index',            title: 'Rules',             nav: true },
                 { route: 'tile-gallery',                moduleId: 'tiles/index',            title: 'Tiles',             nav: true },
                 { route: 'create-rule',                 moduleId: 'rules/form'},
-                { route: 'edit-rule/:id',               moduleId: 'rules/form'}
+                { route: 'edit-rule/:id',               moduleId: 'rules/form'},
+                { route: 'collections',                 moduleId: 'add/index',               title:"Collections",       nav:true  }
+                
             
                 
             ]).buildNavigationModel()
