@@ -27,7 +27,7 @@
         var base= this;
             console.count();
             var x = localStorage.getItem("foo"); 
-            base.btnText(x=='1' ? 'Change to Testing':'Change to Devel');
+            base.btnText(x=='1' ? 'Switch to Testing':'Switch to Devel');
             
             return router.map([
                
@@ -36,7 +36,7 @@
                 { route: 'tile-gallery',                moduleId: 'tiles/index',            title: 'Tiles',             nav: true },
                 { route: 'create-rule',                 moduleId: 'rules/form'},
                 { route: 'edit-rule/:id',               moduleId: 'rules/form'},
-                { route: 'collections',                 moduleId: 'add/index',               title:"Collections",       nav:true  }
+                { route: 'collections',                 moduleId: 'add/index',               title:"Edit",       nav:true  }
                 
             
                 
