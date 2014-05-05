@@ -1,0 +1,15 @@
+<div class="messageBox">
+   <div class="modal-header"><b>Confirm Deletion</b></div>
+   <div class="modal-body">
+   <!-- ko if:isCol -->
+      <h5>Delete <b data-bind="text: col.longName"></b>?</h5>
+   <!--/ko-->
+   <!-- ko ifnot:isCol -->
+      <h5>Delete <b data-bind="text: col.name"></b>?</h5>
+   <!--/ko-->
+   </div>
+   <div class="modal-footer">
+      <button class="btn btn-default" data-bind="click:cancel">Cancel</button>
+      <button class="btn btn-primary" data-bind="click: ok">Delete</button>
+   </div>
+</div>

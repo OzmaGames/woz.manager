@@ -1,52 +1,68 @@
-<div class="messageBox">
-    <div class="modal-header"><b>Add Category/Class</b></div>
-    <form class="form-horizontal" role="form">
-      <div class="modal-body" style="overflow-x: hidden">
-        <div class="form-group">
-            <label for="Name" class="col-sm-2 control-label">
-               Name
-            </label>
-             <div class="col-sm-3">
-               <div class="form-inline">
-                <input type="text" class="form-control" id="Name" data-bind="value:name">
-               </div>
-             </div>
-             </div>
-           <div class="alert alert-info" >
-                  <div class="row col-sm-offset-2">
-                    <div class="radio">
-                     <label class="col-sm-2">
-                        <input type="radio" name="optionsRadios" id="optionsRadios1">
-                        Category
-                     </label>
-                  </div>
-                  </div>
-                  </div>
-            <div class="alert alert-info">
-                    <div class="row col-sm-offset-2">
-                  <div class="radio">
-                     <label class="col-sm-2 ">
-                        <input type="radio" name="optionsRadios" id="optionsRadios2">
-                        Collection
-                     </label>
-                  </div>
-                 </div>
-            </div>
-            <div class="alert alert-info">
-                    <div class="row col-sm-offset-2">
-                  <div class="radio">
-                     <label class="col-sm-2 ">
-                        <input type="radio" name="optionsRadios" id="optionsRadios2">
-                        Booster
-                     </label>
-                  </div>
-                 </div>
-            </div>
-      </div>
-      <div class="modal-footer">
-         <span style="color: red"></span>
-         <button class="btn btn-default">Cancel</button>
-         <button type="submit" class="btn btn-primary">Save</button>
-      </div>
-    </form>
+<div class="messageBox" style="width:700px;">
+ <div class="modal-header"><b>Collection</b></div>
+
+ 
+ <form class="form-horizontal" role="form" data-bind="submit: saveCollection">
+   <div class="modal-body">
+   <div class="form-group">
+    <label class="col-sm-2 control-label">
+      Long Name
+    </label>
+    <div class="col-sm-10">
+      <input type="text" class="form-control" data-bind="value:longName" placeholder="Long Name" style="width:260px">
+    </div>
+  </div>
+  <div class="form-group">
+    <label class="col-sm-2 control-label">
+      Short Name
+    </label>
+    <div class="col-sm-10">
+      <input type="text" class="form-control" data-bind="value:shortName" placeholder="Short Name" style="width:260px">
+    </div>
+  </div>
+  <div class="form-group">
+    <label class="col-sm-2 control-label">
+     Description
+   </label>
+   <div class="col-sm-10">
+    <textarea class="form-control" rows="5" placeholder="Description" data-bind="value:description"></textarea>
+  </div>
 </div>
+<div class="form-group">
+  <label class="col-sm-2 control-label">
+    Price
+  </label>
+  <div class="col-sm-3">
+    <input type="text" class="form-control" data-bind="value:price" placeholder="Num" style="width:60px">
+  </div>
+  <div class="col-sm-6">
+    <div class="form-inline">
+      <div class="checkbox">
+       <label>
+        <input type="checkbox" value="New!" data-bind="checked:flags">
+        New Flag
+      </label>
+    </div>
+    <div class="checkbox" style="margin-left:17px">
+     <label>
+      <input type="checkbox" value="Featured!" data-bind="checked:flags" >
+      Featured Flag
+    </label>
+  </div>
+</div>
+</div>
+</div>
+</div>
+<div class="modal-footer">
+  <div class="form-group">
+   <div class="col-sm-offset-2 col-sm-10">
+     <button class="btn btn-danger" data-bind="visible: isEdit, click:deleteCol">Delete</button>
+     <button class="btn btn-default" data-bind="click:close">Cancel</button>
+     <button type="submit" class="btn btn-primary">Save</button>
+   </div>
+ </div> 
+</div>  
+</form>
+</div>
+
+

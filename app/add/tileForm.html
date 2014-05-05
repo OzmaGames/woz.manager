@@ -1,0 +1,39 @@
+
+<div class="messageBox" style="width:700px;">
+ <div class="modal-header"><b>Related Name</b></div>
+ <form class="form-horizontal" role="form" data-bind="submit: saveTile">
+   <div class="modal-body">
+
+                 <div class="form-group">
+                    <label class="col-sm-2 control-label" >Tile Name</label>
+                    <div class="col-sm-10">
+                      <input type="text" class="form-control" placeholder="Tile name" data-bind="value:tileName" style="width:260px">
+                     </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">Collection
+                    </label>
+                <div class="col-sm-10">
+                     <select class="form-control" data-bind="options:collectionList , optionsText:'longName', value:selectedCollection" style="width:260px"></select>
+                </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-2 control-label" >Identifier</label>
+                    <div class="col-sm-10">
+                        <input type="number" class="form-control" placeholder="Number" data-bind="value:tileId" style="width:260px">
+                    </div>
+                </div>
+
+   </div>
+   <div class="modal-footer">
+    <div class="form-group">
+     <div class="col-sm-offset-2 col-sm-10">
+       <button class="btn btn-default" data-bind="click:close">Cancel</button>
+       <button type="submit" class="btn btn-primary">Save</button>
+     </div>
+   </div> 
+ </div>  
+</form>
+</div>
+
+
