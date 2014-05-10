@@ -24,11 +24,11 @@
                      </div>
                   </div>
             <tr>
-               <td><select class="form-control" data-bind="options:classes, value:selectedClass"></select></td>
+               <td><select class="form-control" data-bind="options:classes, value:selectedClass, bootstrapDropDown: {}"></select></td>
                <td><select class="form-control" data-bind="options:categories, value:selectedCategory"></select></td>
                <td><select class="form-control" data-bind="options:collections, optionsText: 'longName', value:selectedSet"></select></td>
             </tr>
-         </tbody>
+         </thead>
       </table>
 
       <table class="table table-bordered">
@@ -53,7 +53,7 @@
                <td>
                   <button type="button" class="btn btn-default btn-sm" data-bind="click: $root.toVersions, text: versions.length"></button>
                   <!-- ko foreach:versions -->
-                     <a href="#" data-bind="click: $root.toVersions, text:lemma" style="cursor:pointer"></a><span>,</span>
+                  <a href="#" data-bind="click: $root.toVersions, text:lemma" style="cursor:pointer"></a><span>,</span>
                   <!--/ko-->
                </td>
                <td data-bind="text: classes.join(', ')"></td>

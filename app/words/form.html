@@ -29,18 +29,18 @@
                   <label>Collections:</label>
                   <div class="form-group">
                      <select class="selectpicker form-control" data-bind="bootstrapDropDown:collectionList, value:selectedCollection" style="width:180px">
-                     <!-- ko foreach:collectionList -->
-                     <optgroup  data-bind="label:longName">
-                      <!-- ko foreach:$data.boosters -->
-                     <option  data-bind="text:longName"></option>
-                     <!-- /ko -->
-                     </optgroup>
-                     <!-- /ko -->
+                        <!-- ko foreach:collectionList -->
+                        <optgroup data-bind="attr:{label: longName}">
+                           <!-- ko foreach:$data.boosters -->
+                           <option data-bind="text:longName"></option>
+                           <!-- /ko -->
+                        </optgroup>
+                        <!-- /ko -->
                      </select>
-                   </div>
-                     
-                   <div class="form-group">
-                   <button class="btn btn-danger" data-bind="click:addCollection">Add</button>
+                  </div>
+
+                  <div class="form-group">
+                     <button class="btn btn-danger" data-bind="click:addCollection">Add</button>
                   </div>
                   <!-- ko foreach:displayCollections -->
                   <div class="form-group" style="margin-left:20px;">
@@ -56,24 +56,24 @@
                   <div class="form-group">
                      <select class="form-control" data-bind="options:categoryList, value:selectedCategory" style="width:180px"></select>
                   </div>
-                     <div class="form-group">
+                  <div class="form-group">
                      <button class="btn btn-danger" data-bind="click:addCategory">Add</button>
                   </div>
-                 
+
                   <div class="form-group" style="margin-left:68px">
-                    <div class="form-inline">
-                      <div class="form-group">
-                        <div class="input-group">
-                          <input class="form-control" type="text" placeholder="New category name" data-bind="value: newCategory">
-                          <span class="input-group-btn">
-                            <button class="btn btn-info" type="button" data-bind="click:addNewCategory">Add</button>
-                          </span>
-                       </div>
+                     <div class="form-inline">
+                        <div class="form-group">
+                           <div class="input-group">
+                              <input class="form-control" type="text" placeholder="New category name" data-bind="value: newCategory">
+                              <span class="input-group-btn">
+                                 <button class="btn btn-info" type="button" data-bind="click:addNewCategory">Add</button>
+                              </span>
+                           </div>
+                        </div>
                      </div>
                   </div>
-                  </div>
                   <br>
-                   <!-- ko foreach:categories -->
+                  <!-- ko foreach:categories -->
                   <div class="form-group" style="margin-left:20px;" data-bind1="if:$data">
                      <a href="#" data-bind="click: $parent.removeCategory">x</a>
                      <span data-bind="text:$data"></span>
@@ -88,7 +88,7 @@
          <button class="btn btn-default" data-bind="click: close">Cancel</button>
          <button type="submit" class="btn btn-primary">Save</button>
          <div class="pull-left">
-            
+
          </div>
       </div>
    </form>

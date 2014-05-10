@@ -18,10 +18,8 @@
          exports: 'jQuery'
       },
       'bootstrap-select':{
-         deps:['bootstrap'],
-
+         deps: ['bootstrap', 'api/bootstrapDropDown']
       }
-
    }
 });
 
