@@ -8,18 +8,24 @@
       'bootstrap': '../lib/bootstrap/js/bootstrap',
       'jquery': '../lib/jquery/jquery-1.9.1',
       'socket': '../lib/socket.io',
-      'grid':'../lib/grid'
+      'grid':'../lib/grid',
+      'bootstrap-select': '../lib/bootstrap-select'
    },
    urlArgs: 't' + (new Date).getTime(),
    shim: {
       'bootstrap': {
          deps: ['jquery'],
          exports: 'jQuery'
+      },
+      'bootstrap-select':{
+         deps:['bootstrap'],
+
       }
+
    }
 });
 
-define(['durandal/system', 'durandal/app', 'durandal/viewLocator', 'api/server', 'api/knockout', 'api/_feed'],
+define(['durandal/system', 'durandal/app', 'durandal/viewLocator', 'api/server', 'api/knockout', 'api/_feed', 'bootstrap-select'],
 function (system, app, viewLocator) {
 
    system.debug(true);

@@ -3,6 +3,9 @@ define(['api/server','api/datacontext', 'plugins/dialog', 'knockout', 'durandal/
     var collForm = function (col) {
       var self = this;
 
+      console.log(col);
+      console.log(col.flags.flag );
+
       this.shortName = ko.observable(col.shortName || '');
       this.longName = ko.observable(col.longName || '');
       this.description = ko.observable(col.description || '');

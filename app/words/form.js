@@ -19,6 +19,8 @@ define(['api/server','api/datacontext', 'plugins/dialog', 'knockout', 'durandal/
       this.isEdit = word.lemma ? true : null;
       this.validationMessage = ko.observable('');
 
+      console.log();
+
       console.log(word, this.isEdit);
 
       this.save = function () {

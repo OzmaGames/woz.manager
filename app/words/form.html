@@ -28,10 +28,19 @@
                <td class="form-inline">
                   <label>Collections:</label>
                   <div class="form-group">
-                     <select class="form-control" data-bind="options:collectionList, optionsText:'longName', value:selectedCollection" style="width:180px"></select>
-                  </div>
-                  <div class="form-group">
-                     <button class="btn btn-danger" data-bind="click:addCollection">Add</button>
+                     <select class="selectpicker form-control" data-bind="bootstrapDropDown:collectionList, value:selectedCollection" style="width:180px">
+                     <!-- ko foreach:collectionList -->
+                     <optgroup  data-bind="label:longName">
+                      <!-- ko foreach:$data.boosters -->
+                     <option  data-bind="text:longName"></option>
+                     <!-- /ko -->
+                     </optgroup>
+                     <!-- /ko -->
+                     </select>
+                   </div>
+                     
+                   <div class="form-group">
+                   <button class="btn btn-danger" data-bind="click:addCollection">Add</button>
                   </div>
                   <!-- ko foreach:displayCollections -->
                   <div class="form-group" style="margin-left:20px;">

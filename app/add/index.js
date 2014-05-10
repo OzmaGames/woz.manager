@@ -76,13 +76,16 @@ define(['knockout', 'api/server', "./form", "./checkForm", "./tileForm"], functi
 
     this.editBooster= function(booster){
       form.show(booster).then(function(boost){
+        console.log('hej');
         if(boost == null){
-         
+         console.log("canceled");
         }else{
+          console.log('a');
+          console.log(boost.flags);
           var col = ko.utils.arrayFirst(self.collectionList(), function(collection){ return collection.boosters.indexOf(booster) >= 0 });
           socket.emit('manager:collections', {command: 'set', collection:col.shortName, shortName:booster.shortName, longName:boost.longName,
-           description:boost.description, price:boost.price, flags: boost.flags, type:"booster"}, function(data){
-            
+           description:boost.description, price:boost.price, flags:["new"], type:"booster"}, function(data){
+            console.log(data);
             if(data.success){
               var pos = col.boosters.indexOf(booster);
               col.boosters[pos] = boost;
