@@ -1,8 +1,7 @@
 define(['knockout'], function (ko) {
     ko.bindingHandlers["bootstrapDropDown"] = {
         init: function (element, valueAccessor, allBindings, data, context) { 
-          console.log('a');
-        return;                                   
+                                          
             ko.computed({
                 disposeWhenNodeIsRemoved: element,
                 read: function () {
@@ -15,15 +14,15 @@ define(['knockout'], function (ko) {
                       setTimeout( function () {
                          var selectpickerOptions = valueAccessor();
                          $( element ).selectpicker( selectpickerOptions );
-                      }, 0 );
+                      }, 200 );
                    } else {
                       // data-bind="bootstrapDropDown: {options: observableArray, selectpickerOptions: selectpickerOptions}"
                       // alternatively attach to options
                       setTimeout( function () {
                          var data = valueAccessor();
                          var options = ko.unwrap( data.options );
-                         $( element ).selectpicker( data.selectpickerOptions );
-                      }, 0 );                      
+                         $(element).selectpicker();
+                      }, 200 );                      
                    }
                 }
             });

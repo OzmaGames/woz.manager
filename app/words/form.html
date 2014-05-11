@@ -28,7 +28,7 @@
                <td class="form-inline">
                   <label>Collections:</label>
                   <div class="form-group">
-                     <select class="selectpicker form-control" data-bind="value:selectedCollection" style="width:180px">
+                     <select class="selectpicker form-control" data-bind="bootstrapDropDown:{options:collectionList}" style="width:180px">
                         <!-- ko foreach:collectionList -->
                         <optgroup data-bind="attr:{label: longName}">
                            <!-- ko foreach:$data.boosters -->

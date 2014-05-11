@@ -120,6 +120,7 @@ define(['api/datacontext', './form', 'durandal/app', './versionForm', './checkFo
 
       self.addWord = function () {
          form.show().then(function (newWord) {
+            if(newWord){
             if (newWord.lemma && null == ko.utils.arrayFirst(self.words(), function (word) { return word.lemma == newWord.lemma })) {
                newWord.command = "set";
                //newWord.oldLemma = ""; // not necessary, you can remove it, since we are adding
@@ -141,6 +142,7 @@ define(['api/datacontext', './form', 'durandal/app', './versionForm', './checkFo
             } else if (!newWord.lemma) {
                app.showMessage('Please enter a word.', 'Oops');
             } else { app.showMessage('This word already exists.', 'Oops'); };
+         }
          });
       };
 
