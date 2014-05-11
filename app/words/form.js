@@ -78,6 +78,7 @@ define(['api/server','api/datacontext', 'plugins/dialog', 'knockout', 'durandal/
       this.addCollection = function () {
         if (!(this.selectedCollection().longName === 'Select a collection')) {
             if (self.displayCollections.indexOf(this.selectedCollection().longName) < 0){
+              console.log(this.selectedCollection());
             this.displayCollections.push(this.selectedCollection().longName);
             this.collections.push(this.selectedCollection().shortName);
           
