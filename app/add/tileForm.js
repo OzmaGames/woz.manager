@@ -11,12 +11,22 @@ define(['api/server','api/datacontext', 'plugins/dialog', 'knockout', 'durandal/
       
 
       this.saveTile = function(){
+        var dic = {};
+        var col = self.collectionList();
+        for (var i = 0; i < col.length; i++) {
+            dic[col[i].longName] = col[i].shortName;
+            for (var j = 0; j < col[i].boosters.length; j++){
+               dic[col[i].boosters[j].longName] = col[i].boosters[j].shortName;
+             }
+           }
+
         var tile = {
-          collection: this.selectedCollection(),
+          collection: dic[this.selectedCollection()],
           id: this.tileId(),
           name: this.tileName(),
           related:[]
         };
+        console.log(tile);
 
         dialog.close(this, tile)
       }
@@ -35,7 +45,11 @@ define(['api/server','api/datacontext', 'plugins/dialog', 'knockout', 'durandal/
     var base = this;
     
     socket.emit('manager:collections', { command: 'getAll' }, function (data) {     
-    collections = $.merge([{longName: "Select a collection", shortName: 'select a collection'}], data.collections);    
+    collections = $.merge([{longName: "Select a collection", shortName: 'select a collection', boosters:[]}], data.collections);   
+    for(var i=0; i< collections.length; i++){
+            collections[i].boosters.push({'longName': collections[i].longName, 'shortName': collections[i].shortName}); 
+          }
+
     base.collectionList(collections);
 
   })

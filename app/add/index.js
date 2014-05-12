@@ -8,6 +8,10 @@ define(['knockout', 'api/server', "./form", "./checkForm", "./tileForm"], functi
     this.tileName = ko.observable();
     this.tileId = ko.observable();
     this.tabIndex = ko.observable(1);
+    this.displayCollection = ko.observable();
+
+    
+           
 
     this.addCollection = function(){
      form.show().then(function(col){
@@ -102,6 +106,7 @@ define(['knockout', 'api/server', "./form", "./checkForm", "./tileForm"], functi
     this.addTile = function(){
       tileForm.show().then(function(tile){
         if(tile){
+          console.log('tile')
         socket.emit('manager:images', {command:'set', collection:tile.collection, id:tile.id, name: tile.name, related: []}, function(data){
           console.log(data);
           if(data.success){
@@ -146,7 +151,24 @@ ctor.prototype.activate = function () {
 
   socket.emit('manager:images', {command:'getAll'}, function(data){
     console.log(data);
-    base.tileList(data.images);
+    
+
+    var dic = {};
+        var col = base.collectionList();
+        for (var i = 0; i < col.length; i++) {
+            dic[col[i].shortName] = col[i].longName;
+            for (var j = 0; j < col[i].boosters.length; j++){
+               dic[col[i].boosters[j].shortName] = col[i].boosters[j].longName;
+             }
+           }
+  for(var i=0; i<data.images.length ; i++){
+    data.images[i].displayCollection = ko.observableArray();
+    data.images[i].displayCollection.push(dic[data.images[i].collection])
+  }
+ 
+          base.tileList(data.images);
+
+           
   });
 
 }
