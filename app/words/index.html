@@ -26,7 +26,16 @@
             <tr>
                <td><select class="form-control" data-bind="options:classes, value:selectedClass, bootstrapDropDown: {}"></select></td>
                <td><select class="form-control" data-bind="options:categories, value:selectedCategory"></select></td>
-               <td><select class="form-control" data-bind="options:collections, optionsText: 'longName', value:selectedSet"></select></td>
+               <td> <select class="form-control" data-bind="value:selectedSet">
+                        <!-- ko foreach:collections -->
+                        <optgroup data-bind="attr:{label: longName}">
+                           <!-- ko foreach:$data.boosters -->
+                           <option data-bind="text:longName"></option>
+                           <!-- /ko -->
+                        </optgroup>
+                        <!-- /ko -->
+                     </select></td>
+              
             </tr>
          </thead>
       </table>

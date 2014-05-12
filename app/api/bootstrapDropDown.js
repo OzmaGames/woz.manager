@@ -1,7 +1,7 @@
 define( ['knockout'], function ( ko ) {
    ko.bindingHandlers["bootstrapDropDown"] = {
       init: function ( element, valueAccessor, allBindings, data, context ) {
-
+return;
          ko.computed( {
             disposeWhenNodeIsRemoved: element,
             read: function () {

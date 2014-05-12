@@ -47,10 +47,23 @@ define(['api/datacontext', './form', 'durandal/app', './versionForm', './checkFo
 
       })
 
+
+
       self.filteredWords = ko.computed(function () {
+
+         var dic = {};
+      var col = self.collections();
+         for (var i = 0; i < col.length; i++) {
+           dic[col[i].longName] = col[i].shortName;
+            for (var j = 0; j < col[i].boosters.length; j++){
+               dic[col[i].boosters[j].longName] = col[i].boosters[j].shortName;
+             }
+              
+          }
          var classKey = self.selectedClass();
          var categoryKey = self.selectedCategory();
          var setKey = self.selectedSet();
+           console.log(self.selectedSet());
          var query = self.query();
          return ko.utils.arrayFilter(self.words(), function (item) {
             if (item.ignoreFilter) { delete item.ignoreFilter; return true; }
@@ -58,7 +71,7 @@ define(['api/datacontext', './form', 'durandal/app', './versionForm', './checkFo
             else {
             return genericFilter(item["classes"], classKey) &&
                    genericFilter(item["categories"], categoryKey) &&
-                   genericFilter(item["collections"], setKey.shortName);
+                   genericFilter(item["collections"], dic[setKey]);
             }
                    
          });
@@ -85,6 +98,7 @@ define(['api/datacontext', './form', 'durandal/app', './versionForm', './checkFo
          var size = self.pageSize();
          var start = self.pageIndex() * size;
          return self.filteredWords().slice(start, start + size);
+
 
       });
 
@@ -259,17 +273,28 @@ define(['api/datacontext', './form', 'durandal/app', './versionForm', './checkFo
 
       socket.emit('manager:collections', { command: 'getAll' }, function (data) {
          console.log(data);
-         collections = $.merge([{longName: "All", shortName: 'All'}], data.collections);           
+         collections = $.merge([{longName: "All", shortName: 'All', boosters:[]}], data.collections);  
+
+         for(var i=0; i< collections.length; i++){
+            collections[i].boosters.push({'longName': collections[i].longName, 'shortName': collections[i].shortName});
+
+         }         
          base.collections(collections);
          base.selectedSet(collections[0]);
          
          /*
          create a dictionary so it is easier to map shortnames to longnames
          */
+
          var dic = {};
          for (var i = 0; i < collections.length; i++) {
-            dic[collections[i].shortName] = collections[i].longName;
-         }
+           dic[collections[i].shortName] = collections[i].longName;
+            for (var j = 0; j < collections[i].boosters.length; j++){
+               dic[collections[i].boosters[j].shortName] = collections[i].boosters[j].longName;
+             }
+          }
+
+          console.log(dic);
 
          /*
          wait for words to be ready, then apply collections real name to it
