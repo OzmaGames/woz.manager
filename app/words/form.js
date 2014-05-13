@@ -2,11 +2,15 @@ define(['api/server','api/datacontext', 'plugins/dialog', 'knockout', 'durandal/
   function (socket, ctx, dialog, ko, app, $) {
 
 
-    var collectionList = ko.observableArray();
+    var _collectionList = ko.observableArray(), 
+          _collections = ko.observableArray();
+          _displayCollection = ko.computed(function(){
+              return _collections().map(ToLongNames);
+          });
     var dicToShortName, dicToLongName;
 
     ko.computed(function(){
-      var col = self.collectionList();
+      var col = _collectionList();
       dicToShortName = {};
       dicToLongName = {};
       for (var i = 0; i < col.length; i++) {
@@ -17,13 +21,14 @@ define(['api/server','api/datacontext', 'plugins/dialog', 'knockout', 'durandal/
               dicToLongName[col[i].boosters[j].shortName] = col[i].boosters[j].longName;
           }
       }  
+      _collections.valueHasMutated();
     });
 
     function ToShortNames(name){
       return dicToShortName[name];
     }
     
-    function ToLongtNames(name){
+    function ToLongNames(name){
       return dicToLongName[name];
     }
 
@@ -37,17 +42,17 @@ define(['api/server','api/datacontext', 'plugins/dialog', 'knockout', 'durandal/
       this.classList = ko.observableArray([]);
       this.categoryList = ko.observableArray([]);
       this.newCategory = ko.observable();
-      this.collectionList = collectionList;
-
+      this.collectionList = _collectionList;
+      this.collections = _collections;
+      this.displayCollections = _displayCollection;
+      
       this.input = ko.observable(word.lemma || '');
       this.classes = ko.observableArray(word.classes || []);
       this.categories = ko.observableArray(word.categories || []);
-      this.collections = ko.observableArray(word.collections || []);
-      this.displayCollections = ko.observableArray(word.collections.map(ToShortNames));
       this.isEdit = word.lemma ? true : null;
       this.validationMessage = ko.observable('');
 
-
+      _collections(word.collections || []);
 
       this.save = function () {
 
@@ -98,12 +103,8 @@ define(['api/server','api/datacontext', 'plugins/dialog', 'knockout', 'durandal/
 
       this.addCollection = function () {
         if (!(self.selectedCollection() === 'Select a collection')) {
-
-  
-           console.log(dic);
-            if (self.displayCollections.indexOf(self.selectedCollection()) < 0){
-              self.displayCollections.push(self.selectedCollection());
-              self.collections.push(ToShortNames([self.selectedCollection()]);
+           if (self.displayCollections().indexOf(self.selectedCollection()) < 0){
+              self.collections.push(ToShortNames([self.selectedCollection()]));
               console.log(self.collections());
           
           } else {app.showMessage('This item already exists.', 'Oops');}
@@ -146,7 +147,7 @@ define(['api/server','api/datacontext', 'plugins/dialog', 'knockout', 'durandal/
           this.collections.push(this.selectedCollection().shortName);
           
           } else {app.showMessage('This item already exists.', 'Oops');}*/
-   }
+   
    
    this.addNewCategory = function (){
        this.categoryList.push(this.newCategory());
@@ -155,7 +156,7 @@ define(['api/server','api/datacontext', 'plugins/dialog', 'knockout', 'durandal/
        this.newCategory("");
        console.log(this.categoryList());
     }
-
+}
    WordForm.show = function (word) {
       return dialog.show(new WordForm(word || {}));
    };
@@ -177,11 +178,10 @@ define(['api/server','api/datacontext', 'plugins/dialog', 'knockout', 'durandal/
       
       socket.emit('manager:collections', { command: 'getAll' }, function (data) {
         console.log(data);
-         collections = $.merge([{longName: "Select a collection", shortName : 'Select a collection', boosters:[]}], data.collections); 
+         collections = $.merge([], data.collections); 
          //collections = $.merge([{longName: "All", shortName : 'All'}], data.collections);           
          for(var i=0; i< collections.length; i++){
-            collections[i].boosters.push({'longName': collections[i].longName, 'shortName': collections[i].shortName});
-
+            collections[i].boosters.unshift({'longName': collections[i].longName, 'shortName': collections[i].shortName});
          }
          base.collectionList(collections);
          base.selectedCollection(collections[0]);         

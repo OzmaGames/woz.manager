@@ -31,7 +31,7 @@
             
             return router.map([
                
-                { route: '',                            moduleId: 'words/index',            title: 'Words',             nav: true },
+                { route: '',                            moduleId: 'words/index',            title: 'Words',             nav: false },
                 { route: 'words',                       moduleId: 'words/index',            title: 'Words',             nav: true },
                 { route: 'rules',                       moduleId: 'rules/index',            title: 'Rules',             nav: true },
                 { route: 'tile-gallery',                moduleId: 'tiles/index',            title: 'Tiles',             nav: true },

@@ -29,6 +29,7 @@
                   <label>Collections:</label>
                   <div class="form-group">
                      <select class="form-control" data-bind="value:selectedCollection" style="width:180px">
+                        <option selected disabled>Select a Collection</option>
                         <!-- ko foreach:collectionList -->
                         <optgroup data-bind="attr:{label: longName}">
                            <!-- ko foreach:$data.boosters -->

@@ -15,14 +15,16 @@ define( ['knockout'], function ( ko ) {
                var data = allBindingData.BDD || allBindingData.options;
                var options = ko.utils.unwrapObservable( data.options || data );
 
-               setTimeout( function () {
-                  //wait for ko to bind other stuff
-                  if ( $( element ).data( "selectpicker" ) ) {
-                     $( element ).selectpicker( 'refresh' );
-                  } else {
-                     $( element ).selectpicker( data.spOptions || undefined );
-                  }
-               }, 1000 );
+               if( options.length){
+                  setTimeout( function () {
+                     //wait for ko to bind other stuff
+                     if ( $( element ).data( "selectpicker" ) ) {
+                        $( element ).selectpicker( 'refresh' );
+                     } else {
+                        $( element ).selectpicker( data.spOptions || undefined );
+                     }
+                  }, 1000 );
+               }
             }
          } );
       }

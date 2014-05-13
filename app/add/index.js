@@ -174,7 +174,8 @@ ctor.prototype.activate = function () {
     data.images[i].displayCollection.push(dic[data.images[i].collection])
   }
  
-          base.tileList(data.images);
+      data.images.sort(function(a,b){ return a.collection> b.collection})
+      base.tileList(data.images);
 
            
   });
