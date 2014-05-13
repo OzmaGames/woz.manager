@@ -31,7 +31,8 @@
             
             return router.map([
                
-                { route: 'words',                       moduleId: 'words/index',            title: 'Words',             nav: true },
+                { route: '',                            moduleId: 'words/index',            title: 'Words',             nav: true },
+                { route: 'words',                       moduleId: 'words/index',            title: 'Words',             nav: true }
                 { route: 'rules',                       moduleId: 'rules/index',            title: 'Rules',             nav: true },
                 { route: 'tile-gallery',                moduleId: 'tiles/index',            title: 'Tiles',             nav: true },
                 { route: 'create-rule',                 moduleId: 'rules/form'},
