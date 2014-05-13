@@ -15,7 +15,7 @@ define(['api/server','api/datacontext', 'plugins/dialog', 'knockout', 'durandal/
       this.classes = ko.observableArray(word.classes || []);
       this.categories = ko.observableArray(word.categories || []);
       this.collections = ko.observableArray(word.collections || []);
-      this.displayCollections = ko.observableArray();
+      this.displayCollections = ko.observableArray(word.collections);
       this.isEdit = word.lemma ? true : null;
       this.validationMessage = ko.observable('');
 

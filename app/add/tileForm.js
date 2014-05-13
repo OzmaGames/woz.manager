@@ -24,7 +24,8 @@ define(['api/server','api/datacontext', 'plugins/dialog', 'knockout', 'durandal/
           collection: dic[this.selectedCollection()],
           id: this.tileId(),
           name: this.tileName(),
-          related:[]
+          related:[],
+          displayCollection: this.selectedCollection()
         };
         console.log(tile);
 

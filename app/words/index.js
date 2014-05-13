@@ -294,8 +294,6 @@ define(['api/datacontext', './form', 'durandal/app', './versionForm', './checkFo
              }
           }
 
-          console.log(dic);
-
          /*
          wait for words to be ready, then apply collections real name to it
          */
