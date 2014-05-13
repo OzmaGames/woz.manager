@@ -1,4 +1,32 @@
-define(['api/server','api/datacontext', 'plugins/dialog', 'knockout', 'durandal/app', 'bootstrap', 'jquery'], function (socket, ctx, dialog, ko, app, $) {
+define(['api/server','api/datacontext', 'plugins/dialog', 'knockout', 'durandal/app', 'bootstrap', 'jquery'], 
+  function (socket, ctx, dialog, ko, app, $) {
+
+
+    var collectionList = ko.observableArray();
+    var dicToShortName, dicToLongName;
+
+    ko.computed(function(){
+      var col = self.collectionList();
+      dicToShortName = {};
+      dicToLongName = {};
+      for (var i = 0; i < col.length; i++) {
+          dicToShortName[col[i].longName] = col[i].shortName;
+          dicToLongName[col[i].shortName] = col[i].longName;
+          for (var j = 0; j < col[i].boosters.length; j++){
+             dicToShortName[col[i].boosters[j].longName] = col[i].boosters[j].shortName;
+              dicToLongName[col[i].boosters[j].shortName] = col[i].boosters[j].longName;
+          }
+      }  
+    });
+
+    function ToShortNames(name){
+      return dicToShortName[name];
+    }
+    
+    function ToLongtNames(name){
+      return dicToLongName[name];
+    }
+
 
    var WordForm = function (word) {
       var self = this;
@@ -9,13 +37,13 @@ define(['api/server','api/datacontext', 'plugins/dialog', 'knockout', 'durandal/
       this.classList = ko.observableArray([]);
       this.categoryList = ko.observableArray([]);
       this.newCategory = ko.observable();
-      this.collectionList = ko.observableArray([]);
+      this.collectionList = collectionList;
 
       this.input = ko.observable(word.lemma || '');
       this.classes = ko.observableArray(word.classes || []);
       this.categories = ko.observableArray(word.categories || []);
       this.collections = ko.observableArray(word.collections || []);
-      this.displayCollections = ko.observableArray(word.collections);
+      this.displayCollections = ko.observableArray(word.collections.map(ToShortNames));
       this.isEdit = word.lemma ? true : null;
       this.validationMessage = ko.observable('');
 
@@ -71,20 +99,12 @@ define(['api/server','api/datacontext', 'plugins/dialog', 'knockout', 'durandal/
       this.addCollection = function () {
         if (!(self.selectedCollection() === 'Select a collection')) {
 
-        var dic = {};
-        var col = self.collectionList();
-        for (var i = 0; i < col.length; i++) {
-            dic[col[i].longName] = col[i].shortName;
-            for (var j = 0; j < col[i].boosters.length; j++){
-               dic[col[i].boosters[j].longName] = col[i].boosters[j].shortName;
-             }
-           }
-
+  
            console.log(dic);
             if (self.displayCollections.indexOf(self.selectedCollection()) < 0){
-            self.displayCollections.push(self.selectedCollection());
-            self.collections.push(dic[self.selectedCollection()]);
-            console.log(self.collections());
+              self.displayCollections.push(self.selectedCollection());
+              self.collections.push(ToShortNames([self.selectedCollection()]);
+              console.log(self.collections());
           
           } else {app.showMessage('This item already exists.', 'Oops');}
         }
@@ -207,10 +227,6 @@ define(['api/server','api/datacontext', 'plugins/dialog', 'knockout', 'durandal/
          base.collectionList(items);
          base.selectedCollection(items[0]);
       });*/
-   }
-
-   WordForm.prototype.bindingComplete = function (el) {
-
    }
 
    return WordForm;
