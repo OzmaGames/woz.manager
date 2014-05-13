@@ -170,11 +170,10 @@ ctor.prototype.activate = function () {
              }
            }
   for(var i=0; i<data.images.length ; i++){
-    data.images[i].displayCollection = ko.observableArray();
-    data.images[i].displayCollection.push(dic[data.images[i].collection])
+     data.images[i].displayCollection = dic[data.images[i].collection];
   }
  
-      data.images.sort(function(a,b){ return a.collection> b.collection})
+  data.images.sort( function ( a, b ) { return a.displayCollection > b.displayCollection ? 1 : a.displayCollection < b.displayCollection ? -1 : 0 } );
       base.tileList(data.images);
 
            
