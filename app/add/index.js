@@ -126,6 +126,7 @@ define(['knockout', 'api/server', "./form", "./checkForm", "./tileForm"], functi
               var pos = self.tileList.indexOf(tile);
               self.tileList.splice(pos, 1);
               self.tileList.splice(pos, 0, editedTile);
+              self.tileList.sort(function(a,b){return a.displayCollection > b.displayCollection ? 1 : a.displayCollection < b.displayCollection ? -1 : 0 });
             }
       });
         }

@@ -27,7 +27,7 @@
         var base= this;
             console.count();
             var x = localStorage.getItem("foo"); 
-            base.btnText(x=='1' ? 'Switch to Testing':'Switch to Devel');
+            base.btnText(x=='1' ? 'Switch to WozBeta':'Switch to Devel');
             
             return router.map([
                

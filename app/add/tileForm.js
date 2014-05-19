@@ -7,9 +7,13 @@ define(['api/server','api/datacontext', 'plugins/dialog', 'knockout', 'durandal/
       this.tileName = ko.observable(tile.name || '');
       this.tileId = ko.observable(tile.id || '')
       this.collectionList = ko.observableArray();
-      this.selectedCollection = ko.observable(tile.displayCollection || '');
+      this.selectedCollection = ko.observable();
      
-      
+       ko.computed( function () {
+         self.collectionList();
+
+         self.selectedCollection( tile.displayCollection || '' );
+      } ) 
       
 
       this.saveTile = function(){
@@ -53,10 +57,9 @@ define(['api/server','api/datacontext', 'plugins/dialog', 'knockout', 'durandal/
    tileForm.prototype.activate = function(){
     var base = this;
     
-    socket.emit('manager:collections', { command: 'getAll' }, function (data) {     
-    collections = $.merge([{longName: "Select a collection", shortName: 'select a collection', boosters:[]}], data.collections);   
+    socket.emit('manager:collections', { command: 'getAll' }, function (data) {   
     for(var i=0; i< collections.length; i++){
-            collections[i].boosters.push({'longName': collections[i].longName, 'shortName': collections[i].shortName}); 
+            collections[i].boosters.unshift({'longName': collections[i].longName, 'shortName': collections[i].shortName}); 
           }
 
     base.collectionList(collections);

@@ -8,16 +8,7 @@
          </thead>
          <tbody>
             <tr>
-               <td><select class="form-control" data-bind="options:setList, optionsText:'longName' ,value:selectedSet" style="width:200px"></select></td>
-               <td><select class="form-control" data-bind="value:selectedSet">
-                        <!-- ko foreach:setList -->
-                        <optgroup data-bind="attr:{label:longName}">
-                           <!-- ko foreach:$data.boosters -->
-                           <option data-bind="text:longName"></option>
-                           <!-- /ko -->
-                        </optgroup>
-                        <!-- /ko -->
-                     </select></td>
+               <td><select class="form-control" data-bind="options:setList, optionsText:'longName' ,value:selectedSet" style="width:200px"></td>
             </tr>
          </tbody>
       </table>
