@@ -2,11 +2,13 @@ define(['api/server','api/datacontext', 'plugins/dialog', 'knockout', 'durandal/
     
     var tileForm = function (tile) {
       var self = this;
+      console.log(tile)
 
       this.tileName = ko.observable(tile.name || '');
       this.tileId = ko.observable(tile.id || '')
       this.collectionList = ko.observableArray();
-      this.selectedCollection = ko.observable();
+      this.selectedCollection = ko.observable(tile.displayCollection || '');
+     
       
       
 
@@ -30,6 +32,12 @@ define(['api/server','api/datacontext', 'plugins/dialog', 'knockout', 'durandal/
         console.log(tile);
 
         dialog.close(this, tile)
+      }
+
+
+
+      this.removeCollection = function(col){
+           self.displayCollection.remove(col);
       }
       
       

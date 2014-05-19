@@ -6,7 +6,7 @@ define( ['knockout'], function ( ko ) {
 
          if ( $el.data( "BDD" ) ) return;
          $el.data( "BDD", true );
-
+return;
          ko.computed( {
             disposeWhenNodeIsRemoved: element,
             read: function () {

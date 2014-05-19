@@ -21,6 +21,8 @@ define(['api/server','api/datacontext', 'plugins/dialog', 'knockout', 'durandal/
               dicToLongName[col[i].boosters[j].shortName] = col[i].boosters[j].longName;
           }
       }  
+
+
       _collections.valueHasMutated();
     });
 
@@ -53,6 +55,8 @@ define(['api/server','api/datacontext', 'plugins/dialog', 'knockout', 'durandal/
       this.validationMessage = ko.observable('');
 
       _collections(word.collections || []);
+
+      console.log(ToShortNames);
 
       this.save = function () {
 
@@ -90,8 +94,8 @@ define(['api/server','api/datacontext', 'plugins/dialog', 'knockout', 'durandal/
 
       this.removeCollection = function (item, e) {
          e.preventDefault();
-         self.displayCollections.remove(item);
-         var itemPos = self.displayCollections.indexOf(item);
+         self.collections.remove(item);
+         var itemPos = self.collections.indexOf(item);
          self.collections.splice(itemPos, 1);
          
       }
@@ -150,11 +154,17 @@ define(['api/server','api/datacontext', 'plugins/dialog', 'knockout', 'durandal/
    
    
    this.addNewCategory = function (){
-       this.categoryList.push(this.newCategory());
-       this.categoryList().sort();
-       this.categoryList.valueHasMutated();
-       this.newCategory("");
-       console.log(this.categoryList());
+    console.log(self.newCategory());
+    socket.emit("manager:categories", {command: 'set', category: self.newCategory()}, function(data){
+      console.log(data);
+      if(data.success){
+      self.categoryList.push(self.newCategory());
+       self.categoryList().sort();
+       self.categoryList.valueHasMutated();
+       self.newCategory("");
+     }
+
+    });
     }
 }
    WordForm.show = function (word) {

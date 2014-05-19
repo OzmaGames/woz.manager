@@ -276,7 +276,7 @@ define(['api/datacontext', './form', 'durandal/app', './versionForm', './checkFo
          collections = $.merge([{longName: "All", shortName: 'All', boosters:[]}], data.collections);  
 
          for(var i=0; i< collections.length; i++){
-            collections[i].boosters.push({'longName': collections[i].longName, 'shortName': collections[i].shortName});
+            collections[i].boosters.unshift({'longName': collections[i].longName, 'shortName': collections[i].shortName});
 
          }         
          base.collections(collections);

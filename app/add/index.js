@@ -119,6 +119,7 @@ define(['knockout', 'api/server', "./form", "./checkForm", "./tileForm"], functi
 
     this.editTile = function(tile){
       tileForm.show(tile).then(function(editedTile){
+        if(editedTile){
           socket.emit('manager:images', {command:'set', collection:editedTile.collection, id:editedTile.id, name: editedTile.name, related: []}, function(data){
             console.log(data);
             if(data.success){
@@ -127,7 +128,9 @@ define(['knockout', 'api/server', "./form", "./checkForm", "./tileForm"], functi
               self.tileList.splice(pos, 0, editedTile);
             }
       });
+        }
     });
+    
   }
 
     this.removeTile = function(tile){

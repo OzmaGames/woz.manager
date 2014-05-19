@@ -24,6 +24,7 @@ define(['api/datacontext', 'knockout', 'jquery', 'plugins/router', 'api/server',
 
          self.filteredTiles = ko.computed(function () {
             //dont use observable object inside a loop, extract information before the loop
+            //if(!self.selectedSet) return [];
             var colName = self.selectedSet().shortName
 
             return ko.utils.arrayFilter(self.tileList(), function (item) {
@@ -185,10 +186,13 @@ define(['api/datacontext', 'knockout', 'jquery', 'plugins/router', 'api/server',
          });
 
          socket.emit('manager:collections', { command: 'getAll' }, function (data) {
-            console.log(data);
+            for(var i=0; i< data.collections.length; i++){
+            data.collections[i].boosters.unshift({'longName': data.collections[i].longName, 'shortName': data.collections[i].shortName});
+
+         } 
             base.setList(data.collections);
-            base.setList.splice(0,1);
-            base.selectedSet(base.setList()[0]);
+            base.selectedSet(data.collections[0]);
+            
 
          });
          //ctx.load("sets").then(function (sets) {

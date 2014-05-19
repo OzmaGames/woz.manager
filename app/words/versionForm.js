@@ -137,7 +137,9 @@
               }
               
               this.addCategory = function () {
+                  console.log(self.selectedCategory());
                 if (self.selectedCategory() != "Select a category") {
+
                     if (self.categories.indexOf(self.selectedCategory()) < 0) {
                         self.categories.push(self.selectedCategory());
                     }else{app.showMessage('This item already exists.', 'Oops');}
