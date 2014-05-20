@@ -248,6 +248,9 @@ define(['api/datacontext', './form', 'durandal/app', './versionForm', './checkFo
             //word.number = ko.observable();
          });
          base.words(data.words);
+         ko.utils.arrayFirst(data.words, function(word){
+            if (word.lemma == "age"){alert("a")};
+         })
 
       });
 

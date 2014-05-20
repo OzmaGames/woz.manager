@@ -30,6 +30,7 @@ define(['api/datacontext', 'knockout', 'jquery', 'plugins/router', 'api/server',
             return ko.utils.arrayFilter(self.tileList(), function (item) {
                return item.collection === colName;
             });
+
          });
 
          ko.computed(function () {
@@ -138,6 +139,7 @@ define(['api/datacontext', 'knockout', 'jquery', 'plugins/router', 'api/server',
          });
 
          self.addToRelated = function () {
+            
             self.selectedTile().related.push(self.query());
             var data = {
                command: 'setRelated',
@@ -174,7 +176,12 @@ define(['api/datacontext', 'knockout', 'jquery', 'plugins/router', 'api/server',
 
          socket.emit('manager:images', { command: 'getAll' }, function (data) {
             console.log(data);
-            base.tileList(data.images);            
+            
+            ko.utils.arrayForEach(data.images,function(img){
+               img.related = img.related || [];
+            });
+
+            base.tileList(data.images);  
          });
 
          //ctx.load("tiles").then(function (tiles) {
