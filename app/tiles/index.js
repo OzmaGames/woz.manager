@@ -1,31 +1,70 @@
 define(['api/datacontext', 'knockout', 'jquery', 'plugins/router', 'api/server', 'durandal/app', 'grid'],
    function (ctx, ko, $, router, socket, app) {
 
+
       window.ko = ko;
+
+        
+    var _collectionList = ko.observableArray();
+    var dicToShortName, dicToLongName;
+
+    ko.computed(function(){
+      var col = _collectionList();
+      dicToShortName = {};
+      dicToLongName = {};
+      for (var i = 0; i < col.length; i++) {
+          dicToShortName[col[i].longName] = col[i].shortName;
+          dicToLongName[col[i].shortName] = col[i].longName;
+          for (var j = 0; j < col[i].boosters.length; j++){
+             dicToShortName[col[i].boosters[j].longName] = col[i].boosters[j].shortName;
+              dicToLongName[col[i].boosters[j].shortName] = col[i].boosters[j].longName;
+          }
+      } 
+
+    });
+
+    function ToShortNames(name){
+      return dicToShortName[name];
+    }
+    
+    function ToLongNames(name){
+      return dicToLongName[name];
+    }
+
       var ctor = function () {
          var self = this;
 
-         self.setList = ko.observableArray();
-         self.selectedSet = ko.observable(self.setList([0]));
+         self.setList = _collectionList;
+         self.selectedSet = ko.observable();
          self.tileList = ko.observableArray();
          self.selectedTile = ko.observable();
          self.words = ko.observableArray();
          self.query = ko.observable();
          self.add = ko.observable(false);
+         self.colShort = ko.computed(function(){
+            return ToShortNames([self.selectedSet()]);
+
+         });
+         
+        
 
          self.chooseTile = function (tile) {
             self.selectedTile(tile);
-            console.log(self.selectedTile());
          }         
 
-
-
          //Start my changes
+         
 
          self.filteredTiles = ko.computed(function () {
             //dont use observable object inside a loop, extract information before the loop
-            //if(!self.selectedSet) return [];
-            var colName = self.selectedSet().shortName
+            
+            if(!self.selectedSet()) return [];
+
+          
+            var colName = ToShortNames([self.selectedSet()]);
+            
+           console.log(colName);
+           
 
             return ko.utils.arrayFilter(self.tileList(), function (item) {
                return item.collection === colName;
@@ -36,6 +75,8 @@ define(['api/datacontext', 'knockout', 'jquery', 'plugins/router', 'api/server',
          ko.computed(function () {
             //this method runs shortly after when filteredTiles changes
             var tiles = self.filteredTiles(); 
+
+            
             
             //create grid only if there is any tile at all
             if (tiles.length) {
@@ -197,8 +238,20 @@ define(['api/datacontext', 'knockout', 'jquery', 'plugins/router', 'api/server',
             data.collections[i].boosters.unshift({'longName': data.collections[i].longName, 'shortName': data.collections[i].shortName});
 
          } 
+            console.log(data.collections);
             base.setList(data.collections);
             base.selectedSet(data.collections[0]);
+
+            var dic = {};
+            for (var i = 0; i < data.collections.length; i++) {
+            dic[data.collections[i].longName] = data.collections[i].shortName;
+            for (var j = 0; j < data.collections[i].boosters.length; j++){
+               dic[data.collections[i].boosters[j].longName] = data.collections[i].boosters[j].shortName;
+             }
+          }
+
+          
+          
             
 
          });
