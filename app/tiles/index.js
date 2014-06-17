@@ -155,14 +155,20 @@ define( ['api/datacontext', 'knockout', 'jquery', 'plugins/router', 'api/server'
 
 
          self.searchResult = ko.computed( function () {
-            var words = self.words().sort( sortMethode );
+            var words = [];
             ko.utils.arrayForEach(self.words(), function(word){
-               if(!word.versions) return [];
+               for(var i=0; i< word.classes.length; i++){
+               if(word.classes[i] == 'noun'){
+                words.push(word);
+                if(!word.versions) return [];
                   for(var i=0; i < word.versions.length ; i++){
                     words.push(word.versions[i]);
                  }
+             }
+          }
+               
             })
-
+            words.sort( sortMethode );
             if ( self.query() ) {
                var query = self.query().toLowerCase();
                return ko.utils.arrayFilter( words, function ( word ) {
