@@ -46,6 +46,13 @@ define( ['api/datacontext', 'knockout', 'jquery', 'plugins/router', 'api/server'
 
          } );
 
+         self.colShort2 = ko.computed( function () {
+            var colName = self.colShort();
+            if ( !colName ) return "";
+            var name = colName.slice( 0, 3 );
+            return name[2] == '-' ? name.slice( 0, 2 ) : name;
+         } );
+
          // self.colTogether = ko.computed(function(){
          //  if(self.colShort() == "woz-boost1"){
          //     return self.colShort(self.setList[0]);
