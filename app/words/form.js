@@ -154,18 +154,11 @@ define(['api/server','api/datacontext', 'plugins/dialog', 'knockout', 'durandal/
    
    
    this.addNewCategory = function (){
-    console.log(self.newCategory());
-    socket.emit("manager:categories", {command: 'set', category: self.newCategory()}, function(data){
-      console.log(data);
-      if(data.success){
       self.categoryList.push(self.newCategory());
        self.categoryList().sort();
        self.categoryList.valueHasMutated();
        self.newCategory("");
      }
-
-    });
-    }
 }
    WordForm.show = function (word) {
       return dialog.show(new WordForm(word || {}));
