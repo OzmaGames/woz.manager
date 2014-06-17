@@ -158,6 +158,7 @@ define(['api/server','api/datacontext', 'plugins/dialog', 'knockout', 'durandal/
        self.categoryList().sort();
        self.categoryList.valueHasMutated();
        self.newCategory("");
+       alert("To save this new category, add it as a category for this word ");
      }
 }
    WordForm.show = function (word) {

@@ -158,9 +158,9 @@ define( ['api/datacontext', 'knockout', 'jquery', 'plugins/router', 'api/server'
             var words = self.words().sort( sortMethode );
             ko.utils.arrayForEach(self.words(), function(word){
                if(!word.versions) return [];
-               for(var i=0; i < word.versions.length ; i++){
-                 words.push(word.versions[i]);
-              }
+                  for(var i=0; i < word.versions.length ; i++){
+                    words.push(word.versions[i]);
+                 }
             })
 
             if ( self.query() ) {
