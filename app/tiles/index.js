@@ -160,14 +160,20 @@ define( ['api/datacontext', 'knockout', 'jquery', 'plugins/router', 'api/server'
                for(var i=0; i< word.classes.length; i++){
                if(word.classes[i] == 'noun'){
                 words.push(word);
-                if(!word.versions) return [];
-                  for(var i=0; i < word.versions.length ; i++){
-                    words.push(word.versions[i]);
-                 }
              }
           }
+                if(!word.versions) return [];
+                  for(var i=0; i < word.versions.length ; i++){
+                     for(var j=0; j< word.versions[i].classes.length; j++){
+                       if(word.versions[i].classes[j] == 'noun'){
+                         words.push(word);
+             }
+          }
+       }
+             
+          
                
-            })
+       })
             words.sort( sortMethode );
             if ( self.query() ) {
                var query = self.query().toLowerCase();
@@ -176,7 +182,7 @@ define( ['api/datacontext', 'knockout', 'jquery', 'plugins/router', 'api/server'
 
                } )
             }
-         } );
+         });
 
          self.displayResult = ko.computed( function () {
             if ( self.query() ) {
