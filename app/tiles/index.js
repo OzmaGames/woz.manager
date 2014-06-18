@@ -166,7 +166,8 @@ define( ['api/datacontext', 'knockout', 'jquery', 'plugins/router', 'api/server'
                   for(var i=0; i < word.versions.length ; i++){
                      for(var j=0; j< word.versions[i].classes.length; j++){
                        if(word.versions[i].classes[j] == 'noun'){
-                         words.push(word);
+                         words.push(word.versions[i]);
+                         console.log(word);
              }
           }
        }
@@ -175,6 +176,7 @@ define( ['api/datacontext', 'knockout', 'jquery', 'plugins/router', 'api/server'
                
        })
             words.sort( sortMethode );
+
             if ( self.query() ) {
                var query = self.query().toLowerCase();
                return ko.utils.arrayFilter( words, function ( word ) {
