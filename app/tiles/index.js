@@ -176,7 +176,6 @@ define( ['api/datacontext', 'knockout', 'jquery', 'plugins/router', 'api/server'
                
        })
             words.sort( sortMethode );
-
             if ( self.query() ) {
                var query = self.query().toLowerCase();
                return ko.utils.arrayFilter( words, function ( word ) {
@@ -205,8 +204,12 @@ define( ['api/datacontext', 'knockout', 'jquery', 'plugins/router', 'api/server'
          self.enableAdd = ko.computed( function () {
             var words = self.words();
             if ( self.query() ) {
-               if ( ko.utils.arrayFirst( words, function ( word )
-               { return word.lemma.toLowerCase() === self.query().toLowerCase(); } ) ) {
+               if ( ko.utils.arrayFirst( words, function ( word ){ 
+                  return word.lemma.toLowerCase() === self.query().toLowerCase(); }) ||
+                  ko.utils.arrayFirst( words, function ( word ){ 
+                     for(var i=0; i< word.versions.length; i++){
+                  return word.versions[i].lemma.toLowerCase() === self.query().toLowerCase();} }) 
+                  ) {
                   self.add( true );
                } else { self.add( false ); };
             }
